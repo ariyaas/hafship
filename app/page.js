@@ -6,6 +6,7 @@ import StatsBanner from "@/components/StatsBanner";
 import QuoteSection from "@/components/QuoteSection";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Footer from "@/components/Footer";
+import Preloader from "@/components/Preloader";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <WorldClock />
 
       {/* 2. Hero Video with 3D and Smooth Overlay */}
+      <Preloader />
       <Hero />
       <About />
       <ServicesSection />
