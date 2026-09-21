@@ -466,7 +466,7 @@ export default function AboutSection() {
         {/* Huge Animated Headline */}
         <h2
           ref={bigTextRef}
-          className={`${raleway.className} flex flex-col text-[12vw] lg:text-[9.5vw] leading-[0.85] font-black uppercase tracking-tighter text-[#03182E]`}
+          className={`${raleway.className} flex flex-col text-[10vw] lg:text-[9.5vw] leading-[0.85] font-black uppercase tracking-tighter text-[#03182E]`}
         >
           <div className="overflow-hidden py-2">
             <span className="inline-block will-change-transform">CONNECTING</span>
