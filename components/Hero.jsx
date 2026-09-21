@@ -188,16 +188,16 @@ export default function Hero() {
           el.addEventListener("mouseenter", () => {
             gsap.to(cursorBall, {
               scale: 1.8,
-              backgroundColor: "rgba(6, 94, 154, 0.3)",
-              borderColor: "#065E9A",
+              backgroundColor: "rgba(212, 175, 55, 0.2)", // Muted Gold glow
+              borderColor: "#D4AF37",
               duration: 0.25,
             });
           });
           el.addEventListener("mouseleave", () => {
             gsap.to(cursorBall, {
               scale: 1,
-              backgroundColor: "rgba(6, 94, 154, 0.15)",
-              borderColor: "rgba(6, 94, 154, 0.6)",
+              backgroundColor: "rgba(212, 175, 55, 0.1)",
+              borderColor: "rgba(212, 175, 55, 0.5)",
               duration: 0.25,
             });
           });
@@ -222,12 +222,12 @@ export default function Hero() {
     <section
       ref={containerRef}
       style={{ perspective: "1200px" }}
-      className="sticky top-0 z-0 h-screen min-h-[700px] w-full overflow-hidden bg-[#040C16]"
+      className="sticky top-0 z-0 h-screen min-h-[700px] w-full overflow-hidden bg-[#03182E]"
     >
-      {/* Interactive Ball Cursor with Brand Color #065E9A */}
+      {/* Interactive Ball Cursor with Brand Muted Gold */}
       <div
         ref={cursorBallRef}
-        className="pointer-events-none absolute left-0 top-0 z-50 hidden md:block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#065E9A]/70 bg-[#065E9A]/15 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 shadow-[0_0_15px_rgba(6,94,154,0.35)]"
+        className="pointer-events-none absolute left-0 top-0 z-50 hidden md:block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#D4AF37]/60 bg-[#D4AF37]/10 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 shadow-[0_0_15px_rgba(212,175,55,0.25)]"
       />
 
       {/* 3D Scene Root */}
@@ -254,23 +254,22 @@ export default function Hero() {
             preload="auto"
             className="h-full w-full object-cover select-none"
           >
-            <source src="/videos/hafship-hero.mp4" type="video/mp4" />
+            <source src="/videos/hafshipnew.mp4" type="video/mp4" />
           </video>
 
-          {/* Clean medium-light overlays */}
-          <div className="absolute inset-0 bg-black/10" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(4,12,22,0.2)_0%,rgba(4,12,22,0.55)_90%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-[#040C16]/80" />
+          {/* Clean medium-light overlays incorporating Dark Navy (#03182E) */}
+          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(3,24,46,0.3)_0%,rgba(3,24,46,0.7)_100%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[#03182E]/90" />
         </div>
 
-        {/* Ambient Reflection in Brand Color */}
+        {/* Ambient Reflection in Muted Gold */}
         <div
           ref={glareRef}
-          className="pointer-events-none absolute -left-48 -top-48 hidden md:block h-96 w-96 rounded-full bg-[#065E9A]/20 blur-3xl opacity-0 transition-opacity duration-300"
+          className="pointer-events-none absolute -left-48 -top-48 hidden md:block h-96 w-96 rounded-full bg-[#D4AF37]/15 blur-3xl opacity-0 transition-opacity duration-300"
         />
 
         {/* Hero Central Content */}
-      {/* Hero Central Content with Racing Sans One & Raleway */}
         <div
           ref={contentRef}
           style={{
@@ -280,80 +279,79 @@ export default function Hero() {
           className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white will-change-transform pt-20"
         >
           <div className="max-w-5xl">
-            {/* Main Headline with Racing Sans One */}
+            {/* Main Headline */}
             <h1
-              className={`${racingSansOne.className} text-5xl leading-[1.05] tracking-wide sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]`}
+              className={`${racingSansOne.className} text-5xl leading-[1.05] tracking-wide sm:text-6xl md:text-7xl lg:text-8xl drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)] uppercase`}
             >
-              Connecting Trade.
+              Dry Bulk Shipbroking
               <br />
-              <span className="bg-gradient-to-r from-white via-slate-100 to-[#065E9A] bg-clip-text text-transparent">
-                Moving the World.
+              <span className="bg-gradient-to-r from-white via-[#FFF8D6] to-[#D4AF37] bg-clip-text text-transparent">
+                & Chartering
               </span>
             </h1>
 
-            {/* Description with Raleway */}
+            {/* Description */}
             <p
-              className={`${raleway.className} mx-auto mt-6 max-w-2xl text-base font-normal leading-relaxed text-slate-200 sm:text-lg drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]`}
+              className={`${raleway.className} mx-auto mt-6 max-w-2xl text-base font-medium leading-relaxed text-slate-200 sm:text-lg drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]`}
             >
-              Reliable, modern maritime logistics and port handling solutions
-              connecting businesses, carriers, and markets worldwide.
+              Connecting Shipowners, Operators, Charterers & Cargo Interests Across Global Dry Bulk Markets.
             </p>
 
-            {/* Action Buttons in Official Brand Color #065E9A with Raleway */}
+            {/* Action Buttons in Muted Gold and Transparent Outline */}
             <div className={`${raleway.className} mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row`}>
               <a
-                href="#services"
-                className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-[#065E9A] px-8 py-4 text-xs font-bold tracking-widest text-white shadow-[0_0_25px_rgba(6,94,154,0.6)] transition-all duration-300 hover:scale-105 hover:bg-[#0872BB]"
+                href="#tonnage"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded bg-[#D4AF37] px-8 py-4 text-xs font-bold tracking-widest text-[#03182E] shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 hover:scale-105 hover:bg-white uppercase"
               >
-                EXPLORE SERVICES
+                OPEN TONNAGE
               </a>
 
               <a
-                href="#contact"
-                className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/10 px-8 py-4 text-xs font-bold tracking-widest text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#065E9A] hover:bg-white hover:text-[#065E9A]"
+                href="#submit-cargo"
+                className="inline-flex items-center justify-center rounded border border-white/30 bg-white/10 px-8 py-4 text-xs font-bold tracking-widest text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-[#D4AF37] hover:bg-white hover:text-[#03182E] uppercase"
               >
-                CONTACT US
+                SUBMIT CARGO
               </a>
             </div>
           </div>
         </div>
 
-        {/* Floating Metrics Bar */}
+        {/* Floating Metrics Bar aligned to core capabilities */}
         <div
           ref={statsRef}
           style={{
             transform: "translateZ(50px)",
             transformStyle: "preserve-3d",
           }}
-          className="absolute bottom-10 left-1/2 z-20 hidden -translate-x-1/2 md:flex items-center gap-10 rounded-2xl border border-white/15 bg-black/30 px-8 py-3.5 backdrop-blur-xl"
+          className="absolute bottom-10 left-1/2 z-20 hidden -translate-x-1/2 md:flex items-center gap-10 rounded-xl border border-white/15 bg-[#03182E]/60 px-8 py-3.5 backdrop-blur-xl"
         >
           <div className="text-left">
-            <p className="text-xl font-bold text-white">50+</p>
-            <p className="font-mono text-[10px] tracking-wider uppercase text-slate-400">
-              Global Ports
+            <p className="text-xl font-bold text-white">Global</p>
+            <p className="font-mono text-[10px] tracking-wider uppercase text-slate-300">
+              Market Access
             </p>
           </div>
           <div className="h-6 w-px bg-white/15" />
           <div className="text-left">
-            <p className="text-xl font-bold text-white">1.2M</p>
-            <p className="font-mono text-[10px] tracking-wider uppercase text-slate-400">
-              TEU Handled
+            <p className="text-xl font-bold text-white">Dry Bulk</p>
+            <p className="font-mono text-[10px] tracking-wider uppercase text-slate-300">
+              Specialists
             </p>
           </div>
           <div className="h-6 w-px bg-white/15" />
           <div className="text-left">
-            <p className="text-xl font-bold text-[#065E9A]">99.8%</p>
-            <p className="font-mono text-[10px] tracking-wider uppercase text-slate-400">
-              On-Time Dispatch
+            <p className="text-xl font-bold text-[#D4AF37]">Handy-Panamax</p>
+            <p className="font-mono text-[10px] tracking-wider uppercase text-slate-300">
+              Vessel Segments
             </p>
           </div>
         </div>
 
-        {/* Mobile Scroll Indicator with Brand Color #065E9A */}
+        {/* Mobile Scroll Indicator with Brand Muted Gold */}
         <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 md:hidden">
           <div className="flex flex-col items-center gap-2 text-white/70">
             <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-            <div className="h-8 w-px bg-[#065E9A] animate-pulse" />
+            <div className="h-8 w-px bg-[#D4AF37] animate-pulse" />
           </div>
         </div>
       </div>

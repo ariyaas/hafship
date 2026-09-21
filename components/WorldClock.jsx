@@ -169,7 +169,7 @@ export default function Navbar() {
             <img
               src="/HAFSHIP.png"
               alt="HAFSHIP Logo"
-              className="h-9 sm:h-12 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
+              className="h-9 sm:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
             />
           </a>
 
