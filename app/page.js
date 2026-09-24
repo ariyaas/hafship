@@ -1,12 +1,12 @@
-import WorldClock from "@/components/WorldClock";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import ServicesSection from "@/components/ServicesSection";
-import StatsBanner from "@/components/StatsBanner";
-import QuoteSection from "@/components/QuoteSection";
-import WhyChooseUs from "@/components/WhyChooseUs";
-import Footer from "@/components/Footer";
-import Preloader from "@/components/Preloader";
+import WorldClock from "@/app/components/layout/Navbar";
+import Hero from "@/app/components/Home/Hero";
+import About from "@/app/components/Home/About";
+import ServicesSection from "@/app/components/Home/ServicesSection";
+import QuoteSection from "@/app/components/Home/QuoteSection";
+import WhyChooseUs from "@/app/components/Home/WhyChooseUs";
+import Preloader from "@/app/components/Preloader";
+import MarketsAndCargo from "@/app/components/Home/MarketsAndCargo";
+import WhyHafship from "@/app/components/Home/WhyHafship";
 
 export default function Home() {
   return (
@@ -19,10 +19,10 @@ export default function Home() {
       <Hero />
       <About />
       <ServicesSection />
-      <StatsBanner />
-      <QuoteSection />
-      <WhyChooseUs />
-      <Footer />
+      <MarketsAndCargo />
+     
+      <WhyHafship />
+       <QuoteSection />
 
     
     </main>

@@ -81,7 +81,7 @@ export default function Preloader() {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#03182E] overflow-hidden will-change-transform"
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-brand-blue overflow-hidden will-change-transform"
     >
       <div className="relative flex flex-col items-center gap-4">
         {/* Logo Container */}
