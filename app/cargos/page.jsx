@@ -7,38 +7,38 @@ import { raleway, merriweather, lora } from "@/app/fonts";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Tonnage Data based on master content document (Section 8: Open Tonnage)
-const TONNAGE_LIST = [
+// Cargo Data based on master content document (Section 7: Cargo Broking)
+const CARGO_LIST = [
   {
-    vessel: "MV GREEN DREAM I",
-    dwt: "66,604 MT",
-    built: "2015",
-    open: "Navlakhi, India",
-    tradingArea: "WCI / Worldwide",
-    employment: ["TCT", "Voyage", "Period"],
-    status: "OPEN 18-24 SEP"
+    cargo: "Coal in bulk",
+    qty: "55,000 MT",
+    load: "Richards Bay, RSA",
+    discharge: "Chennai / Ennore, India",
+    laycan: "10-20 October",
+    terms: "FIOST",
+    status: "Firm"
   },
   {
-    vessel: "MV SUPRAMAX V",
-    dwt: "58,000 MT",
-    built: "2016",
-    open: "Kandla, India",
-    tradingArea: "India / Far East",
-    employment: ["TCT", "Voyage"],
-    status: "PROMPT"
+    cargo: "Coal in bulk",
+    qty: "75,000 MT",
+    load: "Newcastle, Australia",
+    discharge: "Krishnapatnam, India",
+    laycan: "1-15 November",
+    terms: "FIOST",
+    status: "Indicative"
   },
   {
-    vessel: "MV PANAMAX EXCELLENCE",
-    dwt: "76,000 MT",
-    built: "2012",
-    open: "Singapore",
-    tradingArea: "Asia / Worldwide",
-    employment: ["TCT", "Period"],
-    status: "MID OCT"
+    cargo: "Coal in bulk",
+    qty: "45,000 MT",
+    load: "Samarinda, Indonesia",
+    discharge: "Tuticorin, India",
+    laycan: "Prompt",
+    terms: "FIOST",
+    status: "Firm"
   }
 ];
 
-export default function TonnagePage() {
+export default function CargoPage() {
   const headerRef = useRef(null);
   const tableRef = useRef(null);
 
@@ -80,18 +80,18 @@ export default function TonnagePage() {
         
         <div className="mx-auto max-w-[1400px] relative z-10 flex flex-col items-center text-center">
           <p className="fade-up text-xs font-bold tracking-[0.3em] text-brand-yellow uppercase mb-6">
-            Current Positions
+            Market Requirements
           </p>
           <h1 className={`fade-up ${merriweather.className} text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-6`}>
-            Open <span className="text-brand-yellow">Tonnage</span>
+            Firm <span className="text-brand-yellow">Cargoes</span>
           </h1>
           <p className={`fade-up ${lora.className} max-w-2xl text-base sm:text-lg text-slate-300 font-medium leading-relaxed`}>
-            A live feed of vetted dry bulk vessels ranging from Handysize through Panamax that Hafship is authorized to circulate and position for employment.
+            A live feed of active cargo orders and volume requirements Hafship is currently working to cover on behalf of exclusive and direct charterers.
           </p>
         </div>
       </section>
 
-      {/* ================= TONNAGE BOARD (TABLE) ================= */}
+      {/* ================= CARGO BOARD (TABLE) ================= */}
       <section className="flex-grow w-full py-16 lg:py-24 px-4 sm:px-8">
         <div className="mx-auto max-w-[1400px]">
           
@@ -100,63 +100,60 @@ export default function TonnagePage() {
               
               {/* Table Header */}
               <div className="grid grid-cols-12 gap-4 bg-brand-dark p-6 border-b border-brand-yellow/30">
-                <div className={`${raleway.className} col-span-3 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Vessel / Employment</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>DWT / Built</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Open Position</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Trading Area</div>
-                <div className={`${raleway.className} col-span-1 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Status</div>
+                <div className={`${raleway.className} col-span-3 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Cargo / Status</div>
+                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Quantity</div>
+                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Load Port</div>
+                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Discharge Port</div>
+                <div className={`${raleway.className} col-span-1 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Terms</div>
                 <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest text-right`}>Action</div>
               </div>
 
               {/* Table Body */}
               <div className="flex flex-col">
-                {TONNAGE_LIST.map((ship, idx) => (
+                {CARGO_LIST.map((item, idx) => (
                   <div 
                     key={idx} 
                     className="table-row-anim grid grid-cols-12 gap-4 p-6 items-center border-b border-slate-100 last:border-none transition-colors duration-300 hover:bg-slate-50 group"
                   >
-                    {/* Vessel Name & Employment Badges */}
+                    {/* Cargo Type & Status */}
                     <div className="col-span-3 flex flex-col">
                       <span className={`${raleway.className} text-sm font-extrabold text-brand-dark tracking-wide`}>
-                        {ship.vessel}
+                        {item.cargo}
                       </span>
-                      <div className="flex gap-1.5 mt-2">
-                        {ship.employment.map((type, i) => (
-                          <span key={i} className={`${raleway.className} text-[9px] font-bold uppercase tracking-wider bg-brand-gray/60 text-brand-dark px-2 py-0.5 rounded`}>
-                            {type}
-                          </span>
-                        ))}
-                      </div>
+                      <span className={`${raleway.className} text-[10px] ${item.status === 'Firm' ? 'text-green-600' : 'text-slate-400'} font-bold tracking-widest uppercase mt-1`}>
+                        {item.status} ({item.laycan})
+                      </span>
                     </div>
 
-                    {/* DWT & Built */}
+                    {/* Quantity */}
                     <div className={`${lora.className} col-span-2 text-sm font-medium text-slate-700`}>
-                      {ship.dwt} <span className="text-slate-400">({ship.built})</span>
+                      {item.qty}
                     </div>
 
-                    {/* Open Position */}
+                    {/* Load Port */}
                     <div className={`${lora.className} col-span-2 text-sm font-medium text-brand-dark flex items-center gap-2`}>
                       <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" />
-                      {ship.open}
+                      {item.load}
                     </div>
 
-                    {/* Trading Area */}
-                    <div className={`${lora.className} col-span-2 text-sm font-medium text-slate-700`}>
-                      {ship.tradingArea}
+                    {/* Discharge Port */}
+                    <div className={`${lora.className} col-span-2 text-sm font-medium text-brand-dark flex items-center gap-2`}>
+                      <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+                      {item.discharge}
                     </div>
 
-                    {/* Status */}
-                    <div className={`${raleway.className} col-span-1 text-xs font-bold text-brand-blue uppercase tracking-wider`}>
-                      {ship.status}
+                    {/* Terms */}
+                    <div className={`${raleway.className} col-span-1 text-xs font-bold text-slate-700 uppercase`}>
+                      {item.terms}
                     </div>
 
                     {/* Action Button */}
                     <div className="col-span-2 flex justify-end">
                       <a
-                        href={`mailto:chartering@hafship.com?subject=Inquiry for ${ship.vessel} (${ship.open})`}
+                        href={`mailto:chartering@hafship.com?subject=Proposal for ${item.qty} ${item.cargo}`}
                         className={`${raleway.className} inline-flex items-center justify-center rounded border border-brand-yellow bg-transparent px-5 py-2 text-xs font-bold tracking-widest text-brand-dark transition-all duration-300 hover:bg-brand-yellow hover:text-white uppercase`}
                       >
-                        ENQUIRE
+                        PROPOSE
                       </a>
                     </div>
                   </div>

@@ -3,7 +3,8 @@ import {
   Raleway, 
   Outfit, 
   Lora, 
-  Merriweather 
+  Merriweather,
+  Fira_Sans
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -38,6 +39,13 @@ export const lora = Lora({
 // 5. Highly Legible Formal Serif (Merriweather)
 export const merriweather = Merriweather({
   weight: ["300", "400", "700", "900"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// 6. Fira Sans (Added)
+export const firaSans = Fira_Sans({
+  weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
   display: "swap",
 });

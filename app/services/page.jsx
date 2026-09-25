@@ -3,47 +3,30 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, racingSansOne } from "@/app/fonts";
+import { raleway, merriweather, lora } from "@/app/fonts";
 import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Exactly 2 Services using strictly the exact text from your brochure.
 const ALL_SERVICES = [
   {
     id: "01",
     title: "Dry Bulk Chartering",
     subtitle: "Connecting Cargo with the Right Vessels",
-    desc: "We specialize in seamlessly connecting cargo with the right vessels across the globe. With a team of seasoned experts and decades of combined experience, we provide tailored, efficient, and cost-effective solutions for dry bulk cargo transportation.",
+    desc: "At HAFSHIP, we specialize in seamlessly connecting cargo with the right vessels across the globe. With a team of seasoned experts and decades of combined experience in the shipping industry, we are committed to providing tailored, efficient, and cost-effective solutions for dry bulk cargo transportation.",
     link: "/chartering",
     linkText: "EXPLORE CHARTERING",
-    img: "/images/chartering-hero.jpg",
+    img: "/images/Chartering.jpg", 
   },
   {
     id: "02",
     title: "Freight Forwarding",
     subtitle: "Global Cargo Movement",
-    desc: "We specialize in comprehensive freight forwarding, ensuring smooth and efficient global cargo movement. With a vast network of trusted partners, we manage every step—from cargo booking and documentation to customs clearance and final delivery.",
+    desc: "We offer comprehensive freight forwarding solutions, ensuring your cargo moves efficiently and securely across the globe. Whether by air, sea, or road, our expert team manages every aspect of the shipping process, from cargo booking and transportation to customs clearance and final delivery.",
     link: "/freight-forwarding",
     linkText: "EXPLORE FORWARDING",
-    img: "/images/FreightForwarding.png", // Replace with your actual image path
-  },
-  {
-    id: "03",
-    title: "Cargo Broking",
-    subtitle: "Expert Market Negotiations",
-    desc: "Providing expert cargo broking services, seamlessly connecting cargo owners with the right vessels. Our dedicated team ensures every shipment is handled with precision, negotiating the best freight rates, managing risks, and ensuring full compliance.",
-    link: "#contact",
-    linkText: "CONTACT BROKING DESK",
-    img: "/images/CargoBroking.png", // Replace with your actual image path
-  },
-  {
-    id: "04",
-    title: "Ship Agency",
-    subtitle: "Comprehensive Port Operations",
-    desc: "Ensuring smooth and efficient port operations for vessels worldwide. Our experienced team takes care of port clearance, crew handling, bunker arrangements, cargo operations, and documentation to guarantee swift turnaround times.",
-    link: "#contact",
-    linkText: "CONTACT AGENCY DESK",
-    img: "/images/ShipAgency.png", // Replace with your actual image path
+    img: "/images/FreightForwarding.jpg", 
   }
 ];
 
@@ -84,20 +67,21 @@ export default function ServicesPage() {
   }, []);
 
   return (
-    <main className="w-full bg-[#FAFAFA] pt-24 lg:pt-32">
+    <main className="w-full bg-white flex flex-col">
+      
       {/* ================= HERO ================= */}
-      <section ref={heroRef} className="relative w-full bg-[#03182E] py-24 lg:py-32 px-4 sm:px-8 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#D4AF37]/5 blur-[120px] rounded-full pointer-events-none" />
+      <section ref={heroRef} className="relative w-full bg-brand-dark pt-48 pb-24 lg:pt-56 lg:pb-32 px-4 sm:px-8 overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-yellow/5 blur-[120px] rounded-full pointer-events-none" />
         
         <div className="mx-auto max-w-[1400px] relative z-10 text-center">
-          <p className="hero-element text-xs font-bold tracking-[0.3em] text-[#D4AF37] uppercase mb-6">
+          <p className="hero-element text-xs font-bold tracking-[0.3em] text-brand-yellow uppercase mb-6">
             Our Expertise
           </p>
-          <h1 className={`hero-element ${racingSansOne.className} text-5xl sm:text-6xl lg:text-7xl tracking-wide text-white uppercase mb-8`}>
-            Comprehensive <span className="text-[#D4AF37]">Services</span>
+          <h1 className={`hero-element ${merriweather.className} text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-8`}>
+            Comprehensive <span className="text-brand-yellow">Services</span>
           </h1>
-          <p className={`hero-element ${raleway.className} mx-auto max-w-3xl text-lg sm:text-xl text-slate-300 font-medium leading-relaxed`}>
-            Delivering a full spectrum of shipping and maritime logistics solutions. From dry bulk chartering to comprehensive freight forwarding, we handle every aspect with efficiency and expertise.
+          <p className={`hero-element ${lora.className} mx-auto max-w-3xl text-lg sm:text-xl text-slate-300 font-medium leading-relaxed`}>
+            At HAFSHIP, we offer a full spectrum of shipping and logistics solutions, ensuring seamless cargo movement across the globe.
           </p>
         </div>
       </section>
@@ -112,18 +96,19 @@ export default function ServicesPage() {
               <div key={service.id} className={`service-row flex flex-col ${isEven ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-20`}>
                 
                 {/* Image Column */}
-                <div className="w-full lg:w-1/2 relative h-[400px] sm:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200 group">
+                <div className="w-full lg:w-1/2 relative h-[400px] sm:h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-brand-gray/50 group bg-brand-gray">
                   <Image
                     src={service.img}
                     alt={service.title}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-[#03182E]/10 group-hover:bg-transparent transition-colors duration-700" />
+                  <div className="absolute inset-0 bg-brand-dark/10 group-hover:bg-transparent transition-colors duration-700" />
                   
                   {/* Floating Number */}
-                  <div className={`absolute ${isEven ? 'bottom-6 left-6' : 'bottom-6 right-6'} bg-white/90 backdrop-blur-md px-6 py-4 rounded-xl shadow-lg`}>
-                    <span className={`${racingSansOne.className} text-4xl text-[#03182E]`}>
+                  <div className={`absolute ${isEven ? 'bottom-6 left-6' : 'bottom-6 right-6'} bg-white/95 backdrop-blur-md px-6 py-4 rounded-xl shadow-lg`}>
+                    <span className={`${merriweather.className} font-extrabold text-3xl text-brand-dark`}>
                       {service.id}
                     </span>
                   </div>
@@ -132,23 +117,23 @@ export default function ServicesPage() {
                 {/* Content Column */}
                 <div className="w-full lg:w-1/2 flex flex-col items-start">
                   <div className="flex items-center gap-3 mb-4">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#D4AF37]" />
-                    <p className={`${raleway.className} text-xs font-bold tracking-[0.2em] text-[#D4AF37] uppercase`}>
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+                    <p className={`${raleway.className} text-xs font-bold tracking-[0.2em] text-brand-yellow uppercase`}>
                       {service.subtitle}
                     </p>
                   </div>
                   
-                  <h2 className={`${raleway.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#03182E] uppercase mb-6 leading-tight`}>
+                  <h2 className={`${merriweather.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase mb-6 leading-tight`}>
                     {service.title}
                   </h2>
                   
-                  <p className={`${raleway.className} text-base sm:text-lg text-slate-600 font-medium leading-relaxed mb-10`}>
+                  <p className={`${lora.className} text-base sm:text-lg text-brand-dark/80 leading-relaxed mb-10`}>
                     {service.desc}
                   </p>
                   
                   <a
                     href={service.link}
-                    className={`${raleway.className} group inline-flex items-center gap-4 rounded bg-[#03182E] px-8 py-4 text-xs font-bold tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#D4AF37] hover:text-[#03182E] uppercase`}
+                    className={`${raleway.className} group inline-flex items-center gap-4 rounded bg-brand-dark px-8 py-4 text-xs font-bold tracking-[0.2em] text-white transition-all duration-300 hover:bg-brand-yellow hover:text-brand-dark uppercase`}
                   >
                     <span>{service.linkText}</span>
                     <div className="flex h-5 w-5 items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
@@ -166,17 +151,20 @@ export default function ServicesPage() {
       </section>
 
       {/* ================= BOTTOM CTA ================= */}
-      <section className="w-full bg-[#D4AF37] py-20 px-4 sm:px-8 border-t border-[#03182E]/10">
+      <section className="w-full bg-brand-yellow py-24 px-4 sm:px-8 border-t border-brand-dark/10">
         <div className="mx-auto max-w-[1000px] text-center flex flex-col items-center">
-          <h2 className={`${raleway.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#03182E] uppercase mb-6`}>
-            Ready to move your cargo?
+          <p className={`${raleway.className} text-xs font-bold tracking-[0.3em] text-brand-dark uppercase mb-4`}>
+            Delivering Success Across Ocean
+          </p>
+          <h2 className={`${merriweather.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase mb-6`}>
+            Need assistance with your shipping?
           </h2>
-          <p className={`${raleway.className} text-lg text-[#03182E]/80 font-medium mb-10 max-w-2xl`}>
-            Whether you need spot fixtures, time charters, or comprehensive logistics management, our team is ready to deliver tailored solutions.
+          <p className={`${lora.className} text-lg text-brand-dark/80 font-medium mb-10 max-w-2xl`}>
+            Our team is here to help!
           </p>
           <a
             href="mailto:sales@hafship.com"
-            className={`${raleway.className} inline-flex items-center justify-center rounded bg-[#03182E] px-10 py-5 text-sm font-bold tracking-widest text-white shadow-xl transition-all duration-300 hover:scale-105 hover:bg-white hover:text-[#03182E] uppercase`}
+            className={`${raleway.className} inline-flex items-center justify-center rounded bg-brand-dark px-10 py-5 text-sm font-bold tracking-[0.2em] text-white shadow-xl transition-all duration-300 hover:scale-105 hover:bg-white hover:text-brand-dark uppercase`}
           >
             CONTACT OUR TEAM
           </a>

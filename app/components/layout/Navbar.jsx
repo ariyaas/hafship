@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { raleway, amer } from "@/app/fonts"; // Imported Raleway font
-
+import { usePathname } from "next/navigation";
 // Clocks ordered West to East
 const HUBS = [
   { name: "NYC", tz: "America/New_York", offset: "-4" },
@@ -20,16 +20,26 @@ const MENU_LINKS = [
     label: "SERVICES", 
     href: "/services",
     subLinks: [
-      { label: "Chartering", href: "/chartering" },
-      { label: "Freight Forwarding", href: "/freight-forwarding" }
+      { label: "Chartering", href: "/services/chartering" },
+      { label: "Freight Forwarding", href: "/services/freight-forwarding" }
     ]
   },
   { label: "OPEN TONNAGE", href: "/tonnage" },
   { label: "CARGOS", href: "/cargos" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "CONTACT", href: "/contact" },
 ];
 
 export default function Navbar() {
+const pathname = usePathname();
+ // Hide the Navbar entirely on the portal pages
+  if (
+    pathname === "/submit-cargo" || 
+    pathname === "/submit-tonnage" || 
+    pathname === "/submit-requirement"
+  ) {
+    return <></>; // Returns an empty invisible element instead of null
+  }
+
   const [hubTimes, setHubTimes] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);

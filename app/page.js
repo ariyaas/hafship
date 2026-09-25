@@ -22,7 +22,6 @@ export default function Home() {
       <MarketsAndCargo />
      
       <WhyHafship />
-       <QuoteSection />
 
     
     </main>

@@ -440,14 +440,14 @@ export default function Hero() {
             {/* Action Buttons */}
             <div className={`${raleway.className} mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row`}>
               <a
-                href="/tonnage"
+                href="/submit-tonnage"
                 className="group relative inline-flex items-center justify-center overflow-hidden rounded bg-brand-yellow px-8 py-4 text-xs font-bold tracking-widest text-brand-dark transition-all duration-300 hover:scale-105 hover:bg-white uppercase "
               >
                 OPEN TONNAGE
               </a>
 
               <a
-                href="#submit-cargo"
+                href="/submit-cargo"
                 className="inline-flex items-center justify-center rounded border border-white/40 bg-white/10 px-8 py-4 text-xs font-bold tracking-widest text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-brand-yellow hover:bg-white hover:text-brand-dark uppercase"
               >
                 SUBMIT CARGO
