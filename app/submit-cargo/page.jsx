@@ -93,7 +93,7 @@ export default function SubmitCargoPage() {
                 I am a:
               </label>
               <div className="flex flex-wrap gap-3">
-                {["Charterer", "Cargo Owner", "Trader", "Shipbroker"].map((role) => (
+                {["Charterer", "Cargo Owner"].map((role) => (
                   <button
                     key={role}
                     type="button"

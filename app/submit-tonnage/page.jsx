@@ -75,6 +75,7 @@ export default function SubmitTonnagePage() {
             </h2>
           </div>
 
+          {/* Form with Netlify Attributes */}
           <form name="tonnage-submission" method="POST" data-netlify="true" className="flex flex-col gap-10">
             <input type="hidden" name="form-name" value="tonnage-submission" />
             <input type="hidden" name="Identity" value={identity} />
@@ -94,7 +95,7 @@ export default function SubmitTonnagePage() {
                 I am a:
               </label>
               <div className="flex flex-wrap gap-3">
-                {["Shipowner", "Ship Operator", "Shipbroker"].map((role) => (
+                {["Shipowner"].map((role) => (
                   <button
                     key={role}
                     type="button"

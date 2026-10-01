@@ -3,30 +3,35 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, merriweather, lora } from "@/app/fonts";
+import { raleway, merriweather, lora, playfair } from "@/app/fonts";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const MARKETS = [
   {
-    region: "India / Subcontinent",
-    details: "WCI | ECI | Bangladesh | Sri Lanka",
+    region: "India & Subcontinent",
+    routes: "WCI | ECI | Bangladesh | Sri Lanka",
+    desc: "Supporting regional and international dry bulk movements across the Indian Subcontinent.",
   },
   {
     region: "Middle East",
-    details: "Arabian Gulf | Red Sea | Middle East-Asia",
+    routes: "Arabian Gulf | Red Sea | Middle East–Asia",
+    desc: "Connecting regional cargo flows with suitable vessel positions and international tonnage.",
   },
   {
     region: "Asia-Pacific",
-    details: "Southeast Asia | Indonesia | Philippines | China | Japan | Korea",
+    routes: "Southeast Asia | Indonesia | Philippines | China | Japan | South Korea",
+    desc: "Covering key intra-Asia and long-haul dry bulk trading routes.",
   },
   {
     region: "Atlantic",
-    details: "Europe | Mediterranean | Black Sea | US Gulf",
+    routes: "Europe | Mediterranean | Black Sea | US Gulf",
+    desc: "Connecting cargo interests and tonnage across major Atlantic markets.",
   },
   {
     region: "South America",
-    details: "Brazil | Argentina | East Coast South America",
+    routes: "Brazil | Argentina | East Coast South America",
+    desc: "Supporting major dry bulk export trades and international vessel requirements.",
   },
 ];
 
@@ -100,46 +105,60 @@ export default function MarketsAndCargo() {
     <section
       ref={sectionRef}
       id="markets-cargo"
-      className="relative z-20 w-full bg-white py-24 lg:py-36 px-4 sm:px-8 overflow-hidden"
+      className="relative z-20 w-full bg-white py-24 lg:py-32 px-4 sm:px-8 overflow-hidden"
     >
       <div className="mx-auto max-w-[1600px] grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
         
         {/* ================= LEFT COLUMN: OUR MARKETS ================= */}
         <div className="flex flex-col w-full">
-          <div className="mb-12">
-            <p className={`${raleway.className} text-xs font-bold tracking-[0.25em] text-brand-blue uppercase mb-4`}>
-              GLOBAL REACH
-            </p>
-            <h2 className={`${merriweather.className} text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-brand-dark leading-tight uppercase`}>
+          <div className="mb-10 lg:mb-12">
+            <h2 className={`${playfair.className} text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-brand-blue leading-tight uppercase`}>
               Our Markets.
             </h2>
-            <p className={`${lora.className} mt-6 text-lg sm:text-xl text-brand-dark/70 font-medium leading-relaxed max-w-lg`}>
-              Connecting cargo interests, charterers, owners and operators across major international dry bulk shipping routes.
+            <p className={`${lora.className} text-justify mt-6 text-lg sm:text-xl text-brand-dark font-medium leading-relaxed max-w-xl`}>
+              Connecting Shipowners, Operators, Charterers, Traders and Cargo Interests across key international dry bulk markets.
+            </p>
+            <p className={`${lora.className} text-justify mt-4 text-base sm:text-lg text-brand-dark font-medium leading-relaxed max-w-xl`}>
+              HAFSHIP covers major trading regions, supporting cargo & tonnage matching, voyage and time chartering, freight negotiations and fixture opportunities across global routes.
             </p>
           </div>
 
-          <div ref={marketsRef} className="flex flex-col gap-8 relative">
-            {/* Subtle background line connecting the list */}
-            <div className="absolute left-[11px] top-4 bottom-4 w-px bg-brand-gray" />
+          {/* Premium Timeline Section */}
+          <div ref={marketsRef} className="flex flex-col relative w-full">
+            {/* The continuous vertical line */}
+            <div className="absolute left-[15px] top-8 bottom-8 w-[2px] bg-brand-gray/50" />
             
             {MARKETS.map((market, idx) => (
-              <div key={idx} className="relative flex items-start gap-6 group cursor-default will-change-transform">
-                {/* Custom Bullet */}
-                <div className="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white border-2 border-brand-gray transition-colors duration-300 group-hover:border-brand-blue mt-1">
-                  <div className="h-2 w-2 rounded-full bg-transparent transition-colors duration-300 group-hover:bg-brand-blue" />
+              <div key={idx} className="relative flex items-stretch group cursor-default will-change-transform">
+                
+                {/* Custom Timeline Bullet/Node */}
+                <div className="relative w-8 shrink-0 flex justify-center pt-6">
+                  <div className="relative z-10 flex h-6 w-6 items-center justify-center rounded-full bg-white border-[2.5px] border-brand-gray/80 transition-colors duration-300 group-hover:border-brand-blue">
+                    <div className="h-2 w-2 rounded-full bg-transparent transition-colors duration-300 group-hover:bg-brand-blue" />
+                  </div>
                 </div>
                 
-                {/* Content */}
-                <div className="flex-1 pb-8 border-b border-brand-gray/50 group-last:border-transparent transition-all duration-300 group-hover:translate-x-2">
-                  <h3 className={`${raleway.className} text-xl sm:text-2xl font-bold text-brand-dark tracking-wide mb-2 uppercase`}>
+                {/* Full Section Hover Content */}
+                <div className="flex-1 ml-2 sm:ml-4 rounded-[20px] p-5 sm:p-6 border-b border-brand-gray/40 transition-all duration-300 group-hover:bg-brand-blue group-hover:border-transparent group-hover:shadow-[0_15px_40px_rgba(14,96,156,0.25)] group-hover:-translate-y-1">
+                  <h3 className={`${playfair.className} text-xl sm:text-2xl font-bold text-brand-dark tracking-wide mb-1 uppercase transition-colors duration-300 group-hover:text-white`}>
                     {market.region}
                   </h3>
-                  <p className={`${lora.className} text-base sm:text-lg text-brand-dark/60 font-medium tracking-wider`}>
-                    {market.details}
+                  <p className={`${raleway.className} text-xs sm:text-sm font-bold text-brand-blue tracking-[0.15em] uppercase mb-3 transition-colors duration-300 group-hover:text-brand-yellow`}>
+                    {market.routes}
+                  </p>
+                  <p className={`${lora.className} text-base sm:text-lg text-slate-600 font-medium leading-relaxed transition-colors duration-300 group-hover:text-white/90`}>
+                    {market.desc}
                   </p>
                 </div>
               </div>
             ))}
+
+            {/* Bottom Tagline */}
+            <div className="mt-8 ml-8 sm:ml-12">
+              <p className={`${raleway.className} text-xs sm:text-sm font-bold tracking-[0.2em] text-brand-dark uppercase text-left`}>
+                Global Markets <span className="text-brand-blue mx-2">•</span> Local Knowledge <span className="text-brand-blue mx-2">•</span> Commercial Connections
+              </p>
+            </div>
           </div>
         </div>
 
@@ -149,15 +168,13 @@ export default function MarketsAndCargo() {
           <div className="absolute -top-32 -right-32 h-96 w-96 rounded-full bg-brand-blue/10 blur-[100px] pointer-events-none" />
           
           <div className="mb-12 relative z-10">
-            <p className={`${raleway.className} text-xs font-bold tracking-[0.25em] text-brand-yellow uppercase mb-4`}>
+            <p className={`${raleway.className} text-xs font-bold tracking-[0.25em] text-brand-gray uppercase mb-4`}>
               COMMODITIES
             </p>
-            <h2 className={`${merriweather.className} text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-brand-gray leading-tight uppercase`}>
+            <h2 className={`${playfair.className} text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-brand-blue leading-tight uppercase`}>
               Cargo Requirements.
             </h2>
-            <p className={`${lora.className} mt-6 text-base sm:text-lg text-brand-gray/80 font-medium leading-relaxed max-w-md`}>
-              Hafship is authorized to handle, source, and circulate suitable dry bulk cargo requirements across a wide range of industrial commodities.
-            </p>
+            
           </div>
 
           {/* Commodities Grid */}
@@ -165,9 +182,9 @@ export default function MarketsAndCargo() {
             {COMMODITIES.map((item, idx) => (
               <div 
                 key={idx}
-                className="flex items-center justify-center px-4 py-6 rounded-xl border border-brand-gray/20 bg-brand-gray/5 backdrop-blur-sm transition-all duration-300 hover:bg-brand-gray hover:border-brand-gray group cursor-default shadow-lg will-change-transform"
+                className="flex items-center justify-center px-4 py-6 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:bg-brand-blue hover:border-brand-blue group cursor-default shadow-lg will-change-transform"
               >
-                <span className={`${raleway.className} text-sm sm:text-base font-bold tracking-widest text-brand-gray transition-colors duration-300 group-hover:text-brand-dark uppercase text-center`}>
+                <span className={`${playfair.className} text-sm sm:text-base font-bold tracking-widest text-white transition-colors duration-300 uppercase text-center`}>
                   {item}
                 </span>
               </div>
@@ -175,14 +192,14 @@ export default function MarketsAndCargo() {
           </div>
 
           {/* CTA Box inside the dark container */}
-          <div className="mt-16 relative z-10 flex flex-col xl:flex-row items-center justify-between gap-6 p-8 rounded-2xl bg-brand-gray/5 border border-brand-gray/20 backdrop-blur-md transition-all duration-300 hover:bg-brand-gray/10 hover:border-brand-gray/40">
+          <div className="mt-16 relative z-10 flex flex-col xl:flex-row items-center justify-between gap-6 p-8 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/10 hover:border-white/20">
             <div>
-              <p className={`${raleway.className} text-base sm:text-lg font-bold text-brand-gray tracking-wide mb-2 uppercase`}>Have cargo ready?</p>
-              <p className={`${lora.className} text-sm sm:text-base text-brand-gray/70`}>Circulate your requirements securely.</p>
+              <p className={`${raleway.className} text-base sm:text-lg font-bold text-white tracking-wide mb-2 uppercase`}>Have cargo ready?</p>
+              <p className={`${lora.className} text-sm sm:text-base text-slate-300`}>Circulate your requirements securely.</p>
             </div>
             <a
-              href="#submit-cargo"
-              className={`${raleway.className} shrink-0 rounded bg-brand-yellow px-8 py-4 text-xs sm:text-sm font-bold tracking-[0.2em] text-brand-dark transition-all duration-300 hover:bg-brand-gray uppercase text-center`}
+              href="/submit-cargo"
+              className={`${raleway.className} shrink-0 rounded bg-brand-yellow px-8 py-4 text-xs sm:text-sm font-bold tracking-[0.2em] text-brand-dark transition-all duration-300 hover:bg-white uppercase text-center`}
             >
               SUBMIT CARGO
             </a>

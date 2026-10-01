@@ -299,13 +299,14 @@
 // }
 
 
+
 "use client";
 
 import { useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { americanCaptain, raleway, merriweather, lora,firaSans, outfit } from "@/app/fonts";
+import { americanCaptain, raleway, lora, playfair, merriweather } from "@/app/fonts";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -328,7 +329,24 @@ export default function AboutSection() {
     if (!container) return;
 
     const ctx = gsap.context(() => {
-      // 1. Massive Typography Reveal Animation
+      // 1. Marquee horizontal slide-in on scroll
+      if (marquee) {
+        gsap.fromTo(
+          marquee,
+          { opacity: 0 },
+          {
+            opacity: 1,
+            duration: 1.5,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: container,
+              start: "top 90%",
+            },
+          }
+        );
+      }
+
+      // 2. Massive Typography Reveal Animation
       if (bigTextLines) {
         gsap.fromTo(
           bigTextLines,
@@ -340,26 +358,8 @@ export default function AboutSection() {
             duration: 1.2,
             ease: "power4.out",
             scrollTrigger: {
-              trigger: container,
+              trigger: bigTextRef.current,
               start: "top 80%",
-            },
-          }
-        );
-      }
-
-      // 2. Marquee horizontal slide-in on scroll
-      if (marquee) {
-        gsap.fromTo(
-          marquee,
-          { x: "10%", opacity: 0 },
-          {
-            x: "0%",
-            opacity: 1,
-            duration: 1.5,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: container,
-              start: "top 70%",
             },
           }
         );
@@ -429,63 +429,26 @@ export default function AboutSection() {
     return () => ctx.revert();
   }, []);
 
-  const marqueeServices = [
-    "VOYAGE CHARTERING",
-    "TRIP TIME CHARTER",
-    "PERIOD EMPLOYMENT",
-    "TONNAGE SOURCING",
-    "CARGO BROKING",
-    "CO-BROKERAGE"
+  const vesselSizes = [
+    "HANDYSIZE",
+    "HANDYMAX",
+    "SUPRAMAX",
+    "ULTRAMAX",
+    "PANAMAX",
+    "CAPESIZE"
   ];
 
   return (
     <section
       ref={containerRef}
       id="about"
-      className="relative z-20 w-full bg-white pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden shadow-[0_-25px_60px_rgba(0,0,0,0.1)]"
+      className="relative z-20 w-full bg-white pb-16 lg:pb-24 overflow-hidden shadow-[0_-25px_60px_rgba(0,0,0,0.1)]"
     >
       {/* =========================================================================
-          TOP SECTION: MASSIVE BRANDING PRINCIPLE
+          TOP SECTION: RUNNING MARQUEE (VESSEL SIZES)
       ========================================================================= */}
-      <div className="w-[95%] max-w-[1800px] mx-auto mb-16 lg:mb-24 pl-2 sm:pl-6">
-        
-        {/* Subheading tag */}
-        <div
-          className={`${raleway.className} overflow-hidden mb-6 flex items-center gap-3`}
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow animate-pulse" />
-          <span className="text-brand-dark font-bold text-xs sm:text-sm tracking-[0.3em] uppercase">
-            HAFSHIP Shipbroking
-          </span>
-        </div>
-
-        {/* Huge Animated Headline using the Most Important Branding Principle */}
-        <h2
-          ref={bigTextRef}
-          className={`${americanCaptain.className} flex flex-col text-[10vw] lg:text-[8vw] leading-[0.85] uppercase tracking-wider text-brand-dark`}
-        >
-          <div className="overflow-hidden py-2">
-            <span className="inline-block will-change-transform">We know dry bulk.</span>
-          </div>
-          <div className="overflow-hidden py-2">
-            <span className="inline-block will-change-transform text-brand-blue">
-              We know the market.
-            </span>
-          </div>
-          <div className="overflow-hidden py-2">
-            <span className="inline-block will-change-transform text-brand-gray">
-              We have cargo & tonnage.
-            </span>
-          </div>
-        </h2>
-      </div>
-
-
-     {/* =========================================================================
-          RUNNING MARQUEE (SERVICES)
-      ========================================================================= */}
-      <div ref={marqueeRef} className="w-full overflow-hidden select-none bg-brand-gray/20 py-8 lg:py-10 border-y border-brand-gray/50 mb-20 lg:mb-32">
-        <style>{`
+      <div ref={marqueeRef} className="w-full overflow-hidden select-none bg-brand-dark py-4 lg:py-5 mb-16 lg:mb-24 shadow-md">
+        <style dangerouslySetInnerHTML={{__html: `
           @keyframes marqueeRightToLeft {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -493,34 +456,57 @@ export default function AboutSection() {
           .running-track-fast {
             display: flex;
             width: max-content;
-            animation: marqueeRightToLeft 35s linear infinite;
+            animation: marqueeRightToLeft 25s linear infinite;
           }
-          .text-stroke-premium {
-            /* Increased stroke thickness to 2px for a bolder look */
-            -webkit-text-stroke: 2px var(--color-brand-blue);
-            /* Solid brand blue fill */
-            color: var(--color-brand-blue);
-          }
-        `}</style>
+        `}} />
 
         <div className="running-track-fast items-center">
-          {[...marqueeServices, ...marqueeServices, ...marqueeServices].map((service, index) => (
+          {[...vesselSizes, ...vesselSizes, ...vesselSizes, ...vesselSizes].map((vessel, index) => (
             <div key={index} className="flex items-center shrink-0">
-              <span
-                // Vastly increased responsive text sizes (up to 110px on desktop)
-                className={`${raleway.className} text-stroke-premium text-5xl sm:text-7xl md:text-8xl lg:text-[62px] font-black uppercase tracking-tighter px-8 sm:px-12 lg:px-16 cursor-default`}
-              >
-                {service}
+              <span className={`${raleway.className} text-white text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-widest px-8 sm:px-12 cursor-default`}>
+                {vessel}
               </span>
-              {/* Scaled up the gray diamond separator to match the larger text */}
-              <span className="h-4 w-4 sm:h-6 sm:w-6 lg:h-8 lg:w-8 rotate-45 bg-brand-gray shrink-0" />
+              <span className="text-brand-blue text-xl sm:text-2xl shrink-0">•</span>
             </div>
           ))}
         </div>
       </div>
-    
 
-   {/* =========================================================================
+      {/* =========================================================================
+          MASSIVE BRANDING PRINCIPLE
+      ========================================================================= */}
+      <div className="w-[95%] max-w-[1800px] mx-auto mb-16 lg:mb-24 pl-2 sm:pl-6">
+        
+        {/* Subheading tag */}
+        <div className={`${playfair.className} overflow-hidden mb-6 flex items-center gap-3`}>
+          <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow animate-pulse" />
+          <span className="text-brand-dark font-bold text-xs sm:text-sm tracking-[0.3em] uppercase">
+           HAFSHIP Shipbroking
+          </span>
+        </div>
+
+        {/* Huge Animated Headline with New Text */}
+        <h2
+          ref={bigTextRef}
+          className={`${americanCaptain.className} flex flex-col text-[8.5vw] lg:text-[6.5vw] leading-[0.9] uppercase tracking-wider text-brand-dark`}
+        >
+          <div className="overflow-hidden py-2">
+            <span className="inline-block will-change-transform">DRY BULK SHIPBROKING HOUSE</span>
+          </div>
+          <div className="overflow-hidden py-2">
+            <span className="inline-block will-change-transform text-brand-blue">
+              Connecting Cargo,
+            </span>
+          </div>
+          <div className="overflow-hidden py-2">
+            <span className="inline-block will-change-transform text-brand-gray">
+              Tonnage & Opportunity
+            </span>
+          </div>
+        </h2>
+      </div>
+    
+      {/* =========================================================================
           BOTTOM SECTION: ABOUT HAFSHIP & IMAGES
       ========================================================================= */}
       <div className="w-[95%] max-w-[1800px] mx-auto px-2 sm:px-4">
@@ -528,65 +514,53 @@ export default function AboutSection() {
           
           {/* CONTENT (7 Columns out of 12) */}
           <div ref={contentRef} className="lg:col-span-7 flex flex-col items-start order-2 lg:order-1 lg:pl-6 xl:pl-10">
+            
+            {/* Title using Playfair Display */}
             <h3
-              className={`${merriweather.className} text-3xl sm:text-4xl lg:text-[48px] font-extrabold text-brand-dark leading-[1.15] tracking-tight mb-8`}
+              className={`${playfair.className} text-3xl sm:text-4xl lg:text-[48px] font-extrabold text-brand-blue leading-[1.15] tracking-tight mb-8`}
             >
-              Independent Dry Bulk Shipbroking House
+              Chartering 
             </h3>
 
-            <p className={`${lora.className} text-xl sm:text-2xl text-slate-700 font-medium leading-relaxed mb-6 max-w-3xl`}>
-              Hafship is an independent dry bulk shipbroking house focused on connecting shipowners, operators, charterers and cargo interests across international dry bulk markets.
+            {/* Paragraph 1 */}
+            <p className={`${lora.className} text-justify text-xl sm:text-xl text-slate-700 font-medium leading-relaxed mb-6 max-w-3xl`}>
+              HAFSHIP is a dry bulk shipbroking house focused on connecting shipowners, vessel operators, charterers, traders and cargo interests across international dry bulk markets.
             </p>
             
-            <p className={`${lora.className} text-xl sm:text-2xl text-slate-700 font-medium leading-relaxed mb-12 max-w-3xl`}>
-               Our brokerage activity covers voyage chartering, trip time charters and period employment for Handysize, Handymax, Supramax, Ultramax and Panamax vessels.
+            {/* Paragraph 2 */}
+            <p className={`${lora.className} text-justify text-lg sm:text-xl text-slate-600 font-medium leading-relaxed mb-6 max-w-3xl`}>
+              We provide commercially focused shipbroking and chartering services, supporting clients from the initial cargo or vessel requirement through negotiations, fixture and post-fixture coordination.
             </p>
 
-            {/* Feature Cards Grid - Gap increased for wider layout */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-12 w-full mb-12 max-w-4xl">
-              
-              <div className="group border-l-2 border-brand-yellow pl-5 py-1">
-                <h4 className={`${raleway.className} text-base sm:text-lg font-bold text-brand-dark tracking-widest uppercase mb-3`}>
-                  Market Access
-                </h4>
-                <p className={`${lora.className} text-base sm:text-lg text-slate-500 leading-relaxed`}>
-                  Connecting cargo interests, charterers, owners and operators across major dry bulk markets.
-                </p>
-              </div>
+            {/* Paragraph 3 */}
+            <p className={`${lora.className} text-justify text-lg sm:text-xl text-slate-600 font-medium leading-relaxed mb-6 max-w-3xl`}>
+              Our brokerage activity covers voyage chartering, trip time charters and period employment, with a focus on:
+            </p>
 
-              <div className="group border-l-2 border-brand-yellow pl-5 py-1">
-                <h4 className={`${raleway.className} text-base sm:text-lg font-bold text-brand-dark tracking-widest uppercase mb-3`}>
-                  Commercial Focus
-                </h4>
-                <p className={`${lora.className} text-base sm:text-lg text-slate-500 leading-relaxed`}>
-                  Focused on finding workable employment and cargo solutions.
-                </p>
-              </div>
-
-              <div className="group border-l-2 border-brand-yellow pl-5 py-1">
-                <h4 className={`${raleway.className} text-base sm:text-lg font-bold text-brand-dark tracking-widest uppercase mb-3`}>
-                  Long-Term Relationships
-                </h4>
-                <p className={`${lora.className} text-base sm:text-lg text-slate-500 leading-relaxed`}>
-                  Building sustainable commercial relationships rather than focusing only on individual fixtures.
-                </p>
-              </div>
-
-              <div className="group border-l-2 border-brand-yellow pl-5 py-1">
-                <h4 className={`${raleway.className} text-base sm:text-lg font-bold text-brand-dark tracking-widest uppercase mb-3`}>
-                  Confidentiality
-                </h4>
-                <p className={`${lora.className} text-base sm:text-lg text-slate-500 leading-relaxed`}>
-                  Respecting the confidentiality of owners, charterers, cargo interests and brokers.
-                </p>
-              </div>
-
+            {/* Vessel Sizes Highlight Box */}
+            <div className={`${raleway.className} flex flex-wrap items-center gap-3 text-sm font-bold text-brand-blue tracking-widest uppercase mb-6 bg-brand-gray/20 px-6 py-4 rounded-lg border border-brand-dark/5`}>
+              <span>Handysize</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+              <span>Handymax</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+              <span>Supramax</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+              <span>Ultramax</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+              <span>Panamax</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
+              <span>Capesize & More</span>
             </div>
 
-             {/* CTA Button */}
+            {/* Paragraph 4 */}
+            <p className={`${lora.className} text-justify text-lg sm:text-xl text-slate-600 font-medium leading-relaxed mb-12 max-w-3xl`}>
+              We work across a broad range of dry bulk commodities and trading routes, connecting suitable cargo requirements with competitive and workable tonnage solutions.
+            </p>
+
+             {/* CTA Button - Updated to Brand Yellow */}
              <a
-              href="#contact"
-              className={`${raleway.className} group inline-flex items-center gap-4 rounded bg-brand-dark px-8 py-4 text-sm sm:text-base font-bold tracking-[0.2em] text-white transition-all duration-300 hover:bg-brand-yellow hover:text-brand-dark uppercase`}
+              href="/contact"
+              className={`${raleway.className} group inline-flex items-center gap-4 rounded bg-brand-yellow px-8 py-4 text-sm sm:text-base font-bold tracking-[0.2em] text-brand-dark transition-all duration-300 hover:bg-brand-dark hover:text-white uppercase`}
             >
               <span>CONTACT US</span>
               <div className="flex h-5 w-5 items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
@@ -597,8 +571,8 @@ export default function AboutSection() {
             </a>
           </div>
 
-          {/* IMAGES (5 Columns out of 12) - Max width dynamically expanded for larger screens */}
-          <div className="lg:col-span-5 relative h-[550px] lg:h-[700px] xl:h-[750px] w-full order-1 lg:order-2">
+          {/* IMAGES (5 Columns out of 12) - Updated Heights for Mobile Responsiveness */}
+          <div className="lg:col-span-5 relative h-[380px] sm:h-[500px] lg:h-[700px] xl:h-[750px] w-full order-1 lg:order-2">
             <div className="relative w-full h-full max-w-[550px] xl:max-w-[700px] mx-auto lg:ml-auto">
               
               {/* Img 1: Top-Right Base */}
@@ -608,7 +582,7 @@ export default function AboutSection() {
               >
                 <Image
                   src="/images/ch1.jpeg"
-                  alt="Dry Bulk Vessel Operations"
+                  alt="Global Dry Bulk Operations"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover transition-transform duration-1000 hover:scale-105"
@@ -623,7 +597,7 @@ export default function AboutSection() {
               >
                 <Image
                   src="/images/ch2.jpeg"
-                  alt="Dry Bulk Cargo Handling"
+                  alt="Shipbroking and Tonnage"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover transition-transform duration-1000 hover:scale-105"
@@ -635,11 +609,6 @@ export default function AboutSection() {
 
         </div>
       </div>
-
-
-
-
-      
     </section>
   );
 }

@@ -20,49 +20,35 @@ export default function Preloader() {
       },
     });
 
-    // 1. Logo sweeps in quickly from the left
+    // 1. Quick fade and slight scale-up for the logo
     tl.fromTo(
       logoRef.current,
-      { x: "-100vw", opacity: 0, scale: 0.9 },
+      { opacity: 0, scale: 0.85 },
       { 
-        x: "0vw", 
         opacity: 1, 
         scale: 1, 
-        duration: 0.7, 
+        duration: 0.4, 
         ease: "power3.out" 
       }
     )
     
-    // 2. Loading line expands left-to-right smoothly
+    // 2. Loading line expands quickly from the center
     .fromTo(
       lineRef.current,
-      { scaleX: 0, transformOrigin: "left center" },
-      { scaleX: 1, duration: 0.4, ease: "power2.inOut" },
-      "-=0.3"
+      { scaleX: 0, transformOrigin: "center" },
+      { scaleX: 1, duration: 0.3, ease: "power2.out" },
+      "-=0.2"
     )
 
-    // 3. Fast exit sweeping to the right (shadow effect removed)
-    .to(
-      [logoRef.current, lineRef.current],
-      { 
-        x: "100vw", 
-        opacity: 0, 
-        duration: 0.6, 
-        ease: "power3.in",
-        stagger: 0.05
-      },
-      "+=0.3" // Briefest pause to register the logo before it leaves
-    )
-
-    // 4. Dark background slides up to reveal the website instantly
+    // 3. Entire container simply fades out quickly (No sliding up)
     .to(
       containerRef.current, 
       { 
-        yPercent: -100, 
-        duration: 0.6, 
-        ease: "power4.inOut" 
+        opacity: 0, 
+        duration: 0.4, 
+        ease: "power2.inOut" 
       }, 
-      "-=0.2"
+      "+=0.15" // Extremely brief pause before fading out
     );
 
     return () => tl.kill();
@@ -73,16 +59,12 @@ export default function Preloader() {
   return (
     <div
       ref={containerRef}
-      // Added a deep radial gradient and a subtle grid overlay for a premium SaaS/Corporate aesthetic
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-brand-blue bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-blue/20 via-brand-dark to-brand-dark overflow-hidden will-change-transform"
+      // Simple, solid dark background. No blue gradients, no sliding.
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-brand-blue overflow-hidden will-change-transform"
     >
-      {/* Subtle background grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
-
       <div className="relative z-10 flex flex-col items-center gap-5">
         {/* Logo Container */}
         <div ref={logoRef} className="relative h-12 sm:h-16 lg:h-20 w-auto will-change-transform">
-          {/* Using a standard img tag is actually safer for preloaders to avoid Next.js Image component hydration delays */}
           <img
             src="/finallogohafship.png"
             alt="HAFSHIP Shipbroking"
@@ -93,7 +75,7 @@ export default function Preloader() {
         {/* Decorative Loading Line (Muted Gold) */}
         <div 
           ref={lineRef}
-          className="h-[2px] w-full max-w-[180px] bg-brand-yellow rounded-full will-change-transform"
+          className="h-[2px] w-full max-w-[150px] bg-brand-yellow rounded-full will-change-transform"
         />
       </div>
     </div>

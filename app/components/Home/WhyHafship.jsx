@@ -370,49 +370,67 @@
 //   );
 // }
 
-
 "use client";
 
 import { useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, merriweather, lora } from "@/app/fonts";
+import { raleway, merriweather, lora, playfair,americanCaptain } from "@/app/fonts";
 import Image from "next/image";
-import Link from "next/link"; // Assuming you are using Next.js for routing
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Total 6 Items: 4 Detailed new ones + 2 original ones (Fast Response & Global Network)
 const WHY_DATA = [
   {
     id: "01",
     title: "Market Access",
-    desc: "Connecting cargo interests, charterers, owners and operators across major dry bulk markets.",
+    desc: [
+      "We connect owners, operators, charterers, traders and cargo interests across established and emerging dry bulk markets.",
+      "Our market network enables us to identify vessel and cargo opportunities across international trading routes while maintaining a practical understanding of tonnage positioning, cargo requirements, loading/discharging capabilities and market conditions.",
+    ],
   },
   {
     id: "02",
-    title: "Fast Response",
-    desc: "Prompt handling of cargo and tonnage inquiries.",
-  },
-  {
-    id: "03",
-    title: "Global Network",
-    desc: "Commercial relationships across India, Middle East, Asia, Europe and the Americas.",
-  },
-  {
-    id: "04",
     title: "Commercial Focus",
-    desc: "Focused on finding workable employment and cargo solutions.",
+    desc: [
+      "Our approach is centred on finding workable, commercially viable employment and cargo solutions.",
+      "We evaluate the key commercial elements of each requirement, including vessel position, size, trading area, cargo, laycan, loading and discharge ports, freight levels, charter terms and operational requirements.",
+      "Our objective is to bring the right parties together and facilitate negotiations that lead to sustainable fixtures.",
+    ],
+  },
+   {
+    id: "03",
+    title: "Long-Term Relationships",
+    desc: [
+      "Our business is built around long-term commercial relationships rather than individual fixtures.",
+      "We aim to understand the trading requirements and commercial objectives of our clients, enabling us to develop relationships with repeat owners, operators, charterers, traders and cargo interests.",
+      "Through consistent communication, market awareness and professional brokerage, we seek to create opportunities that extend beyond a single transaction.",
+    ],
+  },
+   {
+    id: "04",
+    title: "Confidentiality & Professionalism",
+    desc: [
+      "Confidentiality is fundamental to our brokerage practice.",
+      "We respect the commercial sensitivity of cargo requirements, vessel positions, freight ideas, charter terms, negotiations and counterparties.",
+      "Information is handled with discretion and shared only with relevant parties as required for the development of a potential business opportunity.",
+    ],
   },
   {
     id: "05",
-    title: "Confidentiality",
-    desc: "Respecting the confidentiality of owners, charterers, cargo interests and brokers.",
+    title: "Fast Response",
+    desc: ["Prompt handling of cargo and tonnage inquiries."],
   },
   {
     id: "06",
-    title: "Long-Term Relationships",
-    desc: "Building sustainable commercial relationships rather than focusing only on individual fixtures.",
+    title: "Global Network",
+    desc: ["Commercial relationships across India, Middle East, Asia, Europe and the Americas."],
   },
+  
+ 
+ 
 ];
 
 export default function WhyAndContactSection() {
@@ -462,21 +480,22 @@ export default function WhyAndContactSection() {
       >
         <div className="mx-auto max-w-[1600px] grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
           
-          {/* LEFT: Sticky Header & Parallax Image */}
+          {/* LEFT: Clean Sticky Header & Parallax Image */}
           <div className="flex flex-col w-full lg:sticky lg:top-32">
-            <div className="mb-12">
-              <p className={`${raleway.className} text-sm font-bold tracking-[0.3em] text-brand-yellow uppercase mb-4`}>
+            <div className="mb-10">
+              <p className={`${raleway.className} text-sm font-bold tracking-[0.3em] text-brand-blue uppercase mb-4`}>
                 OUR ADVANTAGE
               </p>
-              <h2 className={`${merriweather.className} text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-white leading-tight uppercase`}>
+              <h2 className={`${playfair.className} text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-white leading-tight uppercase`}>
                 Why Hafship.
               </h2>
             </div>
 
-            <div className="relative w-full max-w-[550px] aspect-[4/3] rounded-sm overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] border border-brand-gray/10 bg-brand-dark">
+            {/* Parallax Image */}
+            <div className="relative w-full max-w-[550px] aspect-[4/3] rounded-sm overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.6)] border border-brand-gray/10 bg-brand-dark mt-4">
               <div ref={parallaxImgRef} className="absolute inset-[-15%] w-[130%] h-[130%] will-change-transform">
                 <Image
-                  src="/images/hafship-vesseln.jpg"
+                  src="/images/ch3.jpeg"
                   alt="Hafship Advantage"
                   fill
                   className="object-cover opacity-80"
@@ -485,7 +504,7 @@ export default function WhyAndContactSection() {
             </div>
           </div>
 
-          {/* RIGHT: Interactive Accordion List */}
+          {/* RIGHT: Accordion Section (Total 6 Items) */}
           <div className="flex flex-col w-full pt-4 lg:pt-24">
             <div className="border-t border-brand-gray/20">
               {WHY_DATA.map((item, index) => {
@@ -500,29 +519,68 @@ export default function WhyAndContactSection() {
                         <span className={`${raleway.className} text-sm sm:text-base font-bold text-brand-gray/40 group-hover:text-brand-gray transition-colors`}>
                           {item.id}
                         </span>
-                        <h3 className={`${raleway.className} text-xl sm:text-2xl font-bold text-brand-gray uppercase tracking-wide group-hover:text-brand-yellow transition-colors`}>
+                        <h3 className={`${playfair.className} text-xl sm:text-2xl font-bold text-brand-gray uppercase tracking-wide group-hover:text-brand-blue transition-colors`}>
                           {item.title}
                         </h3>
                       </div>
                       
-                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-all duration-500 ${isOpen ? "bg-brand-yellow border-brand-yellow text-brand-dark rotate-180" : "border-brand-gray/20 text-brand-gray group-hover:border-brand-gray"}`}>
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div className={`flex h-8 w-8 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full border transition-all duration-500 ${isOpen ? "bg-transparent border-brand-gray/50 text-white rotate-180" : "border-brand-gray/20 text-brand-gray/50 group-hover:border-brand-gray group-hover:text-white"}`}>
+                        <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                         </svg>
                       </div>
                     </button>
 
                     <div
-                      className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-[200px] opacity-100 pb-8" : "max-h-0 opacity-0 pb-0"}`}
+                      className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? "max-h-[800px] opacity-100 pb-8" : "max-h-0 opacity-0 pb-0"}`}
                     >
-                      <p className={`${lora.className} pl-16 sm:pl-20 text-lg text-brand-gray/70 leading-relaxed max-w-xl`}>
-                        {item.desc}
-                      </p>
+                      <div className="pl-14 sm:pl-20 flex flex-col gap-5">
+                        {item.desc.map((paragraph, i) => (
+                          <p key={i} className={`${lora.className}  text-base sm:text-lg text-white leading-relaxed max-w-xl`}>
+                            {paragraph}
+                          </p>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 );
               })}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          SECTION 11: FULL WIDTH BRAND BLUE BANNER (Premium Connecting Taglines)
+      ========================================================================= */}
+      <section className="relative z-20 w-full bg-brand-blue py-16 lg:py-24 px-4 sm:px-8 border-y border-brand-dark/20 shadow-inner overflow-hidden">
+        {/* Subtle background glow effect */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/5 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="relative z-10 mx-auto max-w-5xl flex flex-col items-center text-center">
+          
+          {/* Main Tagline */}
+          <h3 className={`${playfair.className} uppercase text-2xl sm:text-3xl lg:text-4xl text-white font-bold leading-relaxed mb-10 drop-shadow-sm`}>
+            HAFSHIP combines market access, commercial awareness and relationship-driven broking to connect the right cargo with the right tonnage.
+          </h3>
+          
+          {/* Connecting Parties */}
+          <div className={`${merriweather.className} flex flex-wrap items-center justify-center gap-x-4 gap-y-3 text-sm sm:text-base font-bold text-brand-dark tracking-widest uppercase mb-10`}>
+            <span>Shipowners</span> <span className="text-white/50">•</span>
+            <span>Operators</span> <span className="text-white/50">•</span>
+            <span>Charterers</span> <span className="text-white/50">•</span>
+            <span>Traders</span> <span className="text-white/50">•</span>
+            <span>Cargo Interests</span>
+          </div>
+
+          {/* Vessel Sizes List (Premium Pill Tags) */}
+          <div className={`${raleway.className} flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm font-bold tracking-widest uppercase`}>
+            <span className="rounded-full border border-white/30 bg-white/10 text-white px-5 py-2.5 backdrop-blur-sm transition-colors hover:bg-white/20">Handysize</span>
+            <span className="rounded-full border border-white/30 bg-white/10 text-white px-5 py-2.5 backdrop-blur-sm transition-colors hover:bg-white/20">Handymax</span>
+            <span className="rounded-full border border-white/30 bg-white/10 text-white px-5 py-2.5 backdrop-blur-sm transition-colors hover:bg-white/20">Supramax</span>
+            <span className="rounded-full border border-white/30 bg-white/10 text-white px-5 py-2.5 backdrop-blur-sm transition-colors hover:bg-white/20">Ultramax</span>
+            <span className="rounded-full border border-white/30 bg-white/10 text-white px-5 py-2.5 backdrop-blur-sm transition-colors hover:bg-white/20">Panamax</span>
+            <span className="rounded-full border border-brand-dark bg-brand-dark text-brand-gray px-6 py-2.5 shadow-lg transition-transform hover:scale-105">Capesize & More</span>
           </div>
 
         </div>
@@ -531,20 +589,20 @@ export default function WhyAndContactSection() {
       {/* =========================================================================
           SECTIONS 12 & 13: CONTACT DESK & REQUIREMENT PORTAL (White Background)
       ========================================================================= */}
-      <section id="contact" className="relative z-20 w-full bg-white py-24 lg:py-32 px-4 sm:px-8 border-t border-brand-gray/50">
+      <section id="contact" className="relative z-20 w-full bg-white py-24 lg:py-32 px-4 sm:px-8">
         <div className="mx-auto max-w-[1600px] grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           
           {/* LEFT: Contact Desk Info */}
           <div className="flex flex-col items-start w-full">
-            <p className={`${raleway.className} text-sm font-bold tracking-[0.3em] text-brand-blue uppercase mb-4`}>
+            <p className={`${raleway.className} text-sm font-bold tracking-[0.3em] text-brand-dark uppercase mb-4`}>
               GET IN TOUCH
             </p>
-            <h2 className={`${merriweather.className} text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-dark leading-tight uppercase mb-12`}>
+            <h2 className={`${playfair.className} text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-brand-blue leading-tight uppercase mb-12`}>
               Chartering Desk.
             </h2>
 
             <div className="w-full max-w-lg p-10 lg:p-12 rounded-[32px] bg-brand-gray/20 border border-brand-gray/50 shadow-sm transition-all duration-500 hover:shadow-lg">
-              <h3 className={`${raleway.className} text-2xl font-bold text-brand-dark uppercase tracking-wide mb-8`}>
+              <h3 className={`${playfair.className} text-2xl font-bold text-brand-dark uppercase tracking-wide mb-8`}>
                 Arafath Mohamed
               </h3>
               
@@ -575,7 +633,7 @@ export default function WhyAndContactSection() {
             <div className="bg-brand-dark p-10 sm:p-14 lg:p-16 rounded-[40px] shadow-[0_30px_60px_rgba(3,24,46,0.3)] w-full">
               
               <div className="mb-10 border-b border-brand-gray/20 pb-8">
-                <h3 className={`${raleway.className} text-3xl font-bold text-white uppercase tracking-wide mb-4`}>
+                <h3 className={`${playfair.className} text-3xl font-bold text-white uppercase tracking-wide mb-4`}>
                   Submit Requirement
                 </h3>
                 <p className={`${lora.className} text-lg text-brand-gray/80 leading-relaxed`}>
@@ -586,7 +644,7 @@ export default function WhyAndContactSection() {
               <div className="flex flex-col sm:flex-row gap-6 w-full">
                 {/* Link to the new dedicated form page for Tonnage */}
                 <Link 
-                  href="/submit-requirement?type=tonnage"
+                  href="/submit-tonnage"
                   className="group relative flex flex-1 items-center justify-center overflow-hidden rounded-full bg-brand-blue px-8 py-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(14,96,156,0.4)]"
                 >
                   <span className={`${raleway.className} relative z-10 text-sm sm:text-base font-bold tracking-[0.2em] text-white uppercase`}>
@@ -597,7 +655,7 @@ export default function WhyAndContactSection() {
 
                 {/* Link to the new dedicated form page for Cargo */}
                 <Link 
-                  href="/submit-requirement?type=cargo"
+                  href="/submit-cargo"
                   className="group relative flex flex-1 items-center justify-center overflow-hidden rounded-full border border-brand-gray/30 bg-transparent px-8 py-6 transition-all duration-300 hover:border-brand-yellow hover:bg-brand-yellow hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(212,175,55,0.2)]"
                 >
                   <span className={`${raleway.className} relative z-10 text-sm sm:text-base font-bold tracking-[0.2em] text-brand-gray uppercase transition-colors duration-300 group-hover:text-brand-dark`}>
@@ -606,14 +664,6 @@ export default function WhyAndContactSection() {
                 </Link>
               </div>
 
-              <div className="mt-8 flex items-center gap-3 opacity-60">
-                <svg className="h-5 w-5 text-brand-gray" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-                <span className={`${raleway.className} text-xs font-bold tracking-widest text-brand-gray uppercase`}>
-                  Secure & Confidential
-                </span>
-              </div>
 
             </div>
           </div>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Netlify Forms Register</title>
+</head>
+<body>
+    <!-- 1. Contact Page Form -->
+    <form name="chartering-inquiry" data-netlify="true" hidden>
+        <input type="text" name="Name" />
+        <input type="email" name="Email" />
+        <input type="text" name="Identity" />
+        <input type="text" name="Submission_Type" />
+        <input type="text" name="Charter_Type" />
+        
+        <!-- Tonnage fields -->
+        <input type="text" name="Vessel_Type" />
+        <input type="text" name="DWT" />
+        <input type="text" name="Built_Year" />
+        <input type="text" name="Open_Position" />
+        <input type="text" name="Laycan" />
+        <input type="text" name="Redelivery" />
+        
+        <!-- Cargo fields -->
+        <input type="text" name="Commodity" />
+        <input type="text" name="Quantity" />
+        <input type="text" name="Load_Port" />
+        <input type="text" name="Discharge_Port" />
+        <input type="text" name="Load_Discharge_Rate" />
+        
+        <textarea name="Message"></textarea>
+    </form>
+
+    <!-- 2. Submit Tonnage Form -->
+    <form name="tonnage-submission" data-netlify="true" hidden>
+        <input type="text" name="Name" />
+        <input type="text" name="Company" />
+        <input type="email" name="Email" />
+        <input type="tel" name="Phone" />
+        <input type="text" name="Identity" />
+        <input type="text" name="Requirement_Type" />
+        <input type="text" name="Vessel_Type" />
+        <input type="text" name="DWT" />
+        <input type="text" name="Built_Year" />
+        <input type="text" name="Open_Position" />
+        <input type="text" name="Laycan" />
+        <input type="text" name="Preferred_Employment" />
+        <textarea name="Message"></textarea>
+    </form>
+
+    <!-- 3. Submit Cargo Form -->
+    <form name="cargo-submission" data-netlify="true" hidden>
+        <input type="text" name="Name" />
+        <input type="text" name="Company" />
+        <input type="email" name="Email" />
+        <input type="tel" name="Phone" />
+        <input type="text" name="Identity" />
+        <input type="text" name="Requirement_Type" />
+        <input type="text" name="Commodity" />
+        <input type="text" name="Quantity" />
+        <input type="text" name="Load_Port" />
+        <input type="text" name="Discharge_Port" />
+        <input type="text" name="Laycan" />
+        <input type="text" name="Terms" />
+        <textarea name="Message"></textarea>
+    </form>
+</body>
+</html>

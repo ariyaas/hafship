@@ -2,7 +2,7 @@
 
 import { useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap";
-import { raleway, merriweather, lora } from "@/app/fonts";
+import { raleway, merriweather, lora, playfair } from "@/app/fonts";
 
 // Reusable sleek floating input component with responsive text sizing
 function FloatingInput({ label, placeholder, name, required = false }) {
@@ -51,8 +51,8 @@ export default function ContactPage() {
           <p className="fade-up text-[11px] sm:text-xs font-bold tracking-[0.3em] text-brand-yellow uppercase mb-4 sm:mb-6">
             Get In Touch
           </p>
-          <h1 className={`fade-up ${merriweather.className} text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-4 sm:mb-6 leading-tight`}>
-            Contact & <span className="text-brand-yellow">Inquiries</span>
+          <h1 className={`fade-up ${playfair.className} text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-4 sm:mb-6 leading-tight`}>
+            Contact & <span className="text-brand-blue">Inquiries</span>
           </h1>
           <p className={`fade-up ${lora.className} max-w-xl sm:max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300 font-medium leading-relaxed px-2`}>
             Connect directly with our chartering desk or submit your vessel tonnage and cargo requirements securely.
@@ -69,7 +69,7 @@ export default function ContactPage() {
             <p className={`${raleway.className} text-xs sm:text-sm font-bold tracking-[0.3em] text-brand-blue uppercase mb-3`}>
               CHARTERING DESK
             </p>
-            <h2 className={`${merriweather.className} text-3xl sm:text-4xl font-extrabold tracking-tight text-brand-dark leading-tight uppercase mb-8`}>
+            <h2 className={`${playfair.className} text-3xl sm:text-4xl font-extrabold tracking-tight text-brand-dark leading-tight uppercase mb-8`}>
               Hafship Desk.
             </h2>
 
@@ -107,7 +107,7 @@ export default function ContactPage() {
             <div className="bg-white p-6 sm:p-10 lg:p-16 border border-brand-gray/50 rounded-2xl sm:rounded-[32px] shadow-[0_15px_40px_rgba(0,0,0,0.04)] w-full">
               
               <div className="mb-8 sm:mb-12">
-                <h3 className={`${raleway.className} text-2xl sm:text-3xl font-bold text-brand-dark uppercase tracking-wide mb-3`}>
+                <h3 className={`${playfair.className} text-2xl sm:text-3xl font-bold text-brand-dark uppercase tracking-wide mb-3`}>
                   Submit Requirement
                 </h3>
                 <p className={`${lora.className} text-sm sm:text-base text-brand-dark/60`}>
@@ -140,13 +140,13 @@ export default function ContactPage() {
 
                 <div className="w-full h-px bg-brand-gray/60" />
                 
-                {/* 1. I AM A... (All 6 options) */}
+                {/* 1. I AM A... */}
                 <div>
                   <p className={`${raleway.className} text-xs sm:text-sm font-bold text-brand-dark/60 uppercase tracking-[0.2em] mb-4 sm:mb-6`}>
                     1. I am a:
                   </p>
                   <div className="flex flex-wrap gap-2.5 sm:gap-3">
-                    {["Shipowner", "Ship Operator", "Charterer", "Cargo Owner", "Trader", "Shipbroker"].map((role) => (
+                    {["Shipowner", "Cargo Owner"].map((role) => (
                       <button
                         key={role}
                         type="button"
@@ -194,7 +194,7 @@ export default function ContactPage() {
                       Charter Type:
                     </p>
                     <div className="flex flex-wrap gap-2 sm:gap-3">
-                      {["Voyage", "Time Charter", "Co-Brokerage"].map((type) => (
+                      {["Voyage", "Time Charter"].map((type) => (
                         <button
                           key={type}
                           type="button"

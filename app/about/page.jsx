@@ -1,17 +1,62 @@
 "use client";
 
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useState, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, merriweather, lora } from "@/app/fonts";
+import { raleway, merriweather, lora, playfair } from "@/app/fonts";
 import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const CORE_SERVICES = [
+  "Voyage Chartering",
+  "Trip Time Chartering",
+  "Period Employment",
+  "Cargo & Tonnage Matching",
+  "Tonnage Positioning",
+  "Freight & Charter Rate Negotiations",
+  "Fixture Coordination",
+  "Post-Fixture Commercial Support",
+];
+
+const MARKETS = [
+  {
+    id: "01",
+    region: "India & Subcontinent",
+    routes: "WCI | ECI | Bangladesh | Sri Lanka",
+    desc: "Supporting regional and international dry bulk movements across the Indian Subcontinent.",
+  },
+  {
+    id: "02",
+    region: "Middle East",
+    routes: "Arabian Gulf | Red Sea | Middle East–Asia",
+    desc: "Connecting regional cargo flows with suitable vessel positions and international tonnage.",
+  },
+  {
+    id: "03",
+    region: "Asia-Pacific",
+    routes: "Southeast Asia | Indonesia | Philippines | China | Japan | South Korea",
+    desc: "Covering key intra-Asia and long-haul dry bulk trading routes.",
+  },
+  {
+    id: "04",
+    region: "Atlantic",
+    routes: "Europe | Mediterranean | Black Sea | US Gulf",
+    desc: "Connecting cargo interests and tonnage across major Atlantic markets.",
+  },
+  {
+    id: "05",
+    region: "South America",
+    routes: "Brazil | Argentina | East Coast South America",
+    desc: "Supporting major dry bulk export trades and international vessel requirements.",
+  },
+];
+
 export default function AboutPage() {
   const heroRef = useRef(null);
-  const focusRef = useRef(null);
-  const valuesRef = useRef(null);
+  const brokerageRef = useRef(null);
+  const marketsRef = useRef(null);
+  const [activeMarketIndex, setActiveMarketIndex] = useState(0);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -22,9 +67,9 @@ export default function AboutPage() {
         { y: 0, opacity: 1, stagger: 0.2, duration: 1, ease: "power3.out" }
       );
 
-      // 2. Focus Section Reveal
+      // 2. Brokerage Section Reveal
       gsap.fromTo(
-        ".focus-card",
+        ".brokerage-fade",
         { y: 40, opacity: 0 },
         {
           y: 0,
@@ -33,24 +78,23 @@ export default function AboutPage() {
           duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: focusRef.current,
+            trigger: brokerageRef.current,
             start: "top 80%",
           },
         }
       );
 
-      // 3. Values Section Reveal
+      // 3. Markets Reveal
       gsap.fromTo(
-        ".value-item",
-        { x: -30, opacity: 0 },
+        ".markets-container",
+        { y: 40, opacity: 0 },
         {
-          x: 0,
+          y: 0,
           opacity: 1,
-          stagger: 0.1,
-          duration: 0.8,
+          duration: 0.9,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: valuesRef.current,
+            trigger: marketsRef.current,
             start: "top 85%",
           },
         }
@@ -70,63 +114,58 @@ export default function AboutPage() {
         
         <div className="mx-auto max-w-[1400px] relative z-10 text-center">
           <p className="hero-text text-xs font-bold tracking-[0.3em] text-brand-yellow uppercase mb-6">
-            About Hafship
+            About Us
           </p>
-          <h1 className={`hero-text ${merriweather.className} text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-8`}>
-            Independent Dry Bulk
+          <h1 className={`hero-text ${playfair.className} text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-8`}>
+            Chartering &
             <br />
-            <span className="text-brand-yellow">Shipbroking House</span>
+            <span className="text-brand-blue">Brokerage</span>
           </h1>
           <p className={`hero-text ${lora.className} mx-auto max-w-3xl text-lg sm:text-xl text-slate-300 font-medium leading-relaxed`}>
-            Focused on connecting shipowners, operators, charterers, and cargo interests across international dry bulk markets. We develop long-term commercial relationships and match suitable cargo with competitive tonnage.
+            HAFSHIP is a dedicated dry bulk shipbroking house connecting Shipowners, Vessel Operators, Charterers, Traders and Cargo Interests across international dry bulk markets.
           </p>
         </div>
       </section>
 
       {/* ========================================================
-          SECTION 2: OUR FOCUS & VESSEL SEGMENTS
+          SECTION 2: CHARTERING & BROKERAGE OVERVIEW & SERVICES
       ======================================================== */}
-      <section ref={focusRef} className="w-full py-20 lg:py-32 px-4 sm:px-8 bg-brand-gray">
+      <section ref={brokerageRef} className="w-full py-20 lg:py-32 px-4 sm:px-8 bg-brand-gray">
         <div className="mx-auto max-w-[1400px]">
-          <div className="text-center mb-16">
-            <h2 className={`${merriweather.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase`}>
-              Our Brokerage Focus
+          <div className="brokerage-fade text-center max-w-4xl mx-auto mb-16">
+            <h2 className={`${playfair.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase`}>
+              Commercial Execution & Support
             </h2>
-            <div className="mt-6 mx-auto h-[2px] w-24 bg-brand-yellow" />
+            <p className={`${lora.className} mt-6 text-brand-dark/80 text-lg sm:text-xl leading-relaxed`}>
+              We provide commercially focused chartering solutions, facilitating the efficient matching of cargo requirements with suitable tonnage while supporting negotiations and fixture execution from initial enquiry through post-fixture follow-up.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Card 1 */}
-            <div className="focus-card bg-white p-8 rounded-[24px] border border-slate-200 shadow-sm hover:border-brand-yellow transition-all duration-300 hover:shadow-xl">
-              <h3 className={`${raleway.className} text-xl font-bold text-brand-dark uppercase mb-4`}>
-                Chartering Activity
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            {/* Core Services List Box */}
+            <div className="brokerage-fade lg:col-span-7 bg-brand-dark p-8 sm:p-12 rounded-[32px] text-white shadow-xl">
+              <h3 className={`${playfair.className} text-xl font-bold text-brand-yellow uppercase tracking-widest mb-8 border-b border-white/10 pb-4`}>
+                Our Core Services
               </h3>
-              <p className={`${lora.className} text-brand-dark/70 leading-relaxed text-lg`}>
-                Our core activity covers voyage chartering, trip time charters, and period employment to find workable employment and cargo solutions.
-              </p>
-            </div>
-
-            {/* Card 2 */}
-            <div className="focus-card bg-brand-dark p-8 rounded-[24px] shadow-xl border border-white/10 transform md:-translate-y-4">
-              <h3 className={`${raleway.className} text-xl font-bold text-brand-yellow uppercase mb-4`}>
-                Vessel Segments
-              </h3>
-              <ul className={`${raleway.className} text-white space-y-4 font-medium tracking-wide mt-6`}>
-                <li className="flex items-center gap-4"><span className="h-2 w-2 bg-brand-yellow rounded-full"/> Handysize</li>
-                <li className="flex items-center gap-4"><span className="h-2 w-2 bg-brand-yellow rounded-full"/> Handymax</li>
-                <li className="flex items-center gap-4"><span className="h-2 w-2 bg-brand-yellow rounded-full"/> Supramax</li>
-                <li className="flex items-center gap-4"><span className="h-2 w-2 bg-brand-yellow rounded-full"/> Ultramax</li>
-                <li className="flex items-center gap-4"><span className="h-2 w-2 bg-brand-yellow rounded-full"/> Panamax</li>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {CORE_SERVICES.map((service, index) => (
+                  <li key={index} className="flex items-center gap-3">
+                    <span className="h-2 w-2 bg-brand-yellow rounded-full shrink-0" />
+                    <span className={`${lora.className} text-sm sm:text-base font-semibold tracking-wide uppercase`}>
+                      {service}
+                    </span>
+                  </li>
+                ))}
               </ul>
             </div>
 
-            {/* Card 3 */}
-            <div className="focus-card bg-white p-8 rounded-[24px] border border-slate-200 shadow-sm hover:border-brand-yellow transition-all duration-300 hover:shadow-xl">
-              <h3 className={`${raleway.className} text-xl font-bold text-brand-dark uppercase mb-4`}>
-                Market Intelligence
+            {/* Description note */}
+            <div className="brokerage-fade lg:col-span-5 bg-white p-8 sm:p-10 rounded-[32px] border border-slate-200 shadow-sm">
+              <h3 className={`${playfair.className} text-xl font-bold text-brand-dark uppercase mb-4`}>
+                Counterparty Commitment
               </h3>
               <p className={`${lora.className} text-brand-dark/70 leading-relaxed text-lg`}>
-                Providing timely market information and strategic insights to negotiate the best freight rates and manage risks effectively.
+                We work closely with principals and counterparties throughout the negotiation process, helping ensure that commercial terms are clearly communicated and efficiently progressed.
               </p>
             </div>
           </div>
@@ -134,60 +173,90 @@ export default function AboutPage() {
       </section>
 
       {/* ========================================================
-          SECTION 3: WHY CHOOSE US
+          SECTION 3: GLOBAL REACH & OUR MARKETS (Interactive Horizontal Accordion)
       ======================================================== */}
-      <section ref={valuesRef} className="w-full py-20 lg:py-32 px-4 sm:px-8 bg-white border-t border-slate-100">
-        <div className="mx-auto max-w-[1400px] grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <div>
+      <section ref={marketsRef} className="w-full py-20 lg:py-32 px-4 sm:px-8 bg-white border-t border-slate-100 overflow-hidden">
+        <div className="mx-auto max-w-[1500px]">
+          <div className="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
             <p className={`${raleway.className} text-xs font-bold tracking-[0.25em] text-brand-yellow uppercase mb-4`}>
-              WHY CHOOSE US
+              Global Reach
             </p>
-            <h2 className={`${merriweather.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase mb-8 leading-tight`}>
-              Delivering Success Across Ocean
+            <h2 className={`${playfair.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase mb-6`}>
+              Our Markets
             </h2>
-            
-            <div className="space-y-8 mt-12">
-              <div className="value-item flex gap-5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-gray border border-brand-gray/50 text-brand-blue shadow-sm">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                </div>
-                <div>
-                  <h4 className={`${raleway.className} text-lg font-bold text-brand-dark uppercase`}>Expertise & Experience</h4>
-                  <p className={`${lora.className} text-brand-dark/70 mt-2 leading-relaxed`}>With decades of combined experience in the shipping industry, our team of seasoned professionals ensures smooth and efficient cargo transportation tailored to your needs.</p>
-                </div>
-              </div>
-
-              <div className="value-item flex gap-5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-gray border border-brand-gray/50 text-brand-blue shadow-sm">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" /></svg>
-                </div>
-                <div>
-                  <h4 className={`${raleway.className} text-lg font-bold text-brand-dark uppercase`}>Global Network & Reliable Partnerships</h4>
-                  <p className={`${lora.className} text-brand-dark/70 mt-2 leading-relaxed`}>We have an extensive network of trusted vessel operators and shipping partners, allowing us to provide flexible and cost-effective shipping solutions worldwide.</p>
-                </div>
-              </div>
-
-              <div className="value-item flex gap-5">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-brand-gray border border-brand-gray/50 text-brand-blue shadow-sm">
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-                </div>
-                <div>
-                  <h4 className={`${raleway.className} text-lg font-bold text-brand-dark uppercase`}>Safety & Efficiency</h4>
-                  <p className={`${lora.className} text-brand-dark/70 mt-2 leading-relaxed`}>We prioritize the safe handling and timely delivery of your dry bulk cargo, using industry best practices and advanced logistics strategies to minimize risks.</p>
-                </div>
-              </div>
-            </div>
+            <p className={`${lora.className} text-brand-dark/70 text-lg leading-relaxed`}>
+              Connecting Shipowners, Operators, Charterers, Traders and Cargo Interests across key international dry bulk markets. HAFSHIP covers major trading regions, supporting cargo & tonnage matching, voyage and time chartering, freight negotiations and fixture opportunities across global routes.
+            </p>
           </div>
 
-          {/* Large Vessel Image */}
-          <div className="relative h-[600px] w-full rounded-[2.5rem] overflow-hidden shadow-2xl border border-brand-gray">
-            <Image
-              src="/images/chartering-hero.jpg"
-              alt="Hafship Dry Bulk Vessel"
-              fill
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-brand-dark/10" />
+          {/* Interactive Horizontal Expanding Accordion Container */}
+          <div className="markets-container flex flex-col lg:flex-row items-stretch gap-4 w-full h-auto lg:h-[500px]">
+            {MARKETS.map((market, index) => {
+              const isActive = activeMarketIndex === index;
+              return (
+                <div
+                  key={market.id}
+                  onMouseEnter={() => setActiveMarketIndex(index)}
+                  onClick={() => setActiveMarketIndex(index)}
+                  className={`relative rounded-[28px] transition-all duration-700 ease-in-out cursor-pointer overflow-hidden flex flex-col justify-between border ${
+                    isActive
+                      ? "lg:flex-[2.8] bg-brand-dark text-white border-brand-blue shadow-[0_20px_50px_rgba(14,96,156,0.3)] p-8 lg:p-12"
+                      : "lg:flex-[0.8] bg-brand-gray text-brand-dark border-slate-200 hover:border-brand-yellow p-6 lg:py-12 lg:px-6"
+                  }`}
+                >
+                  {/* Top Number / Badge */}
+                  <div className="flex items-center justify-between w-full">
+                    <span
+                      className={`${raleway.className} text-sm font-bold tracking-widest px-3.5 py-1.5 rounded-full ${
+                        isActive
+                          ? "bg-brand-blue/30 text-brand-yellow border border-brand-blue/40"
+                          : "bg-white text-brand-dark/70 border border-slate-200"
+                      }`}
+                    >
+                      {market.id}
+                    </span>
+
+                    {isActive && (
+                      <span className={`${raleway.className} text-xs font-bold tracking-[0.2em] text-brand-blue uppercase hidden sm:inline-block`}>
+                        Active Region
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Body Content */}
+                  <div className="my-auto py-6">
+                    {isActive ? (
+                      <div className="space-y-4 animate-fadeIn">
+                        <h3 className={`${playfair.className} text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase text-white tracking-wide`}>
+                          {market.region}
+                        </h3>
+                        <p className={`${raleway.className} text-xs sm:text-sm font-bold tracking-[0.2em] text-brand-yellow uppercase`}>
+                          {market.routes}
+                        </p>
+                        <p className={`${lora.className} text-slate-300 text-base sm:text-lg leading-relaxed pt-2 max-w-xl`}>
+                          {market.desc}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="lg:[writing-mode:vertical-lr] lg:rotate-180 flex lg:items-center gap-4">
+                        <h3 className={`${playfair.className} text-lg sm:text-xl font-bold uppercase text-brand-dark tracking-wide whitespace-nowrap`}>
+                          {market.region}
+                        </h3>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Bottom indicator line */}
+                  <div className={`w-full h-1.5 rounded-full transition-all duration-500 ${isActive ? "bg-brand-yellow" : "bg-transparent"}`} />
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-16 text-center">
+            <p className={`${raleway.className} text-xs sm:text-sm font-bold tracking-[0.2em] text-brand-dark uppercase`}>
+              Global Markets <span className="text-brand-yellow mx-2">•</span> Local Knowledge <span className="text-brand-yellow mx-2">•</span> Commercial Connections
+            </p>
           </div>
         </div>
       </section>
@@ -198,7 +267,7 @@ export default function AboutPage() {
       <section className="w-full bg-brand-yellow py-20 px-4 sm:px-8 border-t border-brand-dark/10">
         <div className="mx-auto max-w-[1200px] flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
           <div>
-            <h2 className={`${merriweather.className} text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-dark uppercase`}>
+            <h2 className={`${playfair.className} text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-dark uppercase`}>
               Looking to cooperate?
             </h2>
             <p className={`${lora.className} mt-3 text-brand-dark/80 font-medium text-lg`}>

@@ -4,7 +4,8 @@ import {
   Outfit, 
   Lora, 
   Merriweather,
-  Fira_Sans
+  Fira_Sans,
+  Playfair_Display
 } from "next/font/google";
 import localFont from "next/font/local";
 
@@ -43,14 +44,21 @@ export const merriweather = Merriweather({
   display: "swap",
 });
 
-// 6. Fira Sans (Added)
+// 6. Fira Sans
 export const firaSans = Fira_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
   display: "swap",
 });
 
-// 6. Custom Hero Font (American Captain)
+// 7. Playfair Display (Added)
+export const playfair = Playfair_Display({
+  weight: ["400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// 8. Custom Hero Font (American Captain)
 export const americanCaptain = localFont({
   src: './fonts/AmericanCaptain.ttf',
   display: 'swap',

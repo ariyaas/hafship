@@ -20,7 +20,7 @@ export default function Footer() {
         </div>
 
         {/* Subtle Ambient Radial Glow */}
-        <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[400px] w-[800px] rounded-full bg-brand-yellow/10 blur-[160px]" />
+        <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 h-[400px] w-[800px] rounded-full bg-brand-blue/15 blur-[160px]" />
 
         {/* ================= FOREGROUND CONTENT (FLOATING DIRECTLY ON TOP) ================= */}
         <div className="mx-auto max-w-[1500px] px-8 sm:px-12 lg:px-16 relative z-10">
@@ -38,32 +38,35 @@ export default function Footer() {
                 />
               </a>
 
-              {/* Exact company description - Increased size and brightened color */}
+              {/* Exact company description */}
               <p className={`${lora.className} text-base sm:text-lg text-slate-100 leading-relaxed max-w-sm mb-8 font-medium`}>
                 Hafship is an independent dry bulk shipbroking house connecting shipowners, operators, charterers and cargo interests across global dry bulk markets.
               </p>
 
-              {/* 24/7 Live Status Badge - Text changed to white and size increased */}
-              <div className="inline-flex items-center gap-3 rounded-full border border-brand-yellow/40 bg-brand-yellow/10 px-5 py-2.5 font-mono text-xs sm:text-sm text-white uppercase tracking-widest">
-                <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Global Desk Active</span>
-              </div>
+             
+             
             </div>
 
-            {/* Col 2: Services (3 Cols) */}
+            {/* Col 2: Services (3 Cols) - Updated with all 8 core services linking to /services */}
             <div className="lg:col-span-3 text-left">
               <h4 className={`${raleway.className} text-base font-bold tracking-[0.2em] text-brand-yellow uppercase mb-8`}>
                 OUR SERVICES
               </h4>
-              <ul className={`${raleway.className} space-y-5 text-base text-slate-200 font-medium`}>
+              <ul className={`${raleway.className} space-y-3.5 text-sm sm:text-[14px] text-slate-200 font-medium`}>
                 {[
-                  { name: "Dry Bulk Chartering", href: "/chartering" },
-                  { name: "Freight Forwarding", href: "/freight-forwarding" },
+                  { name: "Voyage Chartering", href: "/services" },
+                  { name: "Trip Time Chartering", href: "/services" },
+                  { name: "Period Employment", href: "/services" },
+                  { name: "Cargo & Tonnage Matching", href: "/services" },
+                  { name: "Tonnage Positioning", href: "/services" },
+                  { name: "Freight & Charter Rate Negotiations", href: "/services" },
+                  { name: "Fixture Coordination", href: "/services" },
+                  { name: "Post-Fixture Commercial Support", href: "/services" },
                 ].map((link) => (
                   <li key={link.name}>
                     <a
                       href={link.href}
-                      className="transition-colors hover:text-white hover:translate-x-1 inline-block uppercase tracking-wider"
+                      className="transition-colors hover:text-brand-yellow hover:translate-x-1 inline-block uppercase tracking-wider"
                     >
                       {link.name}
                     </a>
@@ -88,7 +91,7 @@ export default function Footer() {
                   <li key={link.name}>
                     <a
                       href={link.href}
-                      className="transition-colors hover:text-white hover:translate-x-1 inline-block uppercase tracking-wider"
+                      className="transition-colors hover:text-brand-yellow hover:translate-x-1 inline-block uppercase tracking-wider"
                     >
                       {link.name}
                     </a>
@@ -97,22 +100,24 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Col 4: Contact & Dubai Headquarters (3 Cols) */}
+            {/* Col 4: Contact & UAE Headquarters (3 Cols) */}
             <div className="lg:col-span-3 text-left">
               <h4 className={`${raleway.className} text-base font-bold tracking-[0.2em] text-brand-yellow uppercase mb-8`}>
                 CHARTERING DESK
               </h4>
               <div className={`${raleway.className} space-y-6 text-base text-slate-200`}>
                 
-                {/* Address */}
+                {/* Updated Address */}
                 <div className="flex items-start gap-4">
                   <svg className="h-6 w-6 text-brand-blue shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <p className="leading-relaxed tracking-wide">
-                    Office: 1129, 11th Floor, Tamani Arts Offices, Business Bay, Dubai - UAE
-                  </p>
+                  <div className="flex flex-col gap-1.5 leading-relaxed tracking-wide">
+                    <span className="font-bold text-white uppercase tracking-wider">Creative City Tower</span>
+                    <span className="text-slate-300">P.O. Box: 4422, Fujairah</span>
+                    <span className="text-brand-blue font-bold uppercase tracking-widest text-sm">United Arab Emirates</span>
+                  </div>
                 </div>
 
                 {/* Phones */}
@@ -121,21 +126,21 @@ export default function Footer() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                   <div className="flex flex-col gap-2">
-                    <a href="tel:+13476802751" className="hover:text-white transition-colors tracking-widest font-medium">
+                    <a href="tel:+13476802751" className="hover:text-brand-yellow transition-colors tracking-widest font-medium">
                       +1 347-680-2751
                     </a>
-                    <a href="tel:+971554314252" className="hover:text-white transition-colors tracking-widest text-slate-300 font-medium">
+                    <a href="tel:+971554314252" className="hover:text-brand-yellow transition-colors tracking-widest text-slate-300 font-medium">
                       +971 55 431 4252
                     </a>
                   </div>
                 </div>
 
-                {/* Chartering Email Only */}
+                {/* Chartering Email */}
                 <div className="flex items-start gap-4">
                   <svg className="h-6 w-6 text-brand-blue shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <a href="mailto:chartering@hafship.com" className="hover:text-white transition-colors tracking-wider uppercase mt-1 font-bold">
+                  <a href="mailto:chartering@hafship.com" className="hover:text-brand-yellow transition-colors tracking-wider uppercase mt-1 font-bold">
                     chartering@hafship.com
                   </a>
                 </div>

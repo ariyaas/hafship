@@ -3,44 +3,13 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, merriweather, lora } from "@/app/fonts";
+import { raleway, merriweather, lora, playfair } from "@/app/fonts";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Cargo Data based on master content document (Section 7: Cargo Broking)
-const CARGO_LIST = [
-  {
-    cargo: "Coal in bulk",
-    qty: "55,000 MT",
-    load: "Richards Bay, RSA",
-    discharge: "Chennai / Ennore, India",
-    laycan: "10-20 October",
-    terms: "FIOST",
-    status: "Firm"
-  },
-  {
-    cargo: "Coal in bulk",
-    qty: "75,000 MT",
-    load: "Newcastle, Australia",
-    discharge: "Krishnapatnam, India",
-    laycan: "1-15 November",
-    terms: "FIOST",
-    status: "Indicative"
-  },
-  {
-    cargo: "Coal in bulk",
-    qty: "45,000 MT",
-    load: "Samarinda, Indonesia",
-    discharge: "Tuticorin, India",
-    laycan: "Prompt",
-    terms: "FIOST",
-    status: "Firm"
-  }
-];
-
 export default function CargoPage() {
   const headerRef = useRef(null);
-  const tableRef = useRef(null);
+  const boardRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -51,18 +20,17 @@ export default function CargoPage() {
         { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: "power3.out" }
       );
 
-      // Table Rows Reveal Animation
+      // Empty Board Reveal Animation
       gsap.fromTo(
-        ".table-row-anim",
-        { y: 20, opacity: 0 },
+        boardRef.current,
+        { y: 30, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          stagger: 0.1,
-          duration: 0.8,
+          duration: 1,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: tableRef.current,
+            trigger: boardRef.current,
             start: "top 80%",
           },
         }
@@ -91,76 +59,37 @@ export default function CargoPage() {
         </div>
       </section>
 
-      {/* ================= CARGO BOARD (TABLE) ================= */}
+      {/* ================= DETAILS UNDER PROCESS BOARD ================= */}
       <section className="flex-grow w-full py-16 lg:py-24 px-4 sm:px-8">
         <div className="mx-auto max-w-[1400px]">
           
-          <div ref={tableRef} className="w-full overflow-x-auto pb-8">
-            <div className="min-w-[1000px] bg-white rounded-2xl shadow-[0_10px_40px_rgba(3,24,46,0.05)] border border-slate-200 overflow-hidden">
-              
-              {/* Table Header */}
-              <div className="grid grid-cols-12 gap-4 bg-brand-dark p-6 border-b border-brand-yellow/30">
-                <div className={`${raleway.className} col-span-3 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Cargo / Status</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Quantity</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Load Port</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Discharge Port</div>
-                <div className={`${raleway.className} col-span-1 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Terms</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest text-right`}>Action</div>
-              </div>
-
-              {/* Table Body */}
-              <div className="flex flex-col">
-                {CARGO_LIST.map((item, idx) => (
-                  <div 
-                    key={idx} 
-                    className="table-row-anim grid grid-cols-12 gap-4 p-6 items-center border-b border-slate-100 last:border-none transition-colors duration-300 hover:bg-slate-50 group"
-                  >
-                    {/* Cargo Type & Status */}
-                    <div className="col-span-3 flex flex-col">
-                      <span className={`${raleway.className} text-sm font-extrabold text-brand-dark tracking-wide`}>
-                        {item.cargo}
-                      </span>
-                      <span className={`${raleway.className} text-[10px] ${item.status === 'Firm' ? 'text-green-600' : 'text-slate-400'} font-bold tracking-widest uppercase mt-1`}>
-                        {item.status} ({item.laycan})
-                      </span>
-                    </div>
-
-                    {/* Quantity */}
-                    <div className={`${lora.className} col-span-2 text-sm font-medium text-slate-700`}>
-                      {item.qty}
-                    </div>
-
-                    {/* Load Port */}
-                    <div className={`${lora.className} col-span-2 text-sm font-medium text-brand-dark flex items-center gap-2`}>
-                      <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" />
-                      {item.load}
-                    </div>
-
-                    {/* Discharge Port */}
-                    <div className={`${lora.className} col-span-2 text-sm font-medium text-brand-dark flex items-center gap-2`}>
-                      <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
-                      {item.discharge}
-                    </div>
-
-                    {/* Terms */}
-                    <div className={`${raleway.className} col-span-1 text-xs font-bold text-slate-700 uppercase`}>
-                      {item.terms}
-                    </div>
-
-                    {/* Action Button */}
-                    <div className="col-span-2 flex justify-end">
-                      <a
-                        href={`mailto:chartering@hafship.com?subject=Proposal for ${item.qty} ${item.cargo}`}
-                        className={`${raleway.className} inline-flex items-center justify-center rounded border border-brand-yellow bg-transparent px-5 py-2 text-xs font-bold tracking-widest text-brand-dark transition-all duration-300 hover:bg-brand-yellow hover:text-white uppercase`}
-                      >
-                        PROPOSE
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
+          <div ref={boardRef} className="w-full bg-white rounded-3xl shadow-[0_15px_50px_rgba(3,24,46,0.06)] border border-slate-200 overflow-hidden p-12 sm:p-20 text-center flex flex-col items-center justify-center min-h-[400px]">
+            
+            {/* Process/Update Icon */}
+            <div className="h-20 w-20 bg-brand-gray/50 rounded-full flex items-center justify-center mb-6">
+              <svg className="h-10 w-10 text-brand-blue/50 animate-spin-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
             </div>
+
+            <h2 className={`${merriweather.className} text-2xl sm:text-3xl font-bold text-brand-dark uppercase tracking-tight mb-4`}>
+              Details Under Process
+            </h2>
+            
+            <p className={`${lora.className} text-base sm:text-lg text-slate-500 max-w-lg leading-relaxed mb-8`}>
+              We are currently updating our active cargo details. For more details and immediate access to our firm cargo orders, please contact our chartering desk directly.
+            </p>
+
+            <a
+              href="mailto:chartering@hafship.com"
+              className={`${raleway.className} inline-flex items-center gap-3 rounded-full bg-brand-dark px-8 py-3.5 text-xs font-bold tracking-widest text-white transition-all duration-300 hover:bg-brand-blue uppercase shadow-lg`}
+            >
+              Contact Us
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </a>
+
           </div>
 
         </div>

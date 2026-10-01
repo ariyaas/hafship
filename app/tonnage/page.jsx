@@ -7,40 +7,9 @@ import { raleway, merriweather, lora } from "@/app/fonts";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Tonnage Data based on master content document (Section 8: Open Tonnage)
-const TONNAGE_LIST = [
-  {
-    vessel: "MV GREEN DREAM I",
-    dwt: "66,604 MT",
-    built: "2015",
-    open: "Navlakhi, India",
-    tradingArea: "WCI / Worldwide",
-    employment: ["TCT", "Voyage", "Period"],
-    status: "OPEN 18-24 SEP"
-  },
-  {
-    vessel: "MV SUPRAMAX V",
-    dwt: "58,000 MT",
-    built: "2016",
-    open: "Kandla, India",
-    tradingArea: "India / Far East",
-    employment: ["TCT", "Voyage"],
-    status: "PROMPT"
-  },
-  {
-    vessel: "MV PANAMAX EXCELLENCE",
-    dwt: "76,000 MT",
-    built: "2012",
-    open: "Singapore",
-    tradingArea: "Asia / Worldwide",
-    employment: ["TCT", "Period"],
-    status: "MID OCT"
-  }
-];
-
 export default function TonnagePage() {
   const headerRef = useRef(null);
-  const tableRef = useRef(null);
+  const boardRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -51,18 +20,17 @@ export default function TonnagePage() {
         { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: "power3.out" }
       );
 
-      // Table Rows Reveal Animation
+      // Empty Board Reveal Animation
       gsap.fromTo(
-        ".table-row-anim",
-        { y: 20, opacity: 0 },
+        boardRef.current,
+        { y: 30, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          stagger: 0.1,
-          duration: 0.8,
+          duration: 1,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: tableRef.current,
+            trigger: boardRef.current,
             start: "top 80%",
           },
         }
@@ -86,84 +54,42 @@ export default function TonnagePage() {
             Open <span className="text-brand-yellow">Tonnage</span>
           </h1>
           <p className={`fade-up ${lora.className} max-w-2xl text-base sm:text-lg text-slate-300 font-medium leading-relaxed`}>
-            A live feed of vetted dry bulk vessels ranging from Handysize through Panamax that Hafship is authorized to circulate and position for employment.
+            A live feed of open vessel positions across international markets. Sourcing suitable Handysize through Capesize tonnage from owners and operators to connect the right cargo with the right tonnage.
           </p>
         </div>
       </section>
 
-      {/* ================= TONNAGE BOARD (TABLE) ================= */}
+      {/* ================= DETAILS UNDER PROCESS BOARD ================= */}
       <section className="flex-grow w-full py-16 lg:py-24 px-4 sm:px-8">
         <div className="mx-auto max-w-[1400px]">
           
-          <div ref={tableRef} className="w-full overflow-x-auto pb-8">
-            <div className="min-w-[1000px] bg-white rounded-2xl shadow-[0_10px_40px_rgba(3,24,46,0.05)] border border-slate-200 overflow-hidden">
-              
-              {/* Table Header */}
-              <div className="grid grid-cols-12 gap-4 bg-brand-dark p-6 border-b border-brand-yellow/30">
-                <div className={`${raleway.className} col-span-3 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Vessel / Employment</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>DWT / Built</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Open Position</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Trading Area</div>
-                <div className={`${raleway.className} col-span-1 text-xs font-bold text-brand-yellow uppercase tracking-widest`}>Status</div>
-                <div className={`${raleway.className} col-span-2 text-xs font-bold text-brand-yellow uppercase tracking-widest text-right`}>Action</div>
-              </div>
-
-              {/* Table Body */}
-              <div className="flex flex-col">
-                {TONNAGE_LIST.map((ship, idx) => (
-                  <div 
-                    key={idx} 
-                    className="table-row-anim grid grid-cols-12 gap-4 p-6 items-center border-b border-slate-100 last:border-none transition-colors duration-300 hover:bg-slate-50 group"
-                  >
-                    {/* Vessel Name & Employment Badges */}
-                    <div className="col-span-3 flex flex-col">
-                      <span className={`${raleway.className} text-sm font-extrabold text-brand-dark tracking-wide`}>
-                        {ship.vessel}
-                      </span>
-                      <div className="flex gap-1.5 mt-2">
-                        {ship.employment.map((type, i) => (
-                          <span key={i} className={`${raleway.className} text-[9px] font-bold uppercase tracking-wider bg-brand-gray/60 text-brand-dark px-2 py-0.5 rounded`}>
-                            {type}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* DWT & Built */}
-                    <div className={`${lora.className} col-span-2 text-sm font-medium text-slate-700`}>
-                      {ship.dwt} <span className="text-slate-400">({ship.built})</span>
-                    </div>
-
-                    {/* Open Position */}
-                    <div className={`${lora.className} col-span-2 text-sm font-medium text-brand-dark flex items-center gap-2`}>
-                      <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" />
-                      {ship.open}
-                    </div>
-
-                    {/* Trading Area */}
-                    <div className={`${lora.className} col-span-2 text-sm font-medium text-slate-700`}>
-                      {ship.tradingArea}
-                    </div>
-
-                    {/* Status */}
-                    <div className={`${raleway.className} col-span-1 text-xs font-bold text-brand-blue uppercase tracking-wider`}>
-                      {ship.status}
-                    </div>
-
-                    {/* Action Button */}
-                    <div className="col-span-2 flex justify-end">
-                      <a
-                        href={`mailto:chartering@hafship.com?subject=Inquiry for ${ship.vessel} (${ship.open})`}
-                        className={`${raleway.className} inline-flex items-center justify-center rounded border border-brand-yellow bg-transparent px-5 py-2 text-xs font-bold tracking-widest text-brand-dark transition-all duration-300 hover:bg-brand-yellow hover:text-white uppercase`}
-                      >
-                        ENQUIRE
-                      </a>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
+          <div ref={boardRef} className="w-full bg-white rounded-3xl shadow-[0_15px_50px_rgba(3,24,46,0.06)] border border-slate-200 overflow-hidden p-12 sm:p-20 text-center flex flex-col items-center justify-center min-h-[400px]">
+            
+            {/* Process/Update Icon */}
+            <div className="h-20 w-20 bg-brand-gray/50 rounded-full flex items-center justify-center mb-6">
+              <svg className="h-10 w-10 text-brand-blue/50 animate-spin-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
             </div>
+
+            <h2 className={`${merriweather.className} text-2xl sm:text-3xl font-bold text-brand-dark uppercase tracking-tight mb-4`}>
+              Details Under Process
+            </h2>
+            
+            <p className={`${lora.className} text-base sm:text-lg text-slate-500 max-w-lg leading-relaxed mb-8`}>
+              We are currently updating our vessel details. For more details and immediate access to our open tonnage positions, please contact our chartering desk.
+            </p>
+
+            <a
+              href="mailto:chartering@hafship.com"
+              className={`${raleway.className} inline-flex items-center gap-3 rounded-full bg-brand-dark px-8 py-3.5 text-xs font-bold tracking-widest text-white transition-all duration-300 hover:bg-brand-blue uppercase shadow-lg`}
+            >
+              Contact Us
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </a>
+
           </div>
 
         </div>
