@@ -602,9 +602,8 @@ export default function WhyAndContactSection() {
             </h2>
 
             <div className="w-full max-w-lg p-10 lg:p-12 rounded-[32px] bg-brand-gray/20 border border-brand-gray/50 shadow-sm transition-all duration-500 hover:shadow-lg">
-              <h3 className={`${playfair.className} text-2xl font-bold text-brand-dark uppercase tracking-wide mb-8`}>
-                Arafath Mohamed
-              </h3>
+              
+              {/* Name removed here as requested */}
               
               <div className="flex flex-col gap-8">
                 <a href="mailto:chartering@hafship.com" className="group flex items-center gap-6">
@@ -634,36 +633,25 @@ export default function WhyAndContactSection() {
               
               <div className="mb-10 border-b border-brand-gray/20 pb-8">
                 <h3 className={`${playfair.className} text-3xl font-bold text-white uppercase tracking-wide mb-4`}>
-                  Submit Requirement
+                  Submit Inquiry
                 </h3>
                 <p className={`${lora.className} text-lg text-brand-gray/80 leading-relaxed`}>
-                  Access our dedicated chartering portal to securely circulate your cargo or tonnage requirements directly to our brokers.
+                  Access our dedicated contact portal to securely circulate your cargo, tonnage requirements, or general inquiries directly to our desk.
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-6 w-full">
-                {/* Link to the new dedicated form page for Tonnage */}
+              <div className="flex w-full">
+                {/* Single Link to the main contact page */}
                 <Link 
-                  href="/submit-tonnage"
-                  className="group relative flex flex-1 items-center justify-center overflow-hidden rounded-full bg-brand-blue px-8 py-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(14,96,156,0.4)]"
+                  href="/contact"
+                  className="group relative flex w-full items-center justify-center overflow-hidden rounded-full bg-brand-yellow px-8 py-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(212,175,55,0.3)]"
                 >
-                  <span className={`${raleway.className} relative z-10 text-sm sm:text-base font-bold tracking-[0.2em] text-white uppercase`}>
-                    Submit Tonnage
+                  <span className={`${raleway.className} relative z-10 text-sm sm:text-base font-bold tracking-[0.2em] text-brand-dark uppercase transition-colors duration-300 group-hover:text-white`}>
+                    OPEN CONTACT PORTAL
                   </span>
-                  <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
-                </Link>
-
-                {/* Link to the new dedicated form page for Cargo */}
-                <Link 
-                  href="/submit-cargo"
-                  className="group relative flex flex-1 items-center justify-center overflow-hidden rounded-full border border-brand-gray/30 bg-transparent px-8 py-6 transition-all duration-300 hover:border-brand-yellow hover:bg-brand-yellow hover:scale-[1.02] hover:shadow-[0_20px_40px_rgba(212,175,55,0.2)]"
-                >
-                  <span className={`${raleway.className} relative z-10 text-sm sm:text-base font-bold tracking-[0.2em] text-brand-gray uppercase transition-colors duration-300 group-hover:text-brand-dark`}>
-                    Submit Cargo
-                  </span>
+                  <div className="absolute inset-0 bg-brand-blue translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
                 </Link>
               </div>
-
 
             </div>
           </div>

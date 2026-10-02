@@ -5,7 +5,6 @@ import ServicesSection from "@/app/components/Home/ServicesSection";
 import QuoteSection from "@/app/components/Home/QuoteSection";
 import WhyChooseUs from "@/app/components/Home/WhyChooseUs";
 import Preloader from "@/app/components/Preloader";
-import MarketsAndCargo from "@/app/components/Home/MarketsAndCargo";
 import WhyHafship from "@/app/components/Home/WhyHafship";
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
       <Hero />
       <About />
       <ServicesSection />
-      <MarketsAndCargo />
      
       <WhyHafship />
 

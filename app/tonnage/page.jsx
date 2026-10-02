@@ -3,7 +3,7 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, merriweather, lora } from "@/app/fonts";
+import { raleway, merriweather, lora,playfair } from "@/app/fonts";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,8 +50,8 @@ export default function TonnagePage() {
           <p className="fade-up text-xs font-bold tracking-[0.3em] text-brand-yellow uppercase mb-6">
             Current Positions
           </p>
-          <h1 className={`fade-up ${merriweather.className} text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-6`}>
-            Open <span className="text-brand-yellow">Tonnage</span>
+          <h1 className={`fade-up ${playfair.className} text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-6`}>
+            Open <span className="text-brand-blue">Tonnage</span>
           </h1>
           <p className={`fade-up ${lora.className} max-w-2xl text-base sm:text-lg text-slate-300 font-medium leading-relaxed`}>
             A live feed of open vessel positions across international markets. Sourcing suitable Handysize through Capesize tonnage from owners and operators to connect the right cargo with the right tonnage.

@@ -295,6 +295,260 @@
 //   );
 // }
 
+
+
+
+
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import { raleway } from "@/app/fonts"; 
+// import { usePathname } from "next/navigation";
+
+// // Clocks ordered West to East
+// const HUBS = [
+//   { name: "NYC", tz: "America/New_York", offset: "-4" },
+//   { name: "LON", tz: "Europe/London", offset: "+1" },
+//   { name: "UAE", tz: "Asia/Dubai", offset: "+4" },
+//   { name: "IND", tz: "Asia/Kolkata", offset: "+5.5" },
+//   { name: "SGP", tz: "Asia/Singapore", offset: "+8" },
+//   { name: "SYD", tz: "Australia/Sydney", offset: "+10" },
+// ];
+
+// const MENU_LINKS = [
+//   { label: "HOME", href: "/" },
+//   { label: "ABOUT US", href: "/about" },
+//   { label: "SERVICES", href: "/services" },
+//   { label: "OPEN TONNAGE", href: "/tonnage" },
+//   { label: "CARGOS", href: "/cargos" },
+//   { label: "CONTACT", href: "/contact" },
+// ];
+
+// export default function Navbar() {
+//   const pathname = usePathname();
+  
+//   // Hide the Navbar entirely on the portal pages
+//   if (
+//     pathname === "/submit-cargo" || 
+//     pathname === "/submit-tonnage" || 
+//     pathname === "/submit-requirement"
+//   ) {
+//     return <></>; 
+//   }
+
+//   const [hubTimes, setHubTimes] = useState([]);
+//   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+//   useEffect(() => {
+//     function calculateTimes() {
+//       const now = new Date();
+//       const updated = HUBS.map((hub) => {
+//         const timeStr = now.toLocaleString("en-US", {
+//           timeZone: hub.tz,
+//           hour: "numeric",
+//           minute: "numeric",
+//           second: "numeric",
+//           hour12: false,
+//         });
+
+//         const [h, m, s] = timeStr.split(":").map((v) => parseInt(v, 10));
+//         const hourAngle = ((h % 12) + m / 60) * 30;
+//         const minuteAngle = (m + s / 60) * 6;
+//         const isDay = h >= 6 && h < 18;
+
+//         return {
+//           ...hub,
+//           hourAngle,
+//           minuteAngle,
+//           digital: `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`,
+//           isDay,
+//         };
+//       });
+//       setHubTimes(updated);
+//     }
+
+//     calculateTimes();
+//     const interval = setInterval(calculateTimes, 1000);
+
+//     return () => clearInterval(interval);
+//   }, []);
+
+//   // Prevent background scrolling when mobile menu is open
+//   useEffect(() => {
+//     if (mobileMenuOpen) {
+//       document.body.style.overflow = "hidden";
+//     } else {
+//       document.body.style.overflow = "unset";
+//     }
+//   }, [mobileMenuOpen]);
+
+//   return (
+//     <header className="fixed top-0 left-0 z-50 w-full bg-white shadow-md font-sans">
+//       <div className="flex w-full items-stretch">
+        
+//         {/* ========================================================
+//             LEFT: LOGO AREA (5% from the left)
+//         ======================================================== */}
+//         <div className="flex shrink-0 items-center justify-start bg-white py-3 pl-[5%] pr-6 sm:pr-10">
+//           <a href="/">
+//             <img
+//               src="/finallogohafship.png"
+//               alt="HAFSHIP Logo"
+//               className="h-12 sm:h-16 lg:h-20 w-auto object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105"
+//             />
+//           </a>
+//         </div>
+
+//         {/* ========================================================
+//             RIGHT: CONTENT AREA
+//         ======================================================== */}
+//         <div className="flex flex-1 flex-col">
+          
+//           {/* TOP ROW: Contact & Clocks (Centered) */}
+//           <div className="hidden lg:flex flex-1 items-center justify-center gap-6 bg-white py-2">
+            
+//             {/* Direct Phone & Email */}
+//             <div className="flex items-center gap-5 text-xs font-semibold text-brand-dark">
+//               <a
+//                 href="tel:+13476802751"
+//                 className="flex items-center gap-2 transition-colors hover:text-brand-blue"
+//               >
+//                 <svg className="h-4 w-4 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+//                 </svg>
+//                 <span className="tracking-widest">+1 347-680-2751</span>
+//               </a>
+
+//               <a
+//                 href="mailto:chartering@hafship.com"
+//                 className="flex items-center gap-2 transition-colors hover:text-brand-blue"
+//               >
+//                 <svg className="h-4 w-4 text-brand-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+//                 </svg>
+//                 <span className="uppercase tracking-wider">chartering@hafship.com</span>
+//               </a>
+//             </div>
+
+//             {/* Vertical Divider */}
+//             <div className="h-6 w-px bg-slate-200" />
+
+//             {/* Chronometer Dials */}
+//             <div className="flex items-center gap-3">
+//               {hubTimes.map((hub) => (
+//                  <div
+//                  key={hub.name}
+//                  className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1"
+//                >
+//                  <div className="relative flex h-6 w-6 shrink-0 items-center justify-center">
+//                    <div
+//                      className={`absolute inset-0 rounded-full border-[1.5px] ${
+//                        hub.isDay
+//                          ? "border-amber-400"
+//                          : "border-brand-blue"
+//                      }`}
+//                    />
+//                    <svg className="h-5 w-5" viewBox="0 0 24 24">
+//                      <line x1="12" y1="12" x2="12" y2="6" stroke={hub.isDay ? "#d97706" : "#0e609c"} strokeWidth="2.2" strokeLinecap="round" transform={`rotate(${hub.hourAngle} 12 12)`} />
+//                      <line x1="12" y1="12" x2="12" y2="3.5" stroke="#334155" strokeWidth="1.6" strokeLinecap="round" transform={`rotate(${hub.minuteAngle} 12 12)`} />
+//                      <circle cx="12" cy="12" r="1.5" fill="#334155" />
+//                    </svg>
+//                  </div>
+//                  <div className="flex flex-col text-left leading-none">
+//                    <div className="flex items-center gap-1">
+//                      <span className="text-[9px] font-bold tracking-wider text-slate-500">{hub.name}</span>
+//                      {hub.isDay ? (
+//                        <svg className="h-2.5 w-2.5 text-amber-500" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5" /><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
+//                      ) : (
+//                        <svg className="h-2.5 w-2.5 text-brand-blue" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+//                      )}
+//                    </div>
+//                    <span className="mt-0.5 font-mono text-[10px] font-bold text-brand-dark tracking-wide">{hub.digital}</span>
+//                  </div>
+//                </div>
+//               ))}
+//             </div>
+//           </div>
+
+//           {/* BOTTOM ROW: Navigation (Blue background stretching fully to the right) */}
+//           <div className="flex flex-1 items-center justify-end rounded-tl-[2.5rem] bg-brand-blue px-6 py-2 sm:px-[5%]">
+            
+//             {/* Desktop Menu Links (Aligned to the right) */}
+//             <div className="hidden items-center gap-8 lg:flex">
+//               {MENU_LINKS.map((link) => (
+//                 <div key={link.label} className="relative group py-3">
+//                   <a
+//                     href={link.href}
+//                     className={`${raleway.className} flex items-center gap-1.5 text-sm font-bold tracking-widest text-slate-200 transition-colors hover:text-brand-yellow uppercase`}
+//                   >
+//                     {link.label}
+//                   </a>
+//                 </div>
+//               ))}
+//             </div>
+
+//             {/* Mobile Hamburger Button */}
+//             <button
+//               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+//               className="flex h-10 w-10 items-center justify-end text-white lg:hidden z-50 focus:outline-none ml-auto"
+//             >
+//               {mobileMenuOpen ? (
+//                 <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+//               ) : (
+//                 <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+//               )}
+//             </button>
+
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* ========================================================
+//           MOBILE DRAWER
+//       ======================================================== */}
+//       <div 
+//         className={`fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+//           mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+//         }`}
+//         onClick={() => setMobileMenuOpen(false)}
+//       />
+
+//       <div
+//         className={`fixed top-0 left-0 h-screen w-[85%] max-w-[320px] bg-brand-dark shadow-2xl transition-transform duration-300 ease-in-out lg:hidden z-50 flex flex-col ${
+//           mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+//         }`}
+//       >
+//         <div className="p-6 border-b border-white/10 flex justify-between items-center bg-white">
+//             <img src="/finallogohafship.png" alt="HAFSHIP Logo" className="h-10 w-auto object-contain" />
+//             <button onClick={() => setMobileMenuOpen(false)} className="text-brand-dark">
+//                 <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+//             </button>
+//         </div>
+        
+//         <div className="flex-1 overflow-y-auto px-6 py-8 flex flex-col gap-6 text-white">
+//           {MENU_LINKS.map((link) => (
+//             <div key={link.label} className="flex flex-col">
+//               <a 
+//                 href={link.href} 
+//                 onClick={() => setMobileMenuOpen(false)}
+//                 className={`${raleway.className} text-base font-bold tracking-widest hover:text-brand-yellow transition-colors uppercase block`}
+//               >
+//                 {link.label}
+//               </a>
+//             </div>
+//           ))}
+//         </div>
+        
+//         <div className={`${raleway.className} p-6 border-t border-white/10 text-sm font-bold tracking-wider text-brand-yellow`}>
+//             <p className="mb-2">chartering@hafship.com</p>
+//             <p>+1 347-680-2751</p>
+//         </div>
+//       </div>
+//     </header>
+//   );
+// }
+
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -314,9 +568,9 @@ const HUBS = [
 const MENU_LINKS = [
   { label: "HOME", href: "/" },
   { label: "ABOUT US", href: "/about" },
-  { label: "SERVICES", href: "/services" },
-  { label: "OPEN TONNAGE", href: "/tonnage" },
+  { label: "CHARTERING", href: "/chartering" },
   { label: "CARGOS", href: "/cargos" },
+  { label: "MARKETS", href: "/markets" },
   { label: "CONTACT", href: "/contact" },
 ];
 
@@ -390,7 +644,7 @@ export default function Navbar() {
             <img
               src="/finallogohafship.png"
               alt="HAFSHIP Logo"
-              className="h-12 sm:h-16 lg:h-20 w-auto object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105"
+              className="h-12 sm:h-16 lg:h-24 w-auto object-contain drop-shadow-sm transition-transform duration-300 hover:scale-105"
             />
           </a>
         </div>

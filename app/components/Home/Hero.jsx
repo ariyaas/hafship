@@ -326,11 +326,12 @@
 // }
 
 
+
 "use client";
 
 import { useRef } from "react";
 import Image from "next/image";
-import { americanCaptain, raleway, merriweather, playfair, lora } from "@/app/fonts";
+import { americanCaptain, raleway, playfair, lora } from "@/app/fonts";
 import { useHeroAnimation } from "../hooks/useHeroAnimation";
 
 export default function Hero() {
@@ -357,7 +358,7 @@ export default function Hero() {
       style={{ perspective: "1200px" }}
       className="sticky top-0 z-0 h-screen min-h-[700px] w-full overflow-hidden bg-brand-dark"
     >
-      {/* Updated Cursor Ball: Removed yellow, changed to white/glassmorphism */}
+      {/* Cursor Ball: White/glassmorphism (No Yellow) */}
       <div
         ref={cursorBallRef}
         className="pointer-events-none absolute left-0 top-0 z-50 hidden md:block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-white/10 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 shadow-[0_0_15px] shadow-white/20"
@@ -380,7 +381,7 @@ export default function Hero() {
           {/* PERFORMANCE UPDATE: Using Next/Image for optimized loading */}
           <Image
             src="/images/chartering-hero.jpg"
-            alt="Dry Bulk Shipbroking"
+            alt="Hafship Brokering"
             fill
             sizes="100vw"
             priority
@@ -408,14 +409,14 @@ export default function Hero() {
           className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white will-change-transform pt-20"
         >
           <div className="max-w-5xl">
-            {/* Title: Pure white base with Brand Blue text */}
+            {/* Title: Pure white base with Brand Blue text highlight (Yellow removed) */}
             <h1
               className={`${americanCaptain.className} text-6xl leading-[0.9] tracking-wider sm:text-7xl md:text-8xl lg:text-[110px] uppercase text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]`}
             >
-              Dry Bulk Shipbroking 
+              HAFSHIP 
               <br />
-              <span className="text-brand-yellow drop-shadow-md">
-                & Chartering
+              <span className="text-brand-blue drop-shadow-md">
+                Brokering
               </span>
             </h1>
 
@@ -433,26 +434,26 @@ export default function Hero() {
               HAFSHIP provides professional dry bulk shipbroking and chartering services, connecting shipowners, operators, charterers, traders and cargo interests with the right commercial opportunities and tonnage.
             </p>
 
-            {/* Action Buttons: Yellow only used on the primary button */}
+            {/* Action Buttons: Updated to use Brand Blue and White (Yellow removed completely)
             <div className={`${raleway.className} mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row`}>
               <a
                 href="/submit-tonnage"
-                className="group relative inline-flex items-center justify-center overflow-hidden rounded bg-brand-yellow px-10 py-4 text-xs font-bold tracking-widest text-brand-dark transition-all duration-300 hover:scale-105 hover:bg-white uppercase shadow-lg"
+                className="group relative inline-flex items-center justify-center overflow-hidden rounded bg-brand-blue px-10 py-4 text-xs font-bold tracking-widest text-white transition-all duration-300 hover:scale-105 hover:bg-white hover:text-brand-dark uppercase shadow-lg"
               >
                 OPEN TONNAGE
               </a>
 
               <a
                 href="/submit-cargo"
-                className="inline-flex items-center justify-center rounded border border-white/40 bg-white/10 px-10 py-4 text-xs font-bold tracking-widest text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-brand-blue hover:bg-brand-blue hover:text-white uppercase shadow-lg"
+                className="inline-flex items-center justify-center rounded border border-white/40 bg-white/10 px-10 py-4 text-xs font-bold tracking-widest text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-brand-gray hover:bg-brand-gray hover:text-brand-dark uppercase shadow-lg"
               >
                 SUBMIT CARGO
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
 
-        {/* Mobile Scroll Indicator: Changed from yellow to white line */}
+        {/* Mobile Scroll Indicator: White line */}
         <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 md:hidden">
           <div className="flex flex-col items-center gap-2 text-white/70">
             <span className={`${raleway.className} text-[10px] uppercase tracking-[0.3em] font-bold`}>Scroll</span>
@@ -462,4 +463,4 @@ export default function Hero() {
       </div>
     </section>
   );
-}
+}9
