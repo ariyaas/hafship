@@ -63,3 +63,9 @@ export const americanCaptain = localFont({
   src: './fonts/AmericanCaptain.ttf',
   display: 'swap',
 });
+
+export const monaSans = localFont({
+  src: "./fonts/MonaSansVF-Condensed[opsz,wght,ital].ttf",
+  display: "swap",
+  weight: "200 900",
+});

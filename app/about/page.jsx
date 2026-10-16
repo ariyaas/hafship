@@ -4,7 +4,13 @@ import { useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, lora, playfair } from "@/app/fonts";
+import { monaSans } from "@/app/fonts";
+import {
+  SplitLetters,
+  PremiumButton,
+  LETTER_RISE,
+  LETTER_FADE,
+} from "@/app/components/ui/PremiumUI";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,12 +21,21 @@ const vesselSizes = [
   "SUPRAMAX",
   "ULTRAMAX",
   "PANAMAX",
-  "CAPESIZE"
+  "CAPESIZE",
+];
+
+const VESSEL_BADGES = [
+  "Handysize",
+  "Handymax",
+  "Supramax",
+  "Ultramax",
+  "Panamax",
+  "Capesize & More",
 ];
 
 const CORE_SERVICES = [
   "Voyage Chartering",
-  "Trip Time Chartering",
+  "Time Chartering",
   "Period Employment",
   "Cargo & Tonnage Matching",
   "Tonnage Positioning",
@@ -29,29 +44,61 @@ const CORE_SERVICES = [
   "Post-Fixture Commercial Support",
 ];
 
+const HERO_TEXT =
+  "HAFSHIP is a dedicated dry bulk shipbroking house connecting Shipowners, Vessel Operators, Charterers, Traders and Cargo Interests across international dry bulk markets.";
+
+/* One row of the services list */
+function ServiceRow({ service, number }) {
+  return (
+    <div className="core-row group relative flex items-center gap-4 sm:gap-8 border-b border-white/15 py-5 sm:py-6 cursor-default">
+      {/* blue line that grows on hover */}
+      <span className="pointer-events-none absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-brand-blue transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-x-100" />
+      <span className="w-7 shrink-0 text-xs sm:text-base font-bold tracking-widest text-brand-blue">
+        {String(number).padStart(2, "0")}
+      </span>
+      <h3 className="min-w-0 text-base min-[400px]:text-lg sm:text-xl lg:text-2xl font-bold uppercase tracking-wide text-white/90 transition-colors duration-300 group-hover:text-brand-blue">
+        {service}
+      </h3>
+    </div>
+  );
+}
+
 export default function AboutPage() {
   const containerRef = useRef(null);
   const heroRef = useRef(null);
-  const heroImageRef = useRef(null); // Added for Parallax Image Background
+  const heroImageRef = useRef(null);
   const marqueeRef = useRef(null);
   const storyContentRef = useRef(null);
+  const imagesRef = useRef(null);
   const img1Ref = useRef(null);
   const img2Ref = useRef(null);
-  const brokerageRef = useRef(null);
+  const execHeadRef = useRef(null);
+  const listRef = useRef(null);
+  const noteRef = useRef(null);
+  const ctaRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Hero Text Reveal Animation
-      gsap.fromTo(
-        ".hero-text",
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: "power3.out", delay: 0.2 }
-      );
+      // 1. HERO (plays on load)
+      gsap
+        .timeline({ delay: 0.2 })
+        .fromTo(
+          ".hero-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".hero-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4")
+        .fromTo(
+          ".hero-text-letter",
+          LETTER_FADE.from,
+          { ...LETTER_FADE.to, stagger: 0.008 },
+          "-=0.5"
+        );
 
-      // 2. Hero Image Parallax Animation (Premium Effect)
+      // 2. HERO image parallax
       if (heroImageRef.current && heroRef.current) {
         gsap.to(heroImageRef.current, {
-          y: "15%",
+          yPercent: 10,
           ease: "none",
           scrollTrigger: {
             trigger: heroRef.current,
@@ -62,274 +109,333 @@ export default function AboutPage() {
         });
       }
 
-      // 3. Marquee horizontal slide-in
-      if (marqueeRef.current) {
+      // 3. MARQUEE fade-in
+      gsap.fromTo(
+        marqueeRef.current,
+        { opacity: 0 },
+        {
+          opacity: 1,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: { trigger: marqueeRef.current, start: "top 95%" },
+        }
+      );
+
+      // 4. STORY content: eyebrow, title letters, then paragraphs / badges / button
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: storyContentRef.current, start: "top 80%" },
+        })
+        .fromTo(
+          ".story-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".story-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4")
+        .fromTo(
+          ".story-fade",
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", stagger: 0.12 },
+          "-=0.5"
+        );
+
+      // 5. STORY images: reveal
+      gsap.fromTo(
+        [img1Ref.current, img2Ref.current],
+        { y: 50, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          stagger: 0.2,
+          duration: 1.2,
+          ease: "power3.out",
+          scrollTrigger: { trigger: imagesRef.current, start: "top 85%" },
+        }
+      );
+
+      // 6. STORY images: inner parallax (separate from the reveal, so they never fight)
+      gsap.utils.toArray(".img-parallax").forEach((el, i) => {
         gsap.fromTo(
-          marqueeRef.current,
-          { opacity: 0 },
+          el,
+          { yPercent: -7 },
           {
-            opacity: 1,
-            duration: 1.5,
-            ease: "power3.out",
+            yPercent: 7,
+            ease: "none",
             scrollTrigger: {
-              trigger: marqueeRef.current,
-              start: "top 90%",
+              trigger: el.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1 + i * 0.5,
             },
           }
         );
-      }
+      });
 
-      // 4. Story Content & Images Reveal
-      if (storyContentRef.current) {
-        gsap.fromTo(
-          storyContentRef.current.children,
-          { y: 35, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.12,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: storyContentRef.current,
-              start: "top 80%",
-            },
-          }
-        );
-      }
-
-      if (img1Ref.current && img2Ref.current) {
-        gsap.fromTo(
-          [img1Ref.current, img2Ref.current],
-          { y: 50, opacity: 0, scale: 0.95 },
-          {
-            y: 0,
-            opacity: 1,
-            scale: 1,
-            stagger: 0.2,
-            duration: 1.2,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: img1Ref.current,
-              start: "top 85%",
-            },
-          }
+      // 7. EXECUTION header: eyebrow, title letters, paragraph
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: execHeadRef.current, start: "top 80%" },
+        })
+        .fromTo(
+          ".exec-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".exec-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4")
+        .fromTo(
+          ".exec-fade",
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+          "-=0.6"
         );
 
-        // Subtle Parallax for the images
-        gsap.to(img1Ref.current, {
-          y: -25,
-          ease: "none",
-          scrollTrigger: {
-            trigger: img1Ref.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1,
-          },
-        });
-        gsap.to(img2Ref.current, {
-          y: -45,
-          ease: "none",
-          scrollTrigger: {
-            trigger: img1Ref.current,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.5,
-          },
-        });
-      }
+      // 8. Services list rows
+      gsap.fromTo(
+        ".core-row",
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: "power3.out",
+          stagger: 0.08,
+          scrollTrigger: { trigger: listRef.current, start: "top 85%" },
+        }
+      );
 
-      // 5. Commercial Services Section Reveal
-      if (brokerageRef.current) {
-        gsap.fromTo(
-          ".brokerage-fade",
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.15,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: brokerageRef.current,
-              start: "top 80%",
-            },
-          }
+      // 9. Note card
+      gsap.fromTo(
+        noteRef.current,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: { trigger: noteRef.current, start: "top 90%" },
+        }
+      );
+
+      // 10. CTA: title letters, paragraph, button
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: ctaRef.current, start: "top 80%" },
+        })
+        .fromTo(".cta-title-letter", LETTER_RISE.from, LETTER_RISE.to)
+        .fromTo(
+          ".cta-fade",
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.12 },
+          "-=0.5"
         );
-      }
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <main ref={containerRef} className="w-full flex-grow bg-white">
-      
+    <main
+      ref={containerRef}
+      className={`${monaSans.className} w-full flex-grow bg-brand-dark`}
+    >
       {/* ========================================================
-          SECTION 1: PREMIUM FRAMED HERO 
+          SECTION 1: HERO
       ======================================================== */}
-      <div className="w-full bg-white p-[3%] pt-[100px] sm:pt-[120px] lg:pt-[140px]">
-        <section ref={heroRef} className="relative w-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden min-h-[50vh] lg:min-h-[70vh] flex flex-col items-center justify-center pt-16 pb-20 px-4 sm:px-8 shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
-          
-          {/* Parallax Background Image */}
-          <div className="absolute -top-[10%] -left-[5%] h-[120%] w-[110%] will-change-transform" ref={heroImageRef}>
-            <Image 
-              src="/images/ch1.jpeg" // Add your preferred background image here
-              alt="HAFSHIP About Us"
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
+      <section
+        ref={heroRef}
+        className="relative w-full min-h-[65vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden pt-32 sm:pt-36 lg:pt-44 pb-16 lg:pb-24 px-5 sm:px-10"
+      >
+        {/* Parallax background */}
+        <div
+          ref={heroImageRef}
+          className="absolute -top-[15%] left-0 h-[130%] w-full will-change-transform"
+        >
+          <Image
+            src="/images/ex1.png"
+            alt="HAFSHIP About Us"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
+        </div>
 
-          {/* Dark Overlay for Text Visibility */}
-          <div className="absolute inset-0 bg-brand-dark/50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent" />
-          
-          {/* Hero Content */}
-          <div className="mx-auto max-w-[1400px] relative z-10 flex flex-col items-center text-center mt-10">
-            <p className="hero-text text-xs sm:text-sm font-bold tracking-[0.3em] text-brand-yellow uppercase mb-6 drop-shadow-md">
-              About Us
-            </p>
-            <h1 className={`hero-text ${playfair.className} text-4xl sm:text-6xl lg:text-[80px] leading-tight font-extrabold tracking-tight text-white uppercase mb-8 drop-shadow-xl`}>
-              Global <span className="text-brand-blue">Chartering</span>
-            </h1>
-            <p className={`hero-text ${lora.className} max-w-4xl text-lg sm:text-xl text-slate-100 font-medium leading-relaxed drop-shadow-md`}>
-              HAFSHIP is a dedicated dry bulk shipbroking house connecting Shipowners, Vessel Operators, Charterers, Traders and Cargo Interests across international dry bulk markets.
-            </p>
-          </div>
-        </section>
-      </div>
+        {/* Overlays: dark tint + fade into the dark page */}
+        <div className="absolute inset-0 bg-brand-dark/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent" />
+
+        <div className="relative z-10 mx-auto max-w-[1400px] flex flex-col items-center text-center">
+          <p className="hero-eyebrow text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase mb-6 sm:mb-8">
+            About Us
+          </p>
+
+          <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
+            <span className="block text-white">
+              <SplitLetters text="Global" letterClass="hero-title-letter" mask />
+            </span>
+            <span className="block text-brand-blue">
+              <SplitLetters text="Chartering" letterClass="hero-title-letter" mask />
+            </span>
+          </h1>
+
+          <p className="max-w-4xl text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed">
+            <SplitLetters text={HERO_TEXT} letterClass="hero-text-letter" />
+          </p>
+        </div>
+      </section>
 
       {/* ========================================================
-          SECTION 2: DETAILED STORY & 2 IMAGES
+          RUNNING STRIP (vessel sizes)
       ======================================================== */}
-      <section className="relative z-20 w-full bg-white pb-20 lg:pb-32 overflow-hidden">
-        
-        {/* RUNNING MARQUEE (VESSEL SIZES) */}
-        <div ref={marqueeRef} className="w-full overflow-hidden select-none bg-brand-dark py-4 lg:py-5 mb-16 lg:mb-24 shadow-md border-b border-brand-yellow/20">
-          <style dangerouslySetInnerHTML={{__html: `
-            @keyframes marqueeRightToLeft {
+      <div
+        ref={marqueeRef}
+        className="w-full overflow-hidden select-none bg-brand-blue py-4 lg:py-5"
+      >
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+            @keyframes aboutMarquee {
               0% { transform: translateX(0); }
               100% { transform: translateX(-50%); }
             }
-            .running-track-fast {
+            .about-marquee-track {
               display: flex;
               width: max-content;
-              animation: marqueeRightToLeft 25s linear infinite;
+              animation: aboutMarquee 30s linear infinite;
             }
-          `}} />
-
-          <div className="running-track-fast items-center">
-            {[...vesselSizes, ...vesselSizes, ...vesselSizes, ...vesselSizes].map((vessel, index) => (
+          `,
+          }}
+        />
+        <div className="about-marquee-track items-center">
+          {[...vesselSizes, ...vesselSizes, ...vesselSizes, ...vesselSizes].map(
+            (vessel, index) => (
               <div key={index} className="flex items-center shrink-0">
-                <span className={`${raleway.className} text-white text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-widest px-8 sm:px-12 cursor-default`}>
+                <span className="text-white text-lg sm:text-2xl lg:text-3xl font-black uppercase tracking-[0.2em] px-6 sm:px-12 cursor-default">
                   {vessel}
                 </span>
-                <span className="text-brand-blue text-xl sm:text-2xl shrink-0">•</span>
+                <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 shrink-0 bg-brand-dark" />
               </div>
-            ))}
-          </div>
+            )
+          )}
         </div>
+      </div>
 
-        {/* ABOUT CONTENT & IMAGES */}
-        <div className="w-[95%] max-w-[1800px] mx-auto px-4 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 xl:gap-24 items-center">
-            
-            {/* LEFT: CONTENT (7 Columns) */}
-            <div ref={storyContentRef} className="lg:col-span-7 flex flex-col items-start order-2 lg:order-1 lg:pl-4 xl:pl-8">
-              
-              <div className="flex items-center gap-3 mb-4">
-                <span className="h-2 w-2 rounded-full bg-brand-yellow" />
-                <span className={`${raleway.className} text-xs font-bold tracking-[0.25em] text-brand-dark uppercase`}>
+      {/* ========================================================
+          SECTION 2: STORY + 2 IMAGES
+      ======================================================== */}
+      <section className="relative z-20 w-full bg-brand-dark py-16 sm:py-20 lg:py-32 px-5 sm:px-10 lg:px-16 overflow-hidden">
+        <div className="mx-auto w-full max-w-[1800px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16 xl:gap-24 items-center">
+            {/* LEFT: CONTENT */}
+            <div
+              ref={storyContentRef}
+              className="lg:col-span-7 flex flex-col items-start order-2 lg:order-1"
+            >
+              <div className="story-eyebrow flex items-center gap-4 mb-6">
+                <span className="h-px w-10 sm:w-14 bg-brand-blue" />
+                <span className="text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase">
                   Who We Are
                 </span>
               </div>
 
-              <h2 className={`${playfair.className} text-3xl sm:text-4xl lg:text-[46px] font-extrabold text-brand-blue leading-[1.15] tracking-tight mb-8`}>
-                Chartering Operations
+              <h2 className="font-black tracking-normal uppercase leading-[1] mb-8 sm:mb-10 text-brand-blue text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[80px]">
+                <span className="block">
+                  <SplitLetters text="Broking" letterClass="story-title-letter" mask />
+                </span>
+                <span className="block text-white">
+                  <SplitLetters text="Operations" letterClass="story-title-letter" mask />
+                </span>
               </h2>
 
-              <p className={`${lora.className} text-justify text-xl sm:text-xl text-slate-700 font-medium leading-relaxed mb-6 max-w-3xl`}>
-                HAFSHIP is a dry bulk shipbroking house focused on connecting shipowners, vessel operators, charterers, traders and cargo interests across international dry bulk markets.
-              </p>
-              
-              <p className={`${lora.className} text-justify text-lg sm:text-xl text-slate-600 font-medium leading-relaxed mb-6 max-w-3xl`}>
-                We provide commercially focused shipbroking and chartering services, supporting clients from the initial cargo or vessel requirement through negotiations, fixture and post-fixture coordination.
-              </p>
+              <div className="flex flex-col gap-6 sm:gap-8 max-w-3xl">
+                <p className="story-fade text-base sm:text-lg lg:text-xl xl:text-2xl text-white/85 font-medium leading-relaxed">
+                  HAFSHIP is a dry bulk shipbroking house focused on connecting
+                  shipowners, vessel operators, charterers, traders and cargo
+                  interests across international dry bulk markets.
+                </p>
 
-              <p className={`${lora.className} text-justify text-lg sm:text-xl text-slate-600 font-medium leading-relaxed mb-6 max-w-3xl`}>
-                Our brokerage activity covers voyage chartering, trip time charters and period employment, with a focus on:
-              </p>
+                <p className="story-fade text-base sm:text-lg lg:text-xl xl:text-2xl text-white/75 font-medium leading-relaxed">
+                  We provide commercially focused shipbroking and chartering
+                  services, supporting clients from the initial cargo or vessel
+                  requirement through negotiations, fixture and post-fixture
+                  coordination.
+                </p>
 
-              {/* Vessel Sizes Highlight Badges */}
-              <div className={`${raleway.className} flex flex-wrap items-center gap-3 text-sm font-bold text-brand-blue tracking-widest uppercase mb-6 bg-brand-gray/30 px-6 py-4 rounded-xl border border-brand-dark/5`}>
-                <span>Handysize</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
-                <span>Handymax</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
-                <span>Supramax</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
-                <span>Ultramax</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
-                <span>Panamax</span>
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-yellow" />
-                <span>Capesize & More</span>
+                <p className="story-fade text-base sm:text-lg lg:text-xl xl:text-2xl text-white/75 font-medium leading-relaxed">
+                  Our brokerage activity covers voyage chartering, trip time
+                  charters and period employment, with a focus on:
+                </p>
+
+                {/* Vessel size badges */}
+                <div className="story-fade flex flex-wrap items-center gap-3 text-xs sm:text-sm lg:text-base font-bold tracking-widest uppercase">
+                  {VESSEL_BADGES.map((vessel) => (
+                    <span
+                      key={vessel}
+                      className="rounded-full border border-white/30 bg-white/10 text-white px-4 py-2 sm:px-6 sm:py-3 transition-colors duration-300 hover:bg-brand-blue hover:border-brand-blue"
+                    >
+                      {vessel}
+                    </span>
+                  ))}
+                </div>
+
+                <p className="story-fade text-base sm:text-lg lg:text-xl xl:text-2xl text-white/75 font-medium leading-relaxed">
+                  We work across a broad range of dry bulk commodities and
+                  trading routes, connecting suitable cargo requirements with
+                  competitive and workable tonnage solutions.
+                </p>
               </div>
 
-              <p className={`${lora.className} text-justify text-lg sm:text-xl text-slate-600 font-medium leading-relaxed mb-10 max-w-3xl`}>
-                We work across a broad range of dry bulk commodities and trading routes, connecting suitable cargo requirements with competitive and workable tonnage solutions.
-              </p>
-
-              <a
-                href="/contact"
-                className={`${raleway.className} group inline-flex items-center gap-4 rounded-full bg-brand-yellow px-8 py-4 text-sm font-bold tracking-[0.2em] text-brand-dark transition-all duration-300 hover:bg-brand-dark hover:text-white uppercase shadow-lg`}
-              >
-                <span>CONTACT US</span>
-                <div className="flex h-5 w-5 items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </div>
-              </a>
+              <div className="mt-10 sm:mt-12 w-full sm:w-auto">
+                <PremiumButton
+                  href="/contact"
+                  label="Contact Us"
+                  variant="dark"
+                  className="story-fade"
+                />
+              </div>
             </div>
 
-            {/* RIGHT: 2 IMAGES (5 Columns) */}
-            <div className="lg:col-span-5 relative h-[380px] sm:h-[500px] lg:h-[650px] xl:h-[700px] w-full order-1 lg:order-2">
-              <div className="relative w-full h-full max-w-[550px] xl:max-w-[650px] mx-auto lg:ml-auto">
-                
-                {/* Img 1: Top-Right Base */}
+            {/* RIGHT: 2 IMAGES */}
+            <div
+              ref={imagesRef}
+              className="lg:col-span-5 relative h-[380px] sm:h-[520px] lg:h-[650px] xl:h-[720px] w-full order-1 lg:order-2"
+            >
+              <div className="relative w-full h-full max-w-[560px] xl:max-w-[650px] mx-auto lg:ml-auto">
+                {/* Img 1: top right */}
                 <div
                   ref={img1Ref}
-                  className="absolute top-0 right-0 w-[78%] h-[75%] rounded-[24px] overflow-hidden shadow-xl bg-brand-gray/50 will-change-transform"
+                  className="absolute top-0 right-0 w-[78%] h-[75%] overflow-hidden shadow-xl bg-brand-dark border border-white/10 will-change-transform"
                 >
-                  <Image
-                    src="/images/ch1.jpeg"
-                    alt="Global Dry Bulk Operations"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-1000 hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-brand-dark/10" />
+                  <div className="img-parallax absolute -inset-[8%] will-change-transform">
+                    <Image
+                      src="/images/26.png"
+                      alt="Global Dry Bulk Operations"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-1000 hover:scale-105"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-brand-dark/10 pointer-events-none" />
                 </div>
 
-                {/* Img 2: Bottom-Left Overlap */}
+                {/* Img 2: bottom left, overlapping */}
                 <div
                   ref={img2Ref}
-                  className="absolute bottom-0 left-0 w-[72%] h-[65%] rounded-[24px] overflow-hidden shadow-[0_20px_45px_rgba(3,24,46,0.25)] border-4 border-white bg-brand-gray z-10 will-change-transform"
+                  className="absolute bottom-0 left-0 w-[72%] h-[65%] overflow-hidden shadow-[0_20px_45px_rgba(0,0,0,0.5)] border-4 border-brand-dark bg-brand-dark z-10 will-change-transform"
                 >
-                  <Image
-                    src="/images/ch2.jpeg"
-                    alt="Shipbroking and Tonnage"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-1000 hover:scale-105"
-                  />
+                  <div className="img-parallax absolute -inset-[8%] will-change-transform">
+                    <Image
+                      src="/images/ex2.png"
+                      alt="Shipbroking and Tonnage"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="object-cover transition-transform duration-1000 hover:scale-105"
+                    />
+                  </div>
                 </div>
-
               </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -337,43 +443,70 @@ export default function AboutPage() {
       {/* ========================================================
           SECTION 3: COMMERCIAL EXECUTION & SERVICES
       ======================================================== */}
-      <section ref={brokerageRef} className="w-full py-20 lg:py-28 px-4 sm:px-8 bg-brand-gray">
-        <div className="mx-auto max-w-[1400px]">
-          <div className="brokerage-fade text-center max-w-4xl mx-auto mb-16">
-            <h2 className={`${playfair.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase`}>
-              Commercial Execution & Support
-            </h2>
-            <p className={`${lora.className} mt-6 text-brand-dark/80 text-lg sm:text-xl leading-relaxed`}>
-              We provide commercially focused chartering solutions, facilitating the efficient matching of cargo requirements with suitable tonnage while supporting negotiations and fixture execution from initial enquiry through post-fixture follow-up.
+      <section className="w-full bg-brand-dark border-t border-white/10 py-16 sm:py-20 lg:py-32 px-5 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-[1800px]">
+          {/* Header */}
+          <div
+            ref={execHeadRef}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-12 sm:mb-16"
+          >
+            <div className="lg:col-span-7">
+              <div className="exec-eyebrow flex items-center gap-4 mb-6">
+                <span className="h-px w-10 sm:w-14 bg-brand-blue" />
+                <span className="text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase">
+                  Our Core Services
+                </span>
+              </div>
+
+              <h2 className="font-black tracking-normal uppercase leading-[1] text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[76px]">
+                <span className="block text-white">
+                  <SplitLetters
+                    text="Commercial Execution"
+                    letterClass="exec-title-letter"
+                    mask
+                  />
+                </span>
+                <span className="block text-brand-blue">
+                  <SplitLetters text="& Support" letterClass="exec-title-letter" mask />
+                </span>
+              </h2>
+            </div>
+
+            <p className="exec-fade lg:col-span-5 text-base sm:text-lg lg:text-xl xl:text-2xl text-white/80 font-medium leading-relaxed">
+              We provide commercially focused chartering solutions, facilitating
+              the efficient matching of cargo requirements with suitable tonnage
+              while supporting negotiations and fixture execution from initial
+              enquiry through post-fixture follow-up.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-            {/* Core Services List Box */}
-            <div className="brokerage-fade lg:col-span-7 bg-brand-dark p-8 sm:p-12 rounded-[28px] text-white shadow-xl flex flex-col justify-between">
-              <div>
-                <h3 className={`${playfair.className} text-xl font-bold text-brand-yellow uppercase tracking-widest mb-8 border-b border-white/10 pb-4`}>
-                  Our Core Services
-                </h3>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {CORE_SERVICES.map((service, index) => (
-                    <li key={index} className="flex items-center gap-3">
-                      <span className="h-2 w-2 bg-brand-yellow rounded-full shrink-0" />
-                      <span className={`${lora.className} text-sm sm:text-base font-semibold tracking-wide uppercase`}>
-                        {service}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          {/* Services list: 2 columns on desktop */}
+          <div
+            ref={listRef}
+            className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-20"
+          >
+            <div className="border-t border-white/15">
+              {CORE_SERVICES.slice(0, 4).map((service, i) => (
+                <ServiceRow key={service} service={service} number={i + 1} />
+              ))}
             </div>
+            <div className="lg:border-t border-white/15">
+              {CORE_SERVICES.slice(4).map((service, i) => (
+                <ServiceRow key={service} service={service} number={i + 5} />
+              ))}
+            </div>
+          </div>
 
-            {/* Description note */}
-            <div className="brokerage-fade lg:col-span-5 bg-white p-8 sm:p-12 rounded-[28px] border border-slate-200 shadow-sm flex flex-col justify-center">
-              <p className={`${lora.className} text-brand-dark/80 leading-relaxed text-lg sm:text-xl font-medium`}>
-                We work closely with principals and counterparties throughout the negotiation process, helping ensure that commercial terms are clearly communicated and efficiently progressed.
-              </p>
-            </div>
+          {/* Note card (brand blue) */}
+          <div
+            ref={noteRef}
+            className="mt-12 sm:mt-16 bg-brand-blue p-7 sm:p-12 lg:p-16"
+          >
+            <p className="text-lg sm:text-2xl lg:text-3xl text-white font-medium leading-relaxed max-w-5xl">
+              We work closely with principals and counterparties throughout the
+              negotiation process, helping ensure that commercial terms are
+              clearly communicated and efficiently progressed.
+            </p>
           </div>
         </div>
       </section>
@@ -381,23 +514,28 @@ export default function AboutPage() {
       {/* ========================================================
           SECTION 4: CALL TO ACTION
       ======================================================== */}
-      <section className="w-full bg-brand-blue py-16 lg:py-24 px-4 sm:px-8 border-t border-slate-200">
-        <div className="mx-auto max-w-[1400px] flex flex-col lg:flex-row items-center justify-between gap-10 text-center lg:text-left">
+      <section
+        ref={ctaRef}
+        className="w-full bg-brand-blue py-16 sm:py-20 lg:py-28 px-5 sm:px-10 lg:px-16"
+      >
+        <div className="mx-auto max-w-[1800px] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 lg:gap-16">
           <div className="flex-1">
-            <h2 className={`${playfair.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase tracking-tight`}>
-              Looking to cooperate?
+            <h2 className="font-black tracking-normal uppercase leading-[1] text-white text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[80px] mb-6">
+              <SplitLetters text="Looking to cooperate?" letterClass="cta-title-letter" mask />
             </h2>
-            <p className={`${lora.className} mt-4 text-brand-dark/80 font-medium text-lg sm:text-xl max-w-2xl`}>
-              We welcome suitable cargo and tonnage circulation to add value to your fixtures.
+            <p className="cta-fade text-base sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl">
+              We welcome suitable cargo and tonnage circulation to add value to
+              your fixtures.
             </p>
           </div>
-          <div className="shrink-0">
-             <a
-              href="mailto:chartering@hafship.com"
-              className={`${raleway.className} inline-flex items-center justify-center rounded-full bg-brand-dark px-10 py-5 text-sm sm:text-base font-bold tracking-widest text-white shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-white hover:text-brand-dark uppercase`}
-            >
-              CONTACT CHARTERING DESK
-            </a>
+
+          <div className="shrink-0 w-full sm:w-auto">
+            <PremiumButton
+              href="/contact"
+              label="Contact Broking Desk"
+              variant="dark"
+              className="cta-fade"
+            />
           </div>
         </div>
       </section>

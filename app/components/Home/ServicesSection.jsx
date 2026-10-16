@@ -228,69 +228,260 @@
 //   );
 // }
 
+
+
+// "use client";
+
+// import { useRef, useLayoutEffect } from "react";
+// import gsap from "gsap";
+// import { ScrollTrigger } from "gsap/ScrollTrigger";
+// import { raleway, lora, playfair } from "@/app/fonts";
+
+// gsap.registerPlugin(ScrollTrigger);
+
+// const SERVICES_LIST = [
+//   "Voyage Chartering",
+//   "Trip Time Chartering",
+//   "Period Employment",
+//   "Cargo & Tonnage Matching",
+//   "Tonnage Positioning",
+//   "Freight & Rate Negotiations",
+//   "Fixture Coordination",
+//   "Post-Fixture Support",
+//   "Tanker & Liquid Broking"
+// ];
+
+// export default function ServicesSection() {
+//   const sectionRef = useRef(null);
+//   const leftContentRef = useRef(null);
+//   const rightListRef = useRef(null);
+
+//   useLayoutEffect(() => {
+//     const section = sectionRef.current;
+    
+//     if (!section) return;
+
+//     const ctx = gsap.context(() => {
+//       // 1. Left Content Fade Up
+//       gsap.fromTo(
+//         ".svc-left-anim",
+//         { y: 40, opacity: 0 },
+//         {
+//           y: 0,
+//           opacity: 1,
+//           stagger: 0.15,
+//           duration: 1,
+//           ease: "power3.out",
+//           scrollTrigger: {
+//             trigger: leftContentRef.current,
+//             start: "top 80%",
+//           },
+//         }
+//       );
+
+//       // 2. Right List Staggered Reveal
+//       gsap.fromTo(
+//         ".svc-list-item",
+//         { x: 30, opacity: 0 },
+//         {
+//           x: 0,
+//           opacity: 1,
+//           stagger: 0.1,
+//           duration: 0.8,
+//           ease: "power3.out",
+//           scrollTrigger: {
+//             trigger: rightListRef.current,
+//             start: "top 85%",
+//           },
+//         }
+//       );
+//     }, section);
+
+//     return () => ctx.revert();
+//   }, []);
+
+//   return (
+//     <section
+//       ref={sectionRef}
+//       id="services"
+//       className="relative z-20 w-full bg-white py-16 lg:py-24 px-4 sm:px-8"
+//     >
+//       <div className="mx-auto max-w-[1400px]">
+//         {/* Premium Dark Container */}
+//         <div className="relative w-full rounded-[2rem] sm:rounded-[3rem] bg-brand-dark px-6 py-16 sm:p-16 lg:p-20 shadow-[0_30px_60px_rgba(3,24,46,0.3)] overflow-hidden">
+          
+//           {/* Subtle Background Glow */}
+//           <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 blur-[100px] rounded-full pointer-events-none" />
+
+//           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 relative z-10">
+            
+//             {/* LEFT: Title & CTA */}
+//             <div ref={leftContentRef} className="lg:col-span-5 flex flex-col items-start justify-center">
+//               <p className="svc-left-anim flex items-center gap-3 mb-6">
+//                 <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" />
+//                 <span className={`${raleway.className} font-bold text-xs sm:text-sm text-brand-gray tracking-[0.25em] uppercase`}>
+//                   Our Expertise
+//                 </span>
+//               </p>
+
+//               <h2 className={`svc-left-anim ${playfair.className} text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-white leading-[1.15] tracking-tight mb-8`}>
+//                 Dry Bulk & Tanker <span className="text-brand-blue block mt-2">Chartering.</span>
+//               </h2>
+
+//               <p className={`svc-left-anim ${lora.className} text-lg text-slate-300 font-medium leading-relaxed mb-10`}>
+//                 Delivering end-to-end commercial solutions. From sourcing the right tonnage to post-fixture support, our global network ensures your cargo moves efficiently and profitably.
+//               </p>
+
+//               {/* DESKTOP CTA BUTTON (Hidden on Mobile) */}
+//               <div className="svc-left-anim hidden lg:block">
+//                 <a
+//                   href="/chartering"
+//                   className={`${raleway.className} group inline-flex items-center gap-4 rounded-full bg-brand-yellow px-8 py-4 text-sm font-bold tracking-[0.2em] text-brand-dark transition-all duration-300 hover:bg-white uppercase shadow-lg`}
+//                 >
+//                   <span>VIEW ALL SERVICES</span>
+//                   <div className="flex h-5 w-5 items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+//                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+//                     </svg>
+//                   </div>
+//                 </a>
+//               </div>
+//             </div>
+
+//             {/* RIGHT: Animated Sleek List */}
+//             <div ref={rightListRef} className="lg:col-span-7 flex flex-col justify-center">
+//               <div className="w-full border-t border-white/10">
+//                 {SERVICES_LIST.map((service, index) => (
+//                   <div 
+//                     key={index}
+//                     className="svc-list-item group flex items-center justify-between border-b border-white/10 py-5 sm:py-6 transition-colors duration-300 hover:border-brand-blue cursor-default"
+//                   >
+//                     <div className="flex items-center gap-6 sm:gap-8">
+//                       <span className={`${raleway.className} text-xs font-bold text-brand-blue/50 tracking-widest w-6`}>
+//                         0{index + 1}
+//                       </span>
+//                       <h3 className={`${playfair.className} text-xl sm:text-2xl font-bold text-slate-200 transition-colors duration-300 group-hover:text-brand-blue tracking-wide uppercase`}>
+//                         {service}
+//                       </h3>
+//                     </div>
+                    
+//                     <svg className="h-5 w-5 text-white/20 transition-all duration-300 group-hover:text-brand-blue group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+//                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+//                     </svg>
+//                   </div>
+//                 ))}
+//               </div>
+
+//               {/* MOBILE CTA BUTTON (Hidden on Desktop, shows at the bottom on Mobile) */}
+//               <div className="svc-list-item lg:hidden mt-10 flex w-full justify-start">
+//                 <a
+//                   href="/chartering"
+//                   className={`${raleway.className} group inline-flex items-center gap-4 rounded-full bg-brand-yellow px-8 py-4 text-sm font-bold tracking-[0.2em] text-brand-dark transition-all duration-300 hover:bg-white uppercase shadow-lg`}
+//                 >
+//                   <span>VIEW ALL SERVICES</span>
+//                   <div className="flex h-5 w-5 items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+//                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+//                     </svg>
+//                   </div>
+//                 </a>
+//               </div>
+
+//             </div>
+
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
 "use client";
 
 import { useRef, useLayoutEffect } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, lora, playfair } from "@/app/fonts";
+import { monaSans } from "@/app/fonts";
+import {
+  SplitLetters,
+  PremiumButton,
+  LETTER_RISE,
+  LETTER_FADE,
+} from "@/app/components/ui/PremiumUI";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const SERVICES_LIST = [
   "Voyage Chartering",
-  "Trip Time Chartering",
+  "Time Chartering",
   "Period Employment",
   "Cargo & Tonnage Matching",
   "Tonnage Positioning",
   "Freight & Rate Negotiations",
   "Fixture Coordination",
   "Post-Fixture Support",
-  "Tanker & Liquid Broking"
+  "Tanker & Liquid Broking",
 ];
+
+const DESCRIPTION =
+  "Delivering end-to-end commercial solutions. From sourcing the right tonnage to post-fixture support, our global network ensures your cargo moves efficiently and profitably.";
 
 export default function ServicesSection() {
   const sectionRef = useRef(null);
   const leftContentRef = useRef(null);
-  const rightListRef = useRef(null);
+  const imageWrapRef = useRef(null);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
-    
     if (!section) return;
 
     const ctx = gsap.context(() => {
-      // 1. Left Content Fade Up
-      gsap.fromTo(
-        ".svc-left-anim",
-        { y: 40, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.15,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: leftContentRef.current,
-            start: "top 80%",
-          },
-        }
-      );
+      // 1. LEFT CONTENT: one timeline, everything in order
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: leftContentRef.current, start: "top 80%" },
+      });
 
-      // 2. Right List Staggered Reveal
+      tl.fromTo(
+        ".svc-sub",
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+      )
+        // Title: letter by letter, bottom -> top
+        .fromTo(".svc-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4")
+        // Description: letter by letter
+        .fromTo(
+          ".svc-desc-letter",
+          LETTER_FADE.from,
+          { ...LETTER_FADE.to, stagger: 0.01 },
+          "-=0.6"
+        )
+        // List rows
+        .fromTo(
+          ".svc-row",
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.08 },
+          "-=0.8"
+        )
+        // Button
+        .fromTo(
+          ".svc-btn",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+          "-=0.5"
+        );
+
+      // 2. IMAGE reveal (own trigger, so it also works when it sits below on mobile)
       gsap.fromTo(
-        ".svc-list-item",
-        { x: 30, opacity: 0 },
+        imageWrapRef.current,
+        { scale: 1.05, opacity: 0, filter: "blur(10px)" },
         {
-          x: 0,
+          scale: 1,
           opacity: 1,
-          stagger: 0.1,
-          duration: 0.8,
+          filter: "blur(0px)",
+          duration: 1.5,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: rightListRef.current,
-            start: "top 85%",
-          },
+          scrollTrigger: { trigger: imageWrapRef.current, start: "top 85%" },
         }
       );
     }, section);
@@ -302,91 +493,117 @@ export default function ServicesSection() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative z-20 w-full bg-white py-16 lg:py-24 px-4 sm:px-8"
+      className="relative z-20 w-full lg:min-h-screen bg-brand-dark py-16 sm:py-20 lg:py-28 overflow-hidden flex items-center"
     >
-      <div className="mx-auto max-w-[1400px]">
-        {/* Premium Dark Container */}
-        <div className="relative w-full rounded-[2rem] sm:rounded-[3rem] bg-brand-dark px-6 py-16 sm:p-16 lg:p-20 shadow-[0_30px_60px_rgba(3,24,46,0.3)] overflow-hidden">
-          
-          {/* Subtle Background Glow */}
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 blur-[100px] rounded-full pointer-events-none" />
+      <div className="w-full max-w-[1800px] mx-auto px-5 sm:px-10 lg:px-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 sm:gap-16 lg:gap-20 items-center">
+          {/* =========================================================
+              LEFT SIDE: TITLE, DESCRIPTION, LIST, BUTTON
+          ========================================================= */}
+          <div
+            ref={leftContentRef}
+            className="lg:col-span-7 flex flex-col justify-center"
+          >
+            {/* Subtitle (brand blue) */}
+            <p
+              className={`svc-sub ${monaSans.className} text-brand-blue font-black text-lg sm:text-3xl tracking-[0.2em] sm:tracking-[0.25em] uppercase mb-5 sm:mb-6`}
+            >
+              Our Expertise
+            </p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 relative z-10">
-            
-            {/* LEFT: Title & CTA */}
-            <div ref={leftContentRef} className="lg:col-span-5 flex flex-col items-start justify-center">
-              <p className="svc-left-anim flex items-center gap-3 mb-6">
-                <span className="h-1.5 w-1.5 rounded-full bg-brand-blue" />
-                <span className={`${raleway.className} font-bold text-xs sm:text-sm text-brand-gray tracking-[0.25em] uppercase`}>
-                  Our Expertise
-                </span>
-              </p>
+            {/* Massive title: letter by letter */}
+            <h2
+              className={`${monaSans.className} font-black tracking-normal uppercase leading-[1] mb-8 sm:mb-10 text-[12vw] sm:text-[8vw] lg:text-[80px] xl:text-[105px]`}
+            >
+              <span className="block text-brand-blue">
+                <SplitLetters
+                  text="Dry Bulk & Tanker"
+                  letterClass="svc-title-letter"
+                  mask
+                />
+              </span>
+              <span className="block text-white">
+                <SplitLetters
+                  text="Broking"
+                  letterClass="svc-title-letter"
+                  mask
+                />
+              </span>
+            </h2>
 
-              <h2 className={`svc-left-anim ${playfair.className} text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-white leading-[1.15] tracking-tight mb-8`}>
-                Dry Bulk & Tanker <span className="text-brand-blue block mt-2">Chartering.</span>
-              </h2>
+            {/* Description: letter by letter */}
+            <p
+              className={`${monaSans.className} text-base sm:text-2xl xl:text-3xl text-white/85 leading-relaxed font-medium max-w-3xl mb-10 sm:mb-14`}
+            >
+              <SplitLetters text={DESCRIPTION} letterClass="svc-desc-letter" />
+            </p>
 
-              <p className={`svc-left-anim ${lora.className} text-lg text-slate-300 font-medium leading-relaxed mb-10`}>
-                Delivering end-to-end commercial solutions. From sourcing the right tonnage to post-fixture support, our global network ensures your cargo moves efficiently and profitably.
-              </p>
-
-              {/* DESKTOP CTA BUTTON (Hidden on Mobile) */}
-              <div className="svc-left-anim hidden lg:block">
-                <a
-                  href="/chartering"
-                  className={`${raleway.className} group inline-flex items-center gap-4 rounded-full bg-brand-yellow px-8 py-4 text-sm font-bold tracking-[0.2em] text-brand-dark transition-all duration-300 hover:bg-white uppercase shadow-lg`}
+            {/* Services list */}
+            <div className="w-full border-t border-white/10 mb-10 sm:mb-14 max-w-4xl">
+              {SERVICES_LIST.map((service, index) => (
+                <div
+                  key={index}
+                  className="svc-row group relative flex items-center justify-between gap-4 border-b border-white/10 py-4 sm:py-6 cursor-default"
                 >
-                  <span>VIEW ALL SERVICES</span>
-                  <div className="flex h-5 w-5 items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </div>
-                </a>
-              </div>
-            </div>
+                  {/* blue line that grows on hover */}
+                  <span className="pointer-events-none absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-brand-blue transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-x-100" />
 
-            {/* RIGHT: Animated Sleek List */}
-            <div ref={rightListRef} className="lg:col-span-7 flex flex-col justify-center">
-              <div className="w-full border-t border-white/10">
-                {SERVICES_LIST.map((service, index) => (
-                  <div 
-                    key={index}
-                    className="svc-list-item group flex items-center justify-between border-b border-white/10 py-5 sm:py-6 transition-colors duration-300 hover:border-brand-blue cursor-default"
+                  <div className="flex min-w-0 items-center gap-4 sm:gap-10">
+                    <span
+                      className={`${monaSans.className} w-7 shrink-0 text-xs sm:text-base font-bold text-brand-blue tracking-widest`}
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <h3
+                      className={`${monaSans.className} text-base min-[420px]:text-lg sm:text-2xl lg:text-3xl font-bold text-white/90 transition-colors duration-300 group-hover:text-brand-blue tracking-wide uppercase`}
+                    >
+                      {service}
+                    </h3>
+                  </div>
+
+                  <svg
+                    className="h-5 w-5 sm:h-7 sm:w-7 shrink-0 text-white/25 transition-all duration-300 group-hover:text-brand-blue group-hover:translate-x-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
-                    <div className="flex items-center gap-6 sm:gap-8">
-                      <span className={`${raleway.className} text-xs font-bold text-brand-blue/50 tracking-widest w-6`}>
-                        0{index + 1}
-                      </span>
-                      <h3 className={`${playfair.className} text-xl sm:text-2xl font-bold text-slate-200 transition-colors duration-300 group-hover:text-brand-blue tracking-wide uppercase`}>
-                        {service}
-                      </h3>
-                    </div>
-                    
-                    <svg className="h-5 w-5 text-white/20 transition-all duration-300 group-hover:text-brand-blue group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </div>
-                ))}
-              </div>
-
-              {/* MOBILE CTA BUTTON (Hidden on Desktop, shows at the bottom on Mobile) */}
-              <div className="svc-list-item lg:hidden mt-10 flex w-full justify-start">
-                <a
-                  href="/chartering"
-                  className={`${raleway.className} group inline-flex items-center gap-4 rounded-full bg-brand-yellow px-8 py-4 text-sm font-bold tracking-[0.2em] text-brand-dark transition-all duration-300 hover:bg-white uppercase shadow-lg`}
-                >
-                  <span>VIEW ALL SERVICES</span>
-                  <div className="flex h-5 w-5 items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </div>
-                </a>
-              </div>
-
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
+                  </svg>
+                </div>
+              ))}
             </div>
 
+            {/* Premium button (shared, same as About) */}
+            <PremiumButton
+              href="/chartering"
+              label="View All Services"
+              variant="dark"
+              className="svc-btn"
+            />
+          </div>
+
+          {/* =========================================================
+              IMAGE: right on desktop, below the content on mobile/tablet
+          ========================================================= */}
+          <div className="lg:col-span-5">
+            <div
+              ref={imageWrapRef}
+              className="relative w-full h-[45vh] sm:h-[55vh] md:h-[60vh] lg:h-[85vh] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+            >
+              <Image
+                src="/images/26.png"
+                alt="HAFSHIP Global Chartering"
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-black/10" />
+            </div>
           </div>
         </div>
       </div>

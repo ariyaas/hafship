@@ -59,8 +59,8 @@ export default function Preloader() {
   return (
     <div
       ref={containerRef}
-      // Simple, solid dark background. No blue gradients, no sliding.
-      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-brand-blue overflow-hidden will-change-transform"
+      // Solid brand dark background
+      className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-brand-dark overflow-hidden will-change-transform"
     >
       <div className="relative z-10 flex flex-col items-center gap-5">
         {/* Logo Container */}
@@ -72,10 +72,10 @@ export default function Preloader() {
           />
         </div>
 
-        {/* Decorative Loading Line (Muted Gold) */}
+        {/* Loading Line (brand blue) */}
         <div 
           ref={lineRef}
-          className="h-[2px] w-full max-w-[150px] bg-brand-yellow rounded-full will-change-transform"
+          className="h-[2px] w-full max-w-[150px] bg-brand-blue rounded-full will-change-transform"
         />
       </div>
     </div>

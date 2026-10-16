@@ -3,8 +3,14 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, lora, playfair, merriweather } from "@/app/fonts";
+import { monaSans } from "@/app/fonts";
 import Image from "next/image";
+import {
+  SplitLetters,
+  PremiumButton,
+  LETTER_RISE,
+  LETTER_FADE,
+} from "@/app/components/ui/PremiumUI";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,28 +26,45 @@ const COMMODITIES = [
   "Minerals",
 ];
 
+const HERO_TEXT =
+  "HAFSHIP provides professional dry bulk shipbroking and chartering services, connecting shipowners, operators, charterers, traders and cargo interests with the right commercial opportunities and tonnage.";
+
+const INTRO_STATEMENT =
+  "We work across a broad range of dry bulk commodities and trading routes, connecting suitable cargo requirements with competitive and workable tonnage solutions.";
+
 export default function CargosPage() {
+  const containerRef = useRef(null);
   const heroRef = useRef(null);
-  const heroImageRef = useRef(null); 
+  const heroImageRef = useRef(null);
   const introRef = useRef(null);
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const cargoRef = useRef(null);
-  const ctaRef = useRef(null); 
+  const headRef = useRef(null);
+  const gridRef = useRef(null);
+  const panelRef = useRef(null);
+  const tagRef = useRef(null);
+  const ctaRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Hero Text Reveal Animation
-      gsap.fromTo(
-        ".hero-text",
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: "power3.out", delay: 0.2 }
-      );
+      // 1. HERO (plays on load)
+      gsap
+        .timeline({ delay: 0.2 })
+        .fromTo(
+          ".hero-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".hero-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4")
+        .fromTo(
+          ".hero-text-letter",
+          LETTER_FADE.from,
+          { ...LETTER_FADE.to, stagger: 0.008 },
+          "-=0.5"
+        );
 
-      // 2. Hero Image Parallax Animation
+      // 2. HERO image parallax
       if (heroImageRef.current && heroRef.current) {
         gsap.to(heroImageRef.current, {
-          y: "15%", 
+          yPercent: 10,
           ease: "none",
           scrollTrigger: {
             trigger: heroRef.current,
@@ -52,277 +75,321 @@ export default function CargosPage() {
         });
       }
 
-      // 3. Intro Text Reveal & Line Animation
-      if (introRef.current) {
-        gsap.fromTo(
-          ".intro-text-anim",
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.2,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: introRef.current,
-              start: "top 80%",
-            },
-          }
-        );
-
-        // Vertical Line Animation for Split Layout
-        gsap.fromTo(
-          ".intro-line-anim",
-          { scaleY: 0 },
-          {
-            scaleY: 1,
-            duration: 1.5,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: introRef.current,
-              start: "top 80%",
-            },
-          }
-        );
-      }
-
-      // 4. Grid Section Header Fade
-      if (titleRef.current) {
-        gsap.fromTo(
-          titleRef.current,
+      // 3. INTRO: statement letters, then the two paragraphs
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: introRef.current, start: "top 80%" },
+        })
+        .fromTo(".intro-letter", LETTER_FADE.from, {
+          ...LETTER_FADE.to,
+          stagger: 0.008,
+        })
+        .fromTo(
+          ".intro-fade",
           { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: titleRef.current,
-              start: "top 85%",
-            },
-          }
+          { y: 0, opacity: 1, duration: 0.9, ease: "power3.out", stagger: 0.2 },
+          "-=0.9"
         );
-      }
 
-      // 5. Commodities Grid Stagger Reveal
-      if (cargoRef.current) {
-        gsap.fromTo(
-          cargoRef.current.children,
-          { scale: 0.9, opacity: 0, y: 20 },
-          {
+      // Vertical divider line (desktop)
+      gsap.fromTo(
+        ".intro-line-anim",
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          duration: 1.5,
+          ease: "power4.out",
+          scrollTrigger: { trigger: introRef.current, start: "top 80%" },
+        }
+      );
+
+      // 4. GRID header: eyebrow + title letters
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: headRef.current, start: "top 85%" },
+        })
+        .fromTo(
+          ".grid-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".grid-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4");
+
+      // 5. COMMODITY tiles: each reveals when it scrolls into view
+      gsap.set(".cargo-tile-anim", { opacity: 0, y: 30, scale: 0.95 });
+      ScrollTrigger.batch(".cargo-tile-anim", {
+        start: "top 92%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
             scale: 1,
-            opacity: 1,
-            y: 0,
-            stagger: 0.08,
             duration: 0.8,
-            ease: "back.out(1.2)",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-            },
-          }
-        );
-      }
-
-      // 6. Final CTA Reveal
-      if (ctaRef.current) {
-        gsap.fromTo(
-          ctaRef.current.children,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.15,
-            duration: 1,
             ease: "power3.out",
-            scrollTrigger: {
-              trigger: ctaRef.current,
-              start: "top 85%",
-            },
-          }
+            stagger: 0.08,
+            clearProps: "transform",
+          }),
+      });
+
+      // 6. CARGO panel
+      gsap.fromTo(
+        ".panel-fade",
+        { y: 30, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.15,
+          scrollTrigger: { trigger: panelRef.current, start: "top 88%" },
+        }
+      );
+
+      // 7. Bottom tagline
+      gsap.fromTo(
+        ".tag-fade",
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          stagger: 0.15,
+          scrollTrigger: { trigger: tagRef.current, start: "top 90%" },
+        }
+      );
+
+      // 8. CTA: title letters, paragraph, button
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: ctaRef.current, start: "top 80%" },
+        })
+        .fromTo(".cta-title-letter", LETTER_RISE.from, LETTER_RISE.to)
+        .fromTo(
+          ".cta-fade",
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.12 },
+          "-=0.5"
         );
-      }
-    });
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <main className="w-full flex-grow bg-white">
-      
+    <main
+      ref={containerRef}
+      className={`${monaSans.className} w-full flex-grow bg-brand-dark`}
+    >
       {/* ========================================================
-          HERO SECTION (Image BG with 3% White Frame)
+          HERO
       ======================================================== */}
-      <div className="w-full bg-white p-[3%] pt-[100px] sm:pt-[120px] lg:pt-[140px]">
-        <section ref={heroRef} className="relative w-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden min-h-[50vh] lg:min-h-[70vh] flex flex-col items-center justify-center pt-16 pb-20 px-4 sm:px-8 shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
-          
-          {/* Parallax Background Image */}
-          <div className="absolute -top-[10%] -left-[5%] h-[120%] w-[110%] will-change-transform" ref={heroImageRef}>
-            <Image 
-              src="/images/ch3.jpeg" // Add your Cargo-specific hero image here
-              alt="Dry Bulk Cargo Operations"
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
+      <section
+        ref={heroRef}
+        className="relative w-full min-h-[65vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden pt-32 sm:pt-36 lg:pt-44 pb-16 lg:pb-24 px-5 sm:px-10"
+      >
+        {/* Parallax background */}
+        <div
+          ref={heroImageRef}
+          className="absolute -top-[15%] left-0 h-[130%] w-full will-change-transform"
+        >
+          <Image
+            src="/images/hafship-vesseln.jpg"
+            alt="Dry Bulk Cargo Operations"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
+        </div>
 
-          {/* Dark Overlay for Text Visibility */}
-          <div className="absolute inset-0 bg-brand-dark/50" />
-          <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/80 via-transparent to-transparent" />
-          
-          {/* Hero Content */}
-          <div className="mx-auto max-w-[1400px] relative z-10 flex flex-col items-center text-center mt-10">
-            <p className="hero-text text-xs sm:text-sm font-bold tracking-[0.3em] text-brand-yellow uppercase mb-6 drop-shadow-md">
-              Operations
-            </p>
-            <h1 className={`hero-text ${playfair.className} text-4xl sm:text-6xl lg:text-[80px] leading-tight font-extrabold tracking-tight text-white uppercase mb-8 drop-shadow-xl`}>
-              Cargo & <span className="text-brand-blue">Tonnage</span>
-            </h1>
-            <p className={`hero-text ${lora.className} max-w-4xl text-lg sm:text-xl text-slate-100 font-medium leading-relaxed drop-shadow-md`}>
-              HAFSHIP provides professional dry bulk shipbroking and chartering services, connecting shipowners, operators, charterers, traders and cargo interests with the right commercial opportunities and tonnage.
-            </p>
-          </div>
-        </section>
-      </div>
+        <div className="absolute inset-0 bg-brand-dark/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent" />
 
-      {/* ========================================================
-          PREMIUM INTRO TEXT SECTION (Split Layout & Animated)
-      ======================================================== */}
-      <section className="relative w-full bg-gradient-to-b from-brand-gray/40 to-white py-20 lg:py-32 px-4 sm:px-8 overflow-hidden">
-        <div ref={introRef} className="mx-auto max-w-[1300px] relative flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
-          
-          {/* Animated Center Vertical Divider (Desktop Only) */}
-          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-slate-200/50">
-             <div className="intro-line-anim w-full bg-brand-blue origin-top h-full" />
-          </div>
+        <div className="relative z-10 mx-auto max-w-[1400px] flex flex-col items-center text-center">
+          <p className="hero-eyebrow text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase mb-6 sm:mb-8">
+            Operations
+          </p>
 
-          {/* Left Column: Bold Statement (Paragraph 1) */}
-          <div className="lg:w-1/2 flex flex-col justify-center lg:pr-12">
-            <h3 className="intro-text-anim text-2xl sm:text-3xl lg:text-[36px] text-brand-dark font-extrabold leading-snug tracking-tight">
-              <span className={`${playfair.className}`}>
-                We work across a broad range of dry bulk commodities and trading routes, connecting suitable cargo requirements with competitive and workable tonnage solutions.
-              </span>
-            </h3>
-          </div>
-          
-          {/* Right Column: Detailed Execution (Paragraphs 2 & 3) */}
-          <div className="lg:w-1/2 flex flex-col gap-10 lg:pl-12 lg:pt-4">
-            
-            <div className="intro-text-anim relative pl-6 sm:pl-8 border-l-[3px] border-brand-yellow">
-              <p className={`${lora.className} text-lg sm:text-xl text-slate-600 font-medium leading-relaxed`}>
-                Our approach is centred on finding workable, commercially viable employment and cargo solutions. We evaluate the key commercial elements of each requirement, including vessel position, size, trading area, cargo, laycan, loading and discharge ports, freight levels, charter terms and operational requirements.
-              </p>
-            </div>
+          <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
+            <span className="block text-white">
+              <SplitLetters text="Cargo &" letterClass="hero-title-letter" mask />
+            </span>
+            <span className="block text-brand-blue">
+              <SplitLetters text="Tonnage" letterClass="hero-title-letter" mask />
+            </span>
+          </h1>
 
-            <div className="intro-text-anim relative pl-6 sm:pl-8 border-l-[3px] border-brand-blue">
-              <p className={`${lora.className} text-lg sm:text-xl text-slate-600 font-medium leading-relaxed`}>
-                Confidentiality is fundamental to our brokerage practice. We respect the commercial sensitivity of cargo requirements, vessel positions, freight ideas, charter terms, negotiations and counterparties. Information is handled with discretion.
-              </p>
-            </div>
-            
-          </div>
-
+          <p className="max-w-4xl text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed">
+            <SplitLetters text={HERO_TEXT} letterClass="hero-text-letter" />
+          </p>
         </div>
       </section>
 
       {/* ========================================================
-          CARGOS & COMMODITIES GRID SECTION (Premium Dark Container)
+          INTRO (split layout)
+      ======================================================== */}
+      <section className="relative w-full bg-brand-dark py-16 sm:py-20 lg:py-32 px-5 sm:px-10 lg:px-16 overflow-hidden">
+        <div
+          ref={introRef}
+          className="relative mx-auto max-w-[1800px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start"
+        >
+          {/* Center vertical divider (desktop only) */}
+          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-white/15">
+            <div className="intro-line-anim h-full w-full origin-top bg-brand-blue" />
+          </div>
+
+          {/* Left: bold statement */}
+          <div className="flex flex-col justify-center">
+            <h3 className="text-2xl sm:text-4xl lg:text-[38px] xl:text-5xl text-white font-bold leading-snug tracking-normal">
+              <SplitLetters text={INTRO_STATEMENT} letterClass="intro-letter" />
+            </h3>
+          </div>
+
+          {/* Right: two paragraphs */}
+          <div className="flex flex-col gap-8 sm:gap-10 lg:pt-3">
+            <div className="intro-fade border-l-[3px] border-brand-blue pl-5 sm:pl-8">
+              <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-white/80 font-medium leading-relaxed">
+                Our approach is centred on finding workable, commercially viable
+                employment and cargo solutions. We evaluate the key commercial
+                elements of each requirement, including vessel position, size,
+                trading area, cargo, laycan, loading and discharge ports,
+                freight levels, charter terms and operational requirements.
+              </p>
+            </div>
+
+            <div className="intro-fade border-l-[3px] border-brand-blue pl-5 sm:pl-8">
+              <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-white/80 font-medium leading-relaxed">
+                Confidentiality is fundamental to our brokerage practice. We
+                respect the commercial sensitivity of cargo requirements, vessel
+                positions, freight ideas, charter terms, negotiations and
+                counterparties. Information is handled with discretion.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          COMMODITIES GRID
       ======================================================== */}
       <section
-        ref={sectionRef}
         id="cargos-grid"
-        className="relative z-20 w-full bg-white pb-16 lg:pb-24 px-3 sm:px-6 lg:px-8"
+        className="relative z-20 w-full bg-brand-dark border-t border-white/10 py-16 sm:py-20 lg:py-32 px-5 sm:px-10 lg:px-16"
       >
-        <div className="relative mx-auto max-w-[1600px] rounded-[36px] sm:rounded-[48px] bg-brand-dark px-6 sm:px-10 lg:px-14 pt-16 pb-16 lg:pt-20 lg:pb-24 shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden">
-          
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 blur-[100px] rounded-full pointer-events-none" />
-
+        <div className="mx-auto max-w-[1800px]">
           {/* HEADER */}
-          <div ref={titleRef} className="relative z-20 mb-12 border-b border-brand-gray/10 pb-6 text-center lg:text-left">
-            <p className={`${raleway.className} text-xs font-bold tracking-[0.25em] text-brand-gray uppercase mb-3`}>
-              Dry Bulk Commodities
-            </p>
+          <div
+            ref={headRef}
+            className="mb-12 sm:mb-16 border-b border-white/15 pb-8 sm:pb-10"
+          >
+            <div className="grid-eyebrow flex items-center gap-4 mb-6">
+              <span className="h-px w-10 sm:w-14 bg-brand-blue" />
+              <span className="text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase">
+                Dry Bulk Commodities
+              </span>
+            </div>
 
-            <h2
-              className={`${playfair.className} text-3xl sm:text-4xl lg:text-[48px] font-extrabold tracking-tight text-white leading-[1.15] uppercase`}
-            >
-              Cargo
-              <br className="hidden lg:block" />
-              <span className="text-brand-blue lg:ml-2">Requirements</span>
+            <h2 className="font-black tracking-normal uppercase leading-[1] text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[80px]">
+              <span className="block text-white">
+                <SplitLetters text="Cargo" letterClass="grid-title-letter" mask />
+              </span>
+              <span className="block text-brand-blue">
+                <SplitLetters text="Requirements" letterClass="grid-title-letter" mask />
+              </span>
             </h2>
           </div>
 
-          {/* COMMODITIES GRID */}
-          <div className="relative z-20 w-full flex flex-col items-center lg:items-start">
-            <div ref={cargoRef} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 w-full">
-              {COMMODITIES.map((item, idx) => (
-                <div 
-                  key={idx}
-                  className="flex items-center justify-center px-4 py-8 rounded-2xl border-2 border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:bg-brand-blue hover:border-brand-blue group cursor-default shadow-lg"
-                >
-                  <span className={`${playfair.className} text-base sm:text-lg font-bold tracking-widest text-white transition-colors duration-300 uppercase text-center`}>
-                    {item}
-                  </span>
-                </div>
-              ))}
+          {/* TILES: 2 cols on phone (last one centered full row), 3x3 from tablet up */}
+          <div
+            ref={gridRef}
+            className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-5 lg:gap-6 w-full"
+          >
+            {COMMODITIES.map((item) => (
+              <div
+                key={item}
+                className="cargo-tile-anim group relative flex items-center justify-center overflow-hidden border border-white/15 bg-white/[0.04] px-3 py-8 sm:px-4 sm:py-12 lg:py-16 cursor-default last:col-span-2 sm:last:col-span-1 transition-colors duration-500 hover:border-brand-blue"
+              >
+                {/* blue fill rising from the bottom on hover */}
+                <span className="absolute inset-0 translate-y-full bg-brand-blue transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-y-0" />
+                <span className="relative z-10 text-center text-base min-[400px]:text-lg sm:text-2xl lg:text-3xl font-black uppercase tracking-wide text-white">
+                  {item}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* CARGO PANEL */}
+          <div
+            ref={panelRef}
+            className="mt-12 sm:mt-16 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 border border-white/15 bg-white/[0.04] p-6 sm:p-10 lg:p-14"
+          >
+            <div className="panel-fade">
+              <p className="text-2xl sm:text-4xl lg:text-5xl font-black text-white uppercase tracking-normal leading-tight mb-3">
+                Have cargo <span className="text-brand-blue">ready?</span>
+              </p>
+              <p className="text-base sm:text-xl lg:text-2xl text-white/75 font-medium">
+                Circulate your requirements securely.
+              </p>
             </div>
 
-            {/* CTA Box inside the dark container */}
-            <div className="mt-16 w-full max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-6 p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/10">
-              <div className="text-center sm:text-left">
-                <p className={`${raleway.className} text-lg sm:text-xl font-bold text-white tracking-wide mb-2 uppercase`}>Have cargo ready?</p>
-                <p className={`${lora.className} text-sm sm:text-base text-slate-300`}>Circulate your requirements securely.</p>
-              </div>
-              <a
+            <div className="shrink-0 w-full sm:w-auto">
+              <PremiumButton
                 href="/submit-cargo"
-                className={`${raleway.className} shrink-0 rounded-full bg-brand-blue px-10 py-5 text-xs sm:text-sm font-bold tracking-[0.2em] text-white transition-all duration-300 hover:bg-white hover:text-brand-dark uppercase text-center shadow-lg hover:shadow-xl`}
-              >
-                SUBMIT CARGO
-              </a>
+                label="Submit Cargo"
+                variant="dark"
+                className="panel-fade"
+              />
             </div>
           </div>
 
           {/* BOTTOM TAGLINE */}
-          <div className="relative z-20 mt-20 text-center border-t border-brand-gray/10 pt-12">
-            <p className={`${raleway.className} text-xs sm:text-sm font-bold tracking-[0.2em] text-brand-yellow uppercase mb-4`}>
-              Market Knowledge <span className="text-brand-blue mx-3">•</span> Commercial Thinking <span className="text-brand-blue mx-3">•</span> Trusted Connections
+          <div
+            ref={tagRef}
+            className="mt-14 sm:mt-20 border-t border-white/15 pt-10 sm:pt-12 text-center"
+          >
+            <p className="tag-fade text-sm sm:text-lg lg:text-xl font-bold tracking-[0.2em] text-brand-blue uppercase mb-4">
+              Market Knowledge <span className="text-white/40 mx-2 sm:mx-3">•</span> Commercial Thinking{" "}
+              <span className="text-white/40 mx-2 sm:mx-3">•</span> Trusted Connections
             </p>
-            <p className={`${lora.className} text-lg sm:text-xl text-slate-300 font-medium`}>
-              HAFSHIP combines market access, commercial awareness and relationship-driven broking to connect the right cargo with the right tonnage.
+            <p className="tag-fade mx-auto max-w-5xl text-lg sm:text-2xl lg:text-3xl text-white/80 font-medium leading-relaxed">
+              HAFSHIP combines market access, commercial awareness and
+              relationship-driven broking to connect the right cargo with the
+              right tonnage.
             </p>
           </div>
-
         </div>
       </section>
 
       {/* ========================================================
-          CALL TO ACTION (Final Section Added)
+          CALL TO ACTION
       ======================================================== */}
-      <section className="w-full bg-brand-blue py-16 lg:py-24 px-4 sm:px-8 border-t border-slate-200">
-        <div ref={ctaRef} className="mx-auto max-w-[1400px] flex flex-col lg:flex-row items-center justify-between gap-10 text-center lg:text-left">
-          
+      <section
+        ref={ctaRef}
+        className="w-full bg-brand-blue py-16 sm:py-20 lg:py-28 px-5 sm:px-10 lg:px-16"
+      >
+        <div className="mx-auto max-w-[1800px] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 lg:gap-16">
           <div className="flex-1">
-            <h2 className={`${playfair.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase tracking-tight`}>
-              Looking to cooperate?
+            <h2 className="font-black tracking-normal uppercase leading-[1] text-white text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[80px] mb-6">
+              <SplitLetters text="Looking to cooperate?" letterClass="cta-title-letter" mask />
             </h2>
-            <p className={`${lora.className} mt-4 text-brand-dark/80 font-medium text-lg sm:text-xl max-w-2xl`}>
-              We welcome suitable cargo and tonnage circulation to add value to your fixtures.
+            <p className="cta-fade text-base sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl">
+              We welcome suitable cargo and tonnage circulation to add value to
+              your fixtures.
             </p>
           </div>
-          
-          <div className="shrink-0">
-             <a
-              href="mailto:chartering@hafship.com"
-              className={`${raleway.className} inline-flex items-center justify-center rounded-full bg-brand-dark px-10 py-5 text-sm sm:text-base font-bold tracking-widest text-white shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-white hover:text-brand-dark uppercase`}
-            >
-              CONTACT CHARTERING DESK
-            </a>
-          </div>
 
+          <div className="shrink-0 w-full sm:w-auto">
+            <PremiumButton
+              href="/contact"
+              label="Contact Broking Desk"
+              variant="dark"
+              className="cta-fade"
+            />
+          </div>
         </div>
       </section>
-      
     </main>
   );
 }

@@ -327,12 +327,174 @@
 
 
 
+// "use client";
+
+// import { useRef } from "react";
+// import Image from "next/image";
+// import { americanCaptain, raleway, playfair, lora, monaSans } from "@/app/fonts";
+// import { useHeroAnimation } from "../hooks/useHeroAnimation";
+
+// const vesselSizes = [
+//   "HANDYSIZE",
+//   "HANDYMAX",
+//   "SUPRAMAX",
+//   "ULTRAMAX",
+//   "PANAMAX",
+//   "CAPESIZE"
+// ];
+
+// export default function Hero() {
+//   const containerRef = useRef(null);
+//   const sceneRef = useRef(null);
+//   const imageWrapperRef = useRef(null);
+//   const contentRef = useRef(null);
+//   const cursorBallRef = useRef(null);
+//   const glareRef = useRef(null);
+
+//   // Initialize high-performance GSAP animations from the custom hook
+//   useHeroAnimation({
+//     containerRef,
+//     sceneRef,
+//     imageWrapperRef,
+//     contentRef,
+//     cursorBallRef,
+//     glareRef,
+//   });
+
+//   return (
+//     <section
+//       ref={containerRef}
+//       style={{ perspective: "1200px" }}
+//       className="sticky top-0 z-0 h-screen min-h-[700px] w-full overflow-hidden bg-brand-dark"
+//     >
+//       {/* Cursor Ball: White/glassmorphism */}
+//       <div
+//         ref={cursorBallRef}
+//         className="pointer-events-none absolute left-0 top-0 z-50 hidden md:block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-white/10 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 shadow-[0_0_15px] shadow-white/20"
+//       />
+
+//       <div
+//         ref={sceneRef}
+//         style={{ transformStyle: "preserve-3d" }}
+//         className="relative h-full w-full will-change-transform"
+//       >
+//         {/* Background Image Layer */}
+//         <div
+//           ref={imageWrapperRef}
+//           style={{
+//             transform: "translateZ(-40px) scale(1.05)",
+//             transformStyle: "preserve-3d",
+//           }}
+//           className="absolute -top-[5%] -left-[5%] h-[110%] w-[110%] will-change-transform" 
+//         >
+//           {/* PERFORMANCE UPDATE: Using Next/Image for optimized loading */}
+//           <Image
+//             src="/images/neeew.png"
+//             alt="Hafship Brokering"
+//             fill
+//             sizes="100vw"
+//             priority
+//             className="object-cover select-none"
+//           />
+//         </div>
+
+//         <div
+//           ref={glareRef}
+//           className="pointer-events-none absolute -left-48 -top-48 hidden md:block h-96 w-96 rounded-full bg-brand-blue/15 blur-3xl opacity-0 transition-opacity duration-300"
+//         />
+
+//         {/* Hero Central Content */}
+//         <div
+//           ref={contentRef}
+//           style={{
+//             transform: "translateZ(70px)",
+//             transformStyle: "preserve-3d",
+//           }}
+//           className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white will-change-transform pb-24"
+//         >
+//           <div className="max-w-[1400px] flex flex-col items-center w-full">
+            
+//             {/* Title: Separated spans to accurately control independent sizes */}
+//             <h1 className={`${monaSans.className} font-black tracking-normal uppercase`}>
+//               <span className="block text-[12vw] sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[110px] leading-[0.9] text-brand-blue drop-shadow-sm mb-1 sm:mb-2">
+//                 HAFSHIP
+//               </span>
+//               {/* Reduced size for "Connecting Land & Sea" */}
+//               <span className="block text-[5vw] sm:text-2xl md:text-3xl lg:text-[40px] xl:text-[50px] leading-[1] text-brand-gray drop-shadow-md">
+//                 CONNECTING LAND & SEA
+//               </span>
+//             </h1>
+
+//             {/* =========================================================
+//                 PREMIUM RUNNING MARQUEE (Vessel Sizes)
+//             ========================================================= */}
+//             <div 
+//               // Increased max-width to allow larger text to flow cleanly
+//               className="mt-10 sm:mt-14 w-full max-w-[90%] sm:max-w-[700px] lg:max-w-[1000px] overflow-hidden relative"
+//               style={{ 
+//                 WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)', 
+//                 maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)' 
+//               }}
+//             >
+//               <style dangerouslySetInnerHTML={{__html: `
+//                 @keyframes heroMarquee {
+//                   0% { transform: translateX(0); }
+//                   100% { transform: translateX(-50%); }
+//                 }
+//                 .hero-running-track {
+//                   display: flex;
+//                   width: max-content;
+//                   /* Slightly slower animation duration (30s) to balance the larger text */
+//                   animation: heroMarquee 30s linear infinite;
+//                 }
+//               `}} />
+
+//               <div className="hero-running-track items-center">
+//                 {/* Array duplicated to ensure seamless infinite looping */}
+//                 {[...vesselSizes, ...vesselSizes, ...vesselSizes, ...vesselSizes].map((vessel, index) => (
+//                   <div key={index} className="flex items-center shrink-0">
+//                     {/* Increased vessel font size to text-sm/lg/xl and increased padding */}
+//                     <span className={`${raleway.className} text-sm sm:text-lg lg:text-2xl font-bold tracking-[0.25em] text-brand-blue uppercase px-6 sm:px-10 `}>
+//                       {vessel}
+//                     </span>
+//                     {/* Increased dot size */}
+//                     <span className="text-brand-blue/80 text-xl lg:text-2xl leading-none shrink-0">•</span>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+
+//           </div>
+//         </div>
+
+//         {/* Mobile Scroll Indicator: White line */}
+//         <div className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 md:hidden">
+//           <div className="flex flex-col items-center gap-2 text-white/70">
+//             <span className={`${raleway.className} text-[10px] uppercase tracking-[0.3em] font-bold`}>Scroll</span>
+//             <div className="h-8 w-px bg-white/50 animate-pulse" />
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+
 "use client";
 
 import { useRef } from "react";
 import Image from "next/image";
-import { americanCaptain, raleway, playfair, lora } from "@/app/fonts";
+import { americanCaptain, raleway, playfair, lora, monaSans } from "@/app/fonts";
 import { useHeroAnimation } from "../hooks/useHeroAnimation";
+
+const vesselSizes = [
+  "HANDYSIZE",
+  "HANDYMAX",
+  "SUPRAMAX",
+  "ULTRAMAX",
+  "PANAMAX",
+  "CAPESIZE"
+];
 
 export default function Hero() {
   const containerRef = useRef(null);
@@ -358,7 +520,7 @@ export default function Hero() {
       style={{ perspective: "1200px" }}
       className="sticky top-0 z-0 h-screen min-h-[700px] w-full overflow-hidden bg-brand-dark"
     >
-      {/* Cursor Ball: White/glassmorphism (No Yellow) */}
+      {/* Cursor Ball: White/glassmorphism */}
       <div
         ref={cursorBallRef}
         className="pointer-events-none absolute left-0 top-0 z-50 hidden md:block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-white/10 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 shadow-[0_0_15px] shadow-white/20"
@@ -373,25 +535,19 @@ export default function Hero() {
         <div
           ref={imageWrapperRef}
           style={{
-            transform: "translateZ(-40px) scale(1.15)",
+            transform: "translateZ(-40px) scale(1.05)",
             transformStyle: "preserve-3d",
           }}
-          className="absolute -top-[8%] -left-[8%] h-[116%] w-[116%] will-change-transform"
+          className="absolute -top-[5%] -left-[5%] h-[110%] w-[110%] will-change-transform"
         >
-          {/* PERFORMANCE UPDATE: Using Next/Image for optimized loading */}
           <Image
-            src="/images/chartering-hero.jpg"
+            src="/images/neeew.png"
             alt="Hafship Brokering"
             fill
             sizes="100vw"
             priority
             className="object-cover select-none"
           />
-
-          {/* Overlays - Darkened slightly to guarantee crisp white text contrast */}
-          <div className="absolute inset-0 bg-black/40" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,96,156,0.2)_0%,rgba(3,24,46,0.85)_100%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-brand-dark/90" />
         </div>
 
         <div
@@ -406,61 +562,81 @@ export default function Hero() {
             transform: "translateZ(70px)",
             transformStyle: "preserve-3d",
           }}
-          className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white will-change-transform pt-20"
+          className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white will-change-transform pb-24"
         >
-          <div className="max-w-5xl">
-            {/* Title: Pure white base with Brand Blue text highlight (Yellow removed) */}
-            <h1
-              className={`${americanCaptain.className} text-6xl leading-[0.9] tracking-wider sm:text-7xl md:text-8xl lg:text-[110px] uppercase text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]`}
-            >
-              HAFSHIP 
-              <br />
-              <span className="text-brand-blue drop-shadow-md">
-                Brokering
+          <div className="max-w-[1400px] flex flex-col items-center w-full">
+
+            {/* Title */}
+            <h1 className={`${monaSans.className} font-black tracking-normal uppercase`}>
+              <span className="block text-[16vw] sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[110px] leading-[0.9] text-brand-blue drop-shadow-sm mb-1 sm:mb-2">
+                HAFSHIP
+              </span>
+              <span className="block text-[8vw] sm:text-2xl md:text-3xl lg:text-[40px] xl:text-[50px] leading-[1] text-brand-gray drop-shadow-md">
+                CONNECTING LAND & SEA
               </span>
             </h1>
 
-            {/* Subtitle: New Client Tagline */}
-            <p
-              className={`${playfair.className} mx-auto mt-6 max-w-3xl text-xl sm:text-2xl lg:text-3xl font-bold leading-relaxed text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]`}
+            {/* =========================================================
+                RUNNING PILL BUTTONS (Vessel Sizes) - 70% WIDTH, CENTERED
+            ========================================================= */}
+            <div
+              className="mt-10 sm:mt-14 w-[70vw] mx-auto overflow-hidden"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                maskImage:
+                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+              }}
             >
-              Global Markets. Strategic Connections. Reliable Tonnage.
-            </p>
+              <style
+                dangerouslySetInnerHTML={{
+                  __html: `
+                @keyframes heroMarquee {
+                  0% { transform: translateX(0); }
+                  100% { transform: translateX(-50%); }
+                }
+                .hero-running-track {
+                  display: flex;
+                  width: max-content;
+                  animation: heroMarquee 35s linear infinite;
+                }
+                .hero-running-track:hover {
+                  animation-play-state: paused;
+                }
+              `,
+                }}
+              />
 
-            {/* Description: New Client Content */}
-            <p
-              className={`${lora.className} mx-auto mt-5 max-w-3xl text-sm sm:text-base font-medium leading-relaxed text-slate-200 drop-shadow-md`}
-            >
-              HAFSHIP provides professional dry bulk shipbroking and chartering services, connecting shipowners, operators, charterers, traders and cargo interests with the right commercial opportunities and tonnage.
-            </p>
-
-            {/* Action Buttons: Updated to use Brand Blue and White (Yellow removed completely)
-            <div className={`${raleway.className} mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row`}>
-              <a
-                href="/submit-tonnage"
-                className="group relative inline-flex items-center justify-center overflow-hidden rounded bg-brand-blue px-10 py-4 text-xs font-bold tracking-widest text-white transition-all duration-300 hover:scale-105 hover:bg-white hover:text-brand-dark uppercase shadow-lg"
-              >
-                OPEN TONNAGE
-              </a>
-
-              <a
-                href="/submit-cargo"
-                className="inline-flex items-center justify-center rounded border border-white/40 bg-white/10 px-10 py-4 text-xs font-bold tracking-widest text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-brand-gray hover:bg-brand-gray hover:text-brand-dark uppercase shadow-lg"
-              >
-                SUBMIT CARGO
-              </a>
-            </div> */}
+              <div className="hero-running-track items-center">
+                {/* Array duplicated so the loop is seamless */}
+                {[...vesselSizes, ...vesselSizes, ...vesselSizes, ...vesselSizes].map(
+                  (vessel, index) => (
+                    <div key={index} className="shrink-0 pr-3 sm:pr-4">
+                      <span
+                        className={`${monaSans.className} inline-flex items-center justify-center rounded-full border border-brand-gray/30 bg-brand-dark px-5 py-2 sm:px-7 sm:py-2.5 text-xs sm:text-sm lg:text-base font-bold tracking-[0.2em] text-brand-gray uppercase transition-colors duration-300 hover:border-brand-gray hover:text-white cursor-default`}
+                      >
+                        {vessel}
+                      </span>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Mobile Scroll Indicator: White line */}
-        <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 md:hidden">
+        <div className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 md:hidden">
           <div className="flex flex-col items-center gap-2 text-white/70">
-            <span className={`${raleway.className} text-[10px] uppercase tracking-[0.3em] font-bold`}>Scroll</span>
+            <span
+              className={`${raleway.className} text-[10px] uppercase tracking-[0.3em] font-bold`}
+            >
+              Scroll
+            </span>
             <div className="h-8 w-px bg-white/50 animate-pulse" />
           </div>
         </div>
       </div>
     </section>
   );
-}9
+}

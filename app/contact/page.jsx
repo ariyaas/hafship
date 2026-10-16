@@ -1,434 +1,512 @@
-// "use client";
-
-// import { useRef, useState, useLayoutEffect } from "react";
-// import gsap from "gsap";
-// import { raleway, merriweather, lora, playfair } from "@/app/fonts";
-
-// // Reusable sleek floating input component with responsive text sizing
-// function FloatingInput({ label, placeholder, name, required = false }) {
-//   return (
-//     <div className="relative group">
-//       <input 
-//         type="text" 
-//         name={name}
-//         placeholder={placeholder}
-//         required={required}
-//         className={`${lora.className} peer w-full bg-transparent border-b-2 border-brand-gray py-2.5 sm:py-3 text-base sm:text-lg text-brand-dark font-medium placeholder-transparent focus:outline-none focus:border-brand-blue transition-colors`} 
-//       />
-//       <label className={`${raleway.className} absolute left-0 -top-4 sm:-top-5 text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-brand-dark/50 uppercase transition-all peer-placeholder-shown:text-sm sm:peer-placeholder-shown:text-base peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-normal peer-focus:-top-4 sm:peer-focus:-top-5 peer-focus:text-[10px] sm:peer-focus:text-[11px] peer-focus:font-bold peer-focus:text-brand-blue pointer-events-none`}>
-//         {label} {required && "*"}
-//       </label>
-//     </div>
-//   );
-// }
-
-// export default function ContactPage() {
-//   const headerRef = useRef(null);
-
-//   // State for the advanced dynamic form
-//   const [identity, setIdentity] = useState("Shipowner");
-//   const [formType, setFormType] = useState("Tonnage");
-//   const [charterType, setCharterType] = useState("Voyage");
-
-//   useLayoutEffect(() => {
-//     const ctx = gsap.context(() => {
-//       gsap.fromTo(
-//         ".fade-up",
-//         { y: 30, opacity: 0 },
-//         { y: 0, opacity: 1, stagger: 0.12, duration: 0.9, ease: "power3.out" }
-//       );
-//     });
-//     return () => ctx.revert();
-//   }, []);
-
-//   return (
-//     <main className="w-full flex-grow bg-brand-gray min-h-screen flex flex-col">
-//       {/* ================= HERO SECTION ================= */}
-//       <section ref={headerRef} className="relative w-full bg-brand-dark pt-32 pb-16 sm:pt-40 sm:pb-20 lg:pt-48 lg:pb-28 px-4 sm:px-8 overflow-hidden">
-//         <div className="absolute top-0 right-1/4 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-brand-yellow/5 blur-[100px] rounded-full pointer-events-none" />
-        
-//         <div className="mx-auto max-w-[1400px] relative z-10 flex flex-col items-center text-center">
-//           <p className="fade-up text-[11px] sm:text-xs font-bold tracking-[0.3em] text-brand-yellow uppercase mb-4 sm:mb-6">
-//             Get In Touch
-//           </p>
-//           <h1 className={`fade-up ${playfair.className} text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-4 sm:mb-6 leading-tight`}>
-//             Contact & <span className="text-brand-blue">Inquiries</span>
-//           </h1>
-//           <p className={`fade-up ${lora.className} max-w-xl sm:max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300 font-medium leading-relaxed px-2`}>
-//             Connect directly with our chartering desk or submit your vessel tonnage and cargo requirements securely.
-//           </p>
-//         </div>
-//       </section>
-
-//       {/* ================= MAIN CONTACT & FORM SECTION ================= */}
-//       <section className="flex-grow w-full py-12 sm:py-20 lg:py-28 px-4 sm:px-8">
-//         <div className="mx-auto max-w-[1600px] grid grid-cols-1 xl:grid-cols-12 gap-12 lg:gap-20 items-start">
-          
-//           {/* LEFT: Contact Desk Info */}
-//           <div className="xl:col-span-4 flex flex-col items-start w-full lg:sticky lg:top-28">
-//             <p className={`${raleway.className} text-xs sm:text-sm font-bold tracking-[0.3em] text-brand-blue uppercase mb-3`}>
-//               CHARTERING DESK
-//             </p>
-//             <h2 className={`${playfair.className} text-3xl sm:text-4xl font-extrabold tracking-tight text-brand-dark leading-tight uppercase mb-8`}>
-//               Hafship Desk.
-//             </h2>
-
-//             <div className="flex flex-col gap-6 w-full">
-//               <div className="p-6 sm:p-10 rounded-2xl sm:rounded-[24px] bg-white border border-brand-gray/50 shadow-sm w-full">
-//                 <h3 className={`${raleway.className} text-xl sm:text-2xl font-bold text-brand-dark uppercase tracking-wide mb-6 sm:mb-8`}>
-//                   Arafath Mohamed
-//                 </h3>
-                
-//                 <div className="flex flex-col gap-6 sm:gap-8">
-//                   <a href="mailto:chartering@hafship.com" className="group flex items-center gap-4 sm:gap-6">
-//                     <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-full bg-brand-gray/30 border border-brand-dark/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 shadow-sm">
-//                       <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-//                     </div>
-//                     <span className={`${lora.className} text-base sm:text-lg text-brand-dark group-hover:text-brand-blue font-medium transition-colors break-all`}>
-//                       chartering@hafship.com
-//                     </span>
-//                   </a>
-
-//                   <a href="tel:+13476802751" className="group flex items-center gap-4 sm:gap-6">
-//                     <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-full bg-brand-gray/30 border border-brand-dark/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 shadow-sm">
-//                       <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-//                     </div>
-//                     <span className={`${lora.className} text-base sm:text-lg text-brand-dark group-hover:text-brand-blue font-medium transition-colors`}>
-//                       +1 347-680-2751 <span className="text-xs sm:text-sm text-brand-dark/50 block mt-0.5">(Phone / WhatsApp)</span>
-//                     </span>
-//                   </a>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* RIGHT: Detailed Dynamic Inquiry Form */}
-//           <div className="xl:col-span-8 w-full">
-//             <div className="bg-white p-6 sm:p-10 lg:p-16 border border-brand-gray/50 rounded-2xl sm:rounded-[32px] shadow-[0_15px_40px_rgba(0,0,0,0.04)] w-full">
-              
-//               <div className="mb-8 sm:mb-12">
-//                 <h3 className={`${playfair.className} text-2xl sm:text-3xl font-bold text-brand-dark uppercase tracking-wide mb-3`}>
-//                   Submit Requirement
-//                 </h3>
-//                 <p className={`${lora.className} text-sm sm:text-base text-brand-dark/60`}>
-//                   Configure your inquiry below to securely circulate requirements directly to our desk.
-//                 </p>
-//               </div>
-
-//               {/* Netlify Form Setup */}
-//               <form 
-//                 name="chartering-inquiry" 
-//                 method="POST" 
-//                 data-netlify="true" 
-//                 className="flex flex-col gap-8 sm:gap-12"
-//               >
-//                 <input type="hidden" name="form-name" value="chartering-inquiry" />
-//                 <input type="hidden" name="Identity" value={identity} />
-//                 <input type="hidden" name="Submission_Type" value={formType} />
-//                 <input type="hidden" name="Charter_Type" value={charterType} />
-
-//                 {/* 0. BASIC CONTACT INFO */}
-//                 <div>
-//                    <p className={`${raleway.className} text-xs sm:text-sm font-bold text-brand-dark/60 uppercase tracking-[0.2em] mb-4 sm:mb-6`}>
-//                  Contact Details:
-//                   </p>
-//                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 sm:gap-y-10">
-//                      <FloatingInput name="Name" label="Full Name / Company" placeholder="e.g. John Doe - XYZ Corp" required />
-//                      <FloatingInput name="Email" label="Email Address" placeholder="e.g. john@example.com" required />
-//                   </div>
-//                 </div>
-
-//                 <div className="w-full h-px bg-brand-gray/60" />
-                
-//                 {/* 1. I AM A... */}
-//                 <div>
-//                   <p className={`${raleway.className} text-xs sm:text-sm font-bold text-brand-dark/60 uppercase tracking-[0.2em] mb-4 sm:mb-6`}>
-//                     1. I am a:
-//                   </p>
-//                   <div className="flex flex-wrap gap-2.5 sm:gap-3">
-//                     {["Shipowner", "Cargo Owner"].map((role) => (
-//                       <button
-//                         key={role}
-//                         type="button"
-//                         onClick={() => setIdentity(role)}
-//                         className={`${raleway.className} px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide transition-all duration-300 border ${
-//                           identity === role 
-//                             ? "bg-brand-dark text-white border-brand-dark shadow-md scale-105" 
-//                             : "bg-brand-gray/30 text-brand-dark/70 border-brand-gray hover:border-brand-dark/40 hover:bg-brand-gray/50"
-//                         }`}
-//                       >
-//                         {role}
-//                       </button>
-//                     ))}
-//                   </div>
-//                 </div>
-
-//                 <div className="w-full h-px bg-brand-gray/60" />
-
-//                 {/* 2. SUBMISSION TYPE & CHARTER TYPE */}
-//                 <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-6 sm:gap-8">
-//                   <div>
-//                     <p className={`${raleway.className} text-xs sm:text-sm font-bold text-brand-dark/60 uppercase tracking-[0.2em] mb-4 sm:mb-6`}>
-//                       2. Submission Type:
-//                     </p>
-//                     <div className="flex flex-wrap gap-2 p-1.5 bg-brand-gray/30 rounded-full w-full sm:w-fit border border-brand-gray/60 shadow-inner">
-//                       {["Tonnage", "Cargo"].map((type) => (
-//                         <button
-//                           key={type}
-//                           type="button"
-//                           onClick={() => setFormType(type)}
-//                           className={`${raleway.className} flex-1 sm:flex-none px-6 sm:px-8 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-widest uppercase transition-all duration-300 ${
-//                             formType === type 
-//                               ? "bg-brand-blue text-white shadow-md scale-105" 
-//                               : "bg-transparent text-brand-dark/60 hover:text-brand-dark"
-//                           }`}
-//                         >
-//                           Submit {type}
-//                         </button>
-//                       ))}
-//                     </div>
-//                   </div>
-
-//                   <div>
-//                     <p className={`${raleway.className} text-xs sm:text-sm font-bold text-brand-dark/60 uppercase tracking-[0.2em] mb-4 sm:mb-6`}>
-//                       Charter Type:
-//                     </p>
-//                     <div className="flex flex-wrap gap-2 sm:gap-3">
-//                       {["Voyage", "Time Charter"].map((type) => (
-//                         <button
-//                           key={type}
-//                           type="button"
-//                           onClick={() => setCharterType(type)}
-//                           className={`${raleway.className} px-4 py-2 sm:px-5 sm:py-2.5 rounded-md text-xs sm:text-sm font-bold tracking-wide transition-all duration-300 border ${
-//                             charterType === type 
-//                               ? "bg-brand-dark/10 text-brand-dark border-brand-dark/30 shadow-sm" 
-//                               : "bg-brand-gray/30 text-brand-dark/70 border-brand-gray hover:border-brand-dark/40"
-//                           }`}
-//                         >
-//                           {type}
-//                         </button>
-//                       ))}
-//                     </div>
-//                   </div>
-//                 </div>
-
-//                 {/* 3. DYNAMIC REQUIREMENT DETAILS */}
-//                 <div key={formType} className="animate-in fade-in slide-in-from-bottom-4 duration-500 bg-brand-gray/20 p-6 sm:p-8 lg:p-10 rounded-2xl sm:rounded-3xl border border-brand-gray/50 shadow-sm">
-//                   <p className={`${raleway.className} text-xs sm:text-sm font-bold text-brand-blue uppercase tracking-[0.2em] mb-6 sm:mb-8`}>
-//                     3. {formType} Details
-//                   </p>
-                  
-//                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 sm:gap-x-8 gap-y-8 sm:gap-y-10">
-//                     {formType === "Tonnage" && (
-//                       <>
-//                         <FloatingInput name="Vessel_Type" label="Vessel Type" placeholder="e.g. Supramax, Handysize" />
-//                         <FloatingInput name="DWT" label="DWT" placeholder="e.g. 58,000" />
-//                         <FloatingInput name="Built_Year" label="Built Year" placeholder="e.g. 2015" />
-//                         <FloatingInput name="Open_Position" label="Open Position" placeholder="e.g. Navlakhi" />
-//                         <FloatingInput name="Laycan" label="Laycan" placeholder="e.g. 18-24 Sep" />
-//                         <FloatingInput name="Redelivery" label="Redelivery" placeholder="e.g. Worldwide" />
-//                       </>
-//                     )}
-
-//                     {formType === "Cargo" && (
-//                       <>
-//                         <FloatingInput name="Commodity" label="Commodity" placeholder="e.g. Coal, Grain" />
-//                         <FloatingInput name="Quantity" label="Quantity (MT)" placeholder="e.g. 50,000 MT" />
-//                         <FloatingInput name="Laycan" label="Laycan" placeholder="e.g. 18-24 Sep" />
-//                         <FloatingInput name="Load_Port" label="Load Port" placeholder="Location" />
-//                         <FloatingInput name="Discharge_Port" label="Discharge Port" placeholder="Location" />
-//                         <FloatingInput name="Load_Discharge_Rate" label="Loading/Discharge Rate" placeholder="e.g. 8000 SHINC" />
-//                       </>
-//                     )}
-//                   </div>
-//                 </div>
-
-//                 {/* 4. SHARED MESSAGE BOX */}
-//                 <div className="relative group">
-//                   <textarea 
-//                     name="Message"
-//                     placeholder="Additional details, special requirements, commission, or terms..." 
-//                     rows="4" 
-//                     className={`${lora.className} peer w-full bg-brand-gray/20 rounded-xl sm:rounded-2xl border border-brand-gray/80 p-4 sm:p-6 focus:outline-none focus:border-brand-blue focus:ring-1 focus:ring-brand-blue transition-all text-base sm:text-lg text-brand-dark font-medium resize-none placeholder-transparent shadow-sm`}
-//                   />
-//                   <label className={`${raleway.className} absolute left-4 sm:left-5 -top-3 sm:-top-4 px-2 bg-white rounded text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-brand-dark/50 uppercase transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-4 sm:peer-placeholder-shown:top-6 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-normal peer-focus:-top-3 sm:peer-focus:-top-4 peer-focus:bg-white peer-focus:text-[10px] sm:peer-focus:text-[11px] peer-focus:font-bold peer-focus:text-brand-blue pointer-events-none`}>
-//                     Message / Special Requirements
-//                   </label>
-//                 </div>
-
-//                 {/* SUBMIT BUTTON */}
-//                 <button
-//                   type="submit"
-//                   className={`${raleway.className} w-full sm:w-auto self-start inline-flex items-center justify-center rounded-full bg-brand-dark px-10 sm:px-14 py-4 sm:py-5 text-sm sm:text-base font-bold tracking-[0.25em] text-white transition-all duration-300 hover:bg-brand-blue hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(14,96,156,0.3)] uppercase mt-2`}
-//                 >
-//                   SEND INQUIRY
-//                 </button>
-//               </form>
-//             </div>
-//           </div>
-
-//         </div>
-//       </section>
-//     </main>
-//   );
-// }
-
-
 "use client";
 
-import { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect, useEffect, useState } from "react";
 import gsap from "gsap";
-import { raleway, lora, playfair } from "@/app/fonts";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { monaSans } from "@/app/fonts";
+import Image from "next/image";
+import {
+  SplitLetters,
+  LETTER_RISE,
+  LETTER_FADE,
+} from "@/app/components/ui/PremiumUI";
 
-// Reusable sleek floating input component with responsive text sizing
+gsap.registerPlugin(ScrollTrigger);
+
+const HERO_TEXT =
+  "Connect directly with our broking desk or submit your requirements securely.";
+
+const CONTACT_ROWS = [
+  {
+    id: "01",
+    label: "Dry Cargo",
+    value: "dry@hafship.com",
+    href: "mailto:dry@hafship.com",
+  },
+  {
+    id: "02",
+    label: "Tanker",
+    value: "tanker@hafship.com",
+    href: "mailto:tanker@hafship.com",
+  },
+  {
+    id: "03",
+    label: "Phone / WhatsApp",
+    value: "+1 347-680-2751",
+    href: "tel:+13476802751",
+  },
+];
+
+/* Floating label input - dark brand version */
 function FloatingInput({ label, placeholder, name, required = false, type = "text" }) {
   return (
-    <div className="relative group">
-      <input 
-        type={type} 
+    <div className="form-fade relative">
+      <input
+        type={type}
         name={name}
         placeholder={placeholder}
         required={required}
-        className={`${lora.className} peer w-full bg-transparent border-b-2 border-brand-gray py-2.5 sm:py-3 text-base sm:text-lg text-brand-dark font-medium placeholder-transparent focus:outline-none focus:border-brand-blue transition-colors`} 
+        className="peer w-full bg-transparent border-b-2 border-white/20 py-3 text-lg sm:text-xl text-white font-medium placeholder-transparent focus:outline-none focus:border-brand-blue transition-colors duration-300"
       />
-      <label className={`${raleway.className} absolute left-0 -top-4 sm:-top-5 text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-brand-dark/50 uppercase transition-all peer-placeholder-shown:text-sm sm:peer-placeholder-shown:text-base peer-placeholder-shown:top-2.5 peer-placeholder-shown:font-normal peer-focus:-top-4 sm:peer-focus:-top-5 peer-focus:text-[10px] sm:peer-focus:text-[11px] peer-focus:font-bold peer-focus:text-brand-blue pointer-events-none`}>
+      <label className="pointer-events-none absolute left-0 -top-5 text-xs sm:text-sm font-bold tracking-[0.2em] text-white/50 uppercase transition-all duration-300 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base sm:peer-placeholder-shown:text-lg peer-placeholder-shown:font-medium peer-placeholder-shown:tracking-normal peer-focus:-top-5 peer-focus:text-xs sm:peer-focus:text-sm peer-focus:font-bold peer-focus:tracking-[0.2em] peer-focus:text-brand-blue">
         {label} {required && "*"}
       </label>
     </div>
   );
 }
 
+/* Submit button - same look as PremiumButton (dark variant) but a real <button> */
+function SubmitButton({ label, disabled = false }) {
+  return (
+    <div className="form-fade w-full sm:w-auto">
+      <button
+        type="submit"
+        disabled={disabled}
+        className="group relative flex w-full sm:inline-flex sm:w-auto items-stretch overflow-hidden border border-white/40 hover:border-white transition-colors duration-500 text-left disabled:opacity-50 disabled:pointer-events-none"
+      >
+        <span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-x-0" />
+
+        <span className="relative z-10 flex-1 px-6 py-4 sm:px-8 sm:py-5 text-sm sm:text-lg lg:text-xl font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white group-hover:text-brand-dark transition-colors duration-500">
+          {label}
+        </span>
+
+        <span className="relative z-10 flex w-12 sm:w-14 shrink-0 items-center justify-center border-l border-white/40 text-white group-hover:border-brand-dark/20 group-hover:text-brand-dark transition-colors duration-500">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform duration-500 group-hover:translate-x-1"
+          >
+            <path d="M5 12h14" />
+            <path d="M13 6l6 6-6 6" />
+          </svg>
+        </span>
+      </button>
+    </div>
+  );
+}
+
 export default function ContactPage() {
-  const headerRef = useRef(null);
+  const containerRef = useRef(null);
+  const heroRef = useRef(null);
+  const heroImageRef = useRef(null);
+  const bodyRef = useRef(null);
+  const tagRef = useRef(null);
+
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    setSending(true);
+    setError(false);
+    try {
+      const body = new URLSearchParams(new FormData(form)).toString();
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body,
+      });
+      if (!res.ok) throw new Error("Failed");
+      form.reset();
+      setSent(true);
+    } catch (err) {
+      setError(true);
+    } finally {
+      setSending(false);
+    }
+  };
+
+  // Success modal animation + ESC to close
+  useEffect(() => {
+    if (!sent) return;
+    gsap.fromTo(".modal-bg", { opacity: 0 }, { opacity: 1, duration: 0.4 });
+    gsap.fromTo(
+      ".modal-box",
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, ease: "power3.out", delay: 0.1 }
+    );
+    const onKey = (e) => e.key === "Escape" && setSent(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [sent]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
+      // 1. HERO (plays on load)
+      gsap
+        .timeline({ delay: 0.2 })
+        .fromTo(
+          ".hero-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".hero-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4")
+        .fromTo(
+          ".hero-text-letter",
+          LETTER_FADE.from,
+          { ...LETTER_FADE.to, stagger: 0.01 },
+          "-=0.5"
+        );
+
+      // 2. HERO image parallax
+      if (heroImageRef.current && heroRef.current) {
+        gsap.to(heroImageRef.current, {
+          yPercent: 10,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
+
+      // 3. Vertical divider line (desktop)
       gsap.fromTo(
-        ".fade-up",
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.12, duration: 0.9, ease: "power3.out" }
+        ".body-line-anim",
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          duration: 1.5,
+          ease: "power4.out",
+          scrollTrigger: { trigger: bodyRef.current, start: "top 80%" },
+        }
       );
-    });
+
+      // 4. LEFT: header + contact rows
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: bodyRef.current, start: "top 80%" },
+        })
+        .fromTo(
+          ".desk-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".desk-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4");
+
+      gsap.set(".contact-row-anim", { opacity: 0, y: 40 });
+      ScrollTrigger.batch(".contact-row-anim", {
+        start: "top 90%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.1,
+            clearProps: "transform",
+          }),
+      });
+
+      // 5. RIGHT: form heading + fields
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: ".form-wrap", start: "top 85%" },
+        })
+        .fromTo(
+          ".form-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".form-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4")
+        .fromTo(
+          ".form-fade",
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.1 },
+          "-=0.5"
+        );
+
+      // 6. Bottom tagline
+      gsap.fromTo(
+        ".tag-fade",
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: { trigger: tagRef.current, start: "top 92%" },
+        }
+      );
+    }, containerRef);
+
     return () => ctx.revert();
   }, []);
 
   return (
-    <main className="w-full flex-grow bg-brand-gray min-h-screen flex flex-col">
-      {/* ================= HERO SECTION ================= */}
-      <section ref={headerRef} className="relative w-full bg-brand-dark pt-32 pb-16 sm:pt-40 sm:pb-20 lg:pt-48 lg:pb-28 px-4 sm:px-8 overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-brand-yellow/5 blur-[100px] rounded-full pointer-events-none" />
-        
-        <div className="mx-auto max-w-[1400px] relative z-10 flex flex-col items-center text-center">
-          <p className="fade-up text-[11px] sm:text-xs font-bold tracking-[0.3em] text-brand-yellow uppercase mb-4 sm:mb-6">
+    <main
+      ref={containerRef}
+      className={`${monaSans.className} w-full flex-grow bg-brand-dark`}
+    >
+      {/* ========================================================
+          HERO
+      ======================================================== */}
+      <section
+        ref={heroRef}
+        className="relative w-full min-h-[65vh] lg:min-h-[80vh] flex items-center justify-center overflow-hidden pt-32 sm:pt-36 lg:pt-44 pb-16 lg:pb-24 px-5 sm:px-10"
+      >
+        {/* Parallax background */}
+        <div
+          ref={heroImageRef}
+          className="absolute -top-[15%] left-0 h-[130%] w-full will-change-transform"
+        >
+          <Image
+            src="/images/ex12.png"
+            alt="Contact HAFSHIP Broking Desk"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
+        </div>
+
+        <div className="absolute inset-0 bg-brand-dark/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent" />
+
+        <div className="relative z-10 mx-auto max-w-[1400px] flex flex-col items-center text-center">
+          <p className="hero-eyebrow text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase mb-6 sm:mb-8">
             Get In Touch
           </p>
-          <h1 className={`fade-up ${playfair.className} text-3xl sm:text-5xl lg:text-7xl font-extrabold tracking-tight text-white uppercase mb-4 sm:mb-6 leading-tight`}>
-            Contact & <span className="text-brand-blue">Inquiries</span>
+
+          <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
+            <span className="block text-white">
+              <SplitLetters text="Contact &" letterClass="hero-title-letter" mask />
+            </span>
+            <span className="block text-brand-blue">
+              <SplitLetters text="Inquiries" letterClass="hero-title-letter" mask />
+            </span>
           </h1>
-          <p className={`fade-up ${lora.className} max-w-xl sm:max-w-2xl text-sm sm:text-base lg:text-lg text-slate-300 font-medium leading-relaxed px-2`}>
-            Connect directly with our chartering desk or submit your requirements securely.
+
+          <p className="max-w-4xl text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed">
+            <SplitLetters text={HERO_TEXT} letterClass="hero-text-letter" />
           </p>
         </div>
       </section>
 
-      {/* ================= MAIN CONTACT & FORM SECTION ================= */}
-      <section className="flex-grow w-full py-12 sm:py-20 lg:py-28 px-4 sm:px-8">
-        <div className="mx-auto max-w-[1600px] grid grid-cols-1 xl:grid-cols-12 gap-12 lg:gap-20 items-start">
-          
-          {/* LEFT: Contact Desk Info */}
-          <div className="xl:col-span-4 flex flex-col items-start w-full lg:sticky lg:top-28">
-            <p className={`${raleway.className} text-xs sm:text-sm font-bold tracking-[0.3em] text-brand-blue uppercase mb-3`}>
-              DIRECT CONTACT
-            </p>
-            <h2 className={`${playfair.className} text-3xl sm:text-4xl font-extrabold tracking-tight text-brand-dark leading-tight uppercase mb-8`}>
-              Chartering Desk.
+      {/* ========================================================
+          CONTACT + FORM (split layout)
+      ======================================================== */}
+      <section className="relative w-full bg-brand-dark border-t border-white/10 py-16 sm:py-20 lg:py-32 px-5 sm:px-10 lg:px-16 overflow-hidden">
+        <div
+          ref={bodyRef}
+          className="relative mx-auto max-w-[1800px] grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start"
+        >
+          {/* Center vertical divider (desktop only) */}
+          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-white/15">
+            <div className="body-line-anim h-full w-full origin-top bg-brand-blue" />
+          </div>
+
+          {/* ---------------- LEFT: Direct contact ---------------- */}
+          <div className="w-full">
+            <div className="desk-eyebrow flex items-center gap-4 mb-6">
+              <span className="h-px w-10 sm:w-14 bg-brand-blue" />
+              <span className="text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase">
+                Direct Contact
+              </span>
+            </div>
+
+            <h2 className="font-black tracking-normal uppercase leading-[1] text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[80px] mb-10 sm:mb-14">
+              <span className="block text-white">
+                <SplitLetters text="Broking" letterClass="desk-title-letter" mask />
+              </span>
+              <span className="block text-brand-blue">
+                <SplitLetters text="Desk" letterClass="desk-title-letter" mask />
+              </span>
             </h2>
 
-            <div className="flex flex-col gap-6 w-full">
-              <div className="p-6 sm:p-10 rounded-2xl sm:rounded-[24px] bg-white border border-brand-gray/50 shadow-sm w-full">
-                
-                <div className="flex flex-col gap-6 sm:gap-8">
-                  <a href="mailto:chartering@hafship.com" className="group flex items-center gap-4 sm:gap-6">
-                    <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-full bg-brand-gray/30 border border-brand-dark/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 shadow-sm">
-                      <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                    </div>
-                    <span className={`${lora.className} text-base sm:text-lg text-brand-dark group-hover:text-brand-blue font-medium transition-colors break-all`}>
-                      chartering@hafship.com
-                    </span>
-                  </a>
-
-                  <a href="tel:+13476802751" className="group flex items-center gap-4 sm:gap-6">
-                    <div className="flex h-12 w-12 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-full bg-brand-gray/30 border border-brand-dark/10 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all duration-300 shadow-sm">
-                      <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
-                    </div>
-                    <span className={`${lora.className} text-base sm:text-lg text-brand-dark group-hover:text-brand-blue font-medium transition-colors`}>
-                      +1 347-680-2751 <span className="text-xs sm:text-sm text-brand-dark/50 block mt-0.5">(Phone / WhatsApp)</span>
-                    </span>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT: Simple Contact Form (Netlify Integrated) */}
-          <div className="xl:col-span-8 w-full">
-            <div className="bg-white p-6 sm:p-10 lg:p-16 border border-brand-gray/50 rounded-2xl sm:rounded-[32px] shadow-[0_15px_40px_rgba(0,0,0,0.04)] w-full">
-              
-              <div className="mb-8 sm:mb-12">
-                <h3 className={`${playfair.className} text-2xl sm:text-3xl font-bold text-brand-dark uppercase tracking-wide mb-3`}>
-                  Submit Inquiry
-                </h3>
-                <p className={`${lora.className} text-sm sm:text-base text-brand-dark/60`}>
-                  Please fill out the form below to circulate your requirements directly to our desk.
-                </p>
-              </div>
-
-              {/* Netlify Form Setup */}
-              <form 
-                name="contact" 
-                method="POST" 
-                data-netlify="true" 
-                className="flex flex-col gap-8 sm:gap-12"
-              >
-                {/* Hidden input required for Netlify forms */}
-                <input type="hidden" name="form-name" value="contact" />
-
-                {/* CONTACT DETAILS */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-8 sm:gap-y-10">
-                  <FloatingInput name="Name" label="Full Name / Company" placeholder="e.g. John Doe - XYZ Corp" required />
-                  <FloatingInput name="Email" type="email" label="Email Address" placeholder="e.g. john@example.com" required />
-                  <div className="sm:col-span-2">
-                    <FloatingInput name="Phone" type="tel" label="Phone Number" placeholder="e.g. +1 234 567 8900" />
-                  </div>
-                </div>
-
-                {/* REQUIREMENT / MESSAGE BOX */}
-                <div className="relative group mt-2">
-                  <textarea 
-                    name="Requirement"
-                    placeholder="Please describe your cargo, tonnage, or general requirements here..." 
-                    rows="5" 
-                    required
-                    className={`${lora.className} peer w-full bg-brand-gray/20 rounded-xl sm:rounded-2xl border border-brand-gray/80 p-4 sm:p-6 focus:outline-none focus:border-brand-blue focus:ring-1 focus:ring-brand-blue transition-all text-base sm:text-lg text-brand-dark font-medium resize-none placeholder-transparent shadow-sm`}
-                  />
-                  <label className={`${raleway.className} absolute left-4 sm:left-5 -top-3 sm:-top-4 px-2 bg-white rounded text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-brand-dark/50 uppercase transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-4 sm:peer-placeholder-shown:top-6 peer-placeholder-shown:bg-transparent peer-placeholder-shown:font-normal peer-focus:-top-3 sm:peer-focus:-top-4 peer-focus:bg-white peer-focus:text-[10px] sm:peer-focus:text-[11px] peer-focus:font-bold peer-focus:text-brand-blue pointer-events-none`}>
-                    Your Requirement / Message *
-                  </label>
-                </div>
-
-                {/* SUBMIT BUTTON */}
-                <button
-                  type="submit"
-                  className={`${raleway.className} w-full sm:w-auto self-start inline-flex items-center justify-center rounded-full bg-brand-dark px-10 sm:px-14 py-4 sm:py-5 text-sm sm:text-base font-bold tracking-[0.25em] text-white transition-all duration-300 hover:bg-brand-blue hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(14,96,156,0.3)] uppercase mt-2`}
+            <div className="border-t border-white/15">
+              {CONTACT_ROWS.map((row) => (
+                <a
+                  key={row.id}
+                  href={row.href}
+                  className="contact-row-anim group relative flex items-start gap-4 sm:gap-6 border-b border-white/15 py-8 sm:py-10"
                 >
-                  SEND INQUIRY
-                </button>
-              </form>
+                  {/* blue line that grows on hover */}
+                  <span className="pointer-events-none absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-brand-blue transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-x-100" />
+
+                  <span className="w-8 sm:w-12 shrink-0 pt-1 sm:pt-2 text-sm sm:text-xl font-bold tracking-widest text-brand-blue">
+                    {row.id}
+                  </span>
+
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm sm:text-base lg:text-lg font-bold tracking-[0.15em] uppercase text-brand-blue mb-3">
+                      {row.label}
+                    </p>
+                    <p className="text-xl min-[400px]:text-2xl sm:text-3xl lg:text-3xl xl:text-4xl font-black text-white transition-colors duration-300 group-hover:text-brand-blue break-all leading-tight">
+                      {row.value}
+                    </p>
+                  </div>
+
+                  {/* arrow */}
+                  <svg
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mt-2 shrink-0 text-white/40 transition-all duration-500 group-hover:translate-x-1 group-hover:text-brand-blue"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              ))}
             </div>
           </div>
 
+          {/* ---------------- RIGHT: Form (Netlify) ---------------- */}
+          <div className="form-wrap w-full">
+            <div className="form-eyebrow flex items-center gap-4 mb-6">
+              <span className="h-px w-10 sm:w-14 bg-brand-blue" />
+              <span className="text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase">
+                Send Message
+              </span>
+            </div>
+
+            <h2 className="font-black tracking-normal uppercase leading-[1] text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[80px] mb-6">
+              <span className="block text-white">
+                <SplitLetters text="Submit" letterClass="form-title-letter" mask />
+              </span>
+              <span className="block text-brand-blue">
+                <SplitLetters text="Inquiry" letterClass="form-title-letter" mask />
+              </span>
+            </h2>
+
+            <p className="form-fade text-base sm:text-lg lg:text-xl text-white/80 font-medium leading-relaxed border-l-[3px] border-brand-blue pl-5 sm:pl-8 mb-12 sm:mb-14">
+              Please fill out the form below to circulate your requirements
+              directly to our desk.
+            </p>
+
+            {/* Netlify Form Setup */}
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-10 sm:gap-12"
+            >
+              {/* Hidden input required for Netlify forms */}
+              <input type="hidden" name="form-name" value="contact" />
+
+              <FloatingInput
+                name="Name"
+                label="Full Name / Company"
+                placeholder="e.g. John Doe - XYZ Corp"
+                required
+              />
+              <FloatingInput
+                name="Email"
+                type="email"
+                label="Email Address"
+                placeholder="e.g. john@example.com"
+                required
+              />
+              <FloatingInput
+                name="Phone"
+                type="tel"
+                label="Phone Number"
+                placeholder="e.g. +1 234 567 8900"
+              />
+
+              {/* REQUIREMENT / MESSAGE */}
+              <div className="form-fade relative">
+                <textarea
+                  name="Requirement"
+                  placeholder="Please describe your cargo, tonnage, or general requirements here..."
+                  rows="4"
+                  required
+                  className="peer w-full bg-transparent border-b-2 border-white/20 py-3 text-lg sm:text-xl text-white font-medium resize-none placeholder-transparent focus:outline-none focus:border-brand-blue transition-colors duration-300"
+                />
+                <label className="pointer-events-none absolute left-0 -top-5 text-xs sm:text-sm font-bold tracking-[0.2em] text-white/50 uppercase transition-all duration-300 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base sm:peer-placeholder-shown:text-lg peer-placeholder-shown:font-medium peer-placeholder-shown:tracking-normal peer-focus:-top-5 peer-focus:text-xs sm:peer-focus:text-sm peer-focus:font-bold peer-focus:tracking-[0.2em] peer-focus:text-brand-blue">
+                  Your Requirement / Message *
+                </label>
+              </div>
+
+              {error && (
+                <p className="form-fade text-sm sm:text-base font-bold tracking-[0.15em] uppercase text-red-400">
+                  Something went wrong. Please try again or email us directly.
+                </p>
+              )}
+
+              <SubmitButton
+                label={sending ? "Sending..." : "Send Inquiry"}
+                disabled={sending}
+              />
+            </form>
+          </div>
         </div>
       </section>
+
+      {/* ========================================================
+          BOTTOM TAGLINE (blue strip, same as CTA on Markets)
+      ======================================================== */}
+      <section
+        ref={tagRef}
+        className="w-full bg-brand-blue py-14 sm:py-20 px-5 sm:px-10 lg:px-16"
+      >
+        <p className="tag-fade text-center text-sm sm:text-lg lg:text-2xl font-bold tracking-[0.2em] text-white uppercase leading-relaxed">
+          Global Markets <span className="text-white/50 mx-2 sm:mx-3">•</span> Local Knowledge{" "}
+          <span className="text-white/50 mx-2 sm:mx-3">•</span> Commercial Connections
+        </p>
+      </section>
+
+      {/* ========================================================
+          SUCCESS MODAL
+      ======================================================== */}
+      {sent && (
+        <div
+          className="modal-bg fixed inset-0 z-[100] flex items-center justify-center bg-brand-dark/90 backdrop-blur-sm px-5"
+          onClick={() => setSent(false)}
+        >
+          <div
+            className="modal-box relative w-full max-w-2xl border border-white/15 bg-brand-dark p-8 sm:p-12 lg:p-16"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="absolute top-0 left-0 h-[3px] w-full bg-brand-blue" />
+
+            <div className="flex items-center gap-4 mb-6">
+              <span className="h-px w-10 sm:w-14 bg-brand-blue" />
+              <span className="text-sm sm:text-lg font-bold tracking-[0.3em] text-brand-blue uppercase">
+                Inquiry Sent
+              </span>
+            </div>
+
+            <h3 className="font-black tracking-normal uppercase leading-[1] text-4xl sm:text-6xl text-white mb-6">
+              Thank <span className="text-brand-blue">You</span>
+            </h3>
+
+            <p className="text-base sm:text-xl text-white/80 font-medium leading-relaxed border-l-[3px] border-brand-blue pl-5 sm:pl-8 mb-10">
+              Your requirement has been circulated to our broking desk. We will
+              get back to you shortly.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => setSent(false)}
+              className="group relative flex w-full sm:inline-flex sm:w-auto items-stretch overflow-hidden border border-white/40 hover:border-white transition-colors duration-500 text-left"
+            >
+              <span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-x-0" />
+              <span className="relative z-10 flex-1 px-6 py-4 sm:px-8 sm:py-5 text-sm sm:text-lg font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white group-hover:text-brand-dark transition-colors duration-500">
+                Close
+              </span>
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

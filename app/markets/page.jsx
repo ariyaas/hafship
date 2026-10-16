@@ -3,8 +3,14 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { raleway, lora, playfair } from "@/app/fonts";
+import { monaSans } from "@/app/fonts";
 import Image from "next/image";
+import {
+  SplitLetters,
+  PremiumButton,
+  LETTER_RISE,
+  LETTER_FADE,
+} from "@/app/components/ui/PremiumUI";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,27 +47,44 @@ const MARKETS_DATA = [
   },
 ];
 
+const HERO_TEXT =
+  "Connecting Shipowners, Operators, Charterers and Traders across key international dry bulk markets.";
+
+const INTRO_STATEMENT =
+  "HAFSHIP covers major trading regions, supporting cargo & tonnage matching, voyage and time chartering, freight negotiations and fixture opportunities.";
+
 export default function MarketsPage() {
+  const containerRef = useRef(null);
   const heroRef = useRef(null);
-  const heroImageRef = useRef(null); 
+  const heroImageRef = useRef(null);
   const introRef = useRef(null);
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const ctaRef = useRef(null); 
+  const headRef = useRef(null);
+  const listRef = useRef(null);
+  const tagRef = useRef(null);
+  const ctaRef = useRef(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Hero Text Reveal Animation
-      gsap.fromTo(
-        ".hero-text",
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.15, duration: 1, ease: "power3.out", delay: 0.2 }
-      );
+      // 1. HERO (plays on load)
+      gsap
+        .timeline({ delay: 0.2 })
+        .fromTo(
+          ".hero-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".hero-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4")
+        .fromTo(
+          ".hero-text-letter",
+          LETTER_FADE.from,
+          { ...LETTER_FADE.to, stagger: 0.01 },
+          "-=0.5"
+        );
 
-      // 2. Hero Image Parallax Animation
+      // 2. HERO image parallax
       if (heroImageRef.current && heroRef.current) {
         gsap.to(heroImageRef.current, {
-          y: "15%", 
+          yPercent: 10,
           ease: "none",
           scrollTrigger: {
             trigger: heroRef.current,
@@ -72,265 +95,279 @@ export default function MarketsPage() {
         });
       }
 
-      // 3. Intro Text Reveal & Line Animation
-      if (introRef.current) {
-        gsap.fromTo(
-          ".intro-text-anim",
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            stagger: 0.2,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: introRef.current,
-              start: "top 80%",
-            },
-          }
-        );
-
-        // Vertical Line Animation for Split Layout
-        gsap.fromTo(
-          ".intro-line-anim",
-          { scaleY: 0 },
-          {
-            scaleY: 1,
-            duration: 1.5,
-            ease: "power4.out",
-            scrollTrigger: {
-              trigger: introRef.current,
-              start: "top 80%",
-            },
-          }
-        );
-      }
-
-      // 4. Grid Section Header Fade
-      if (titleRef.current) {
-        gsap.fromTo(
-          titleRef.current,
+      // 3. INTRO: statement letters, then paragraph
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: introRef.current, start: "top 80%" },
+        })
+        .fromTo(".intro-letter", LETTER_FADE.from, {
+          ...LETTER_FADE.to,
+          stagger: 0.008,
+        })
+        .fromTo(
+          ".intro-fade",
           { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: titleRef.current,
-              start: "top 85%",
-            },
-          }
+          { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+          "-=0.9"
         );
-      }
 
-      // 5. Market Cards Stagger Reveal
+      // Vertical divider line (desktop)
       gsap.fromTo(
-        ".market-card-anim",
-        { y: 40, opacity: 0 },
+        ".intro-line-anim",
+        { scaleY: 0 },
         {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 75%",
-          },
+          scaleY: 1,
+          duration: 1.5,
+          ease: "power4.out",
+          scrollTrigger: { trigger: introRef.current, start: "top 80%" },
         }
       );
 
-      // 6. Final CTA Reveal
-      if (ctaRef.current) {
-        gsap.fromTo(
-          ctaRef.current.children,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
+      // 4. LIST header: eyebrow + title letters
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: headRef.current, start: "top 85%" },
+        })
+        .fromTo(
+          ".list-eyebrow",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }
+        )
+        .fromTo(".list-title-letter", LETTER_RISE.from, LETTER_RISE.to, "-=0.4");
+
+      // 5. MARKET rows: each reveals when it scrolls into view
+      gsap.set(".market-row-anim", { opacity: 0, y: 40 });
+      ScrollTrigger.batch(".market-row-anim", {
+        start: "top 90%",
+        once: true,
+        onEnter: (batch) =>
+          gsap.to(batch, {
             opacity: 1,
-            stagger: 0.15,
-            duration: 1,
+            y: 0,
+            duration: 0.8,
             ease: "power3.out",
-            scrollTrigger: {
-              trigger: ctaRef.current,
-              start: "top 85%",
-            },
-          }
+            stagger: 0.1,
+            clearProps: "transform",
+          }),
+      });
+
+      // 6. Bottom tagline
+      gsap.fromTo(
+        ".tag-fade",
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: { trigger: tagRef.current, start: "top 92%" },
+        }
+      );
+
+      // 7. CTA: title letters, paragraph, button
+      gsap
+        .timeline({
+          scrollTrigger: { trigger: ctaRef.current, start: "top 80%" },
+        })
+        .fromTo(".cta-title-letter", LETTER_RISE.from, LETTER_RISE.to)
+        .fromTo(
+          ".cta-fade",
+          { y: 24, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", stagger: 0.12 },
+          "-=0.5"
         );
-      }
-    });
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <main className="w-full flex-grow bg-white">
-      
+    <main
+      ref={containerRef}
+      className={`${monaSans.className} w-full flex-grow bg-brand-dark`}
+    >
       {/* ========================================================
-          HERO SECTION (Image BG with 3% White Frame)
+          HERO
       ======================================================== */}
-      <div className="w-full bg-white p-[3%] pt-[100px] sm:pt-[120px] lg:pt-[140px]">
-        <section ref={heroRef} className="relative w-full rounded-[2rem] sm:rounded-[3rem] overflow-hidden min-h-[50vh] lg:min-h-[70vh] flex flex-col items-center justify-center pt-16 pb-20 px-4 sm:px-8 shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
-          
-          {/* Parallax Background Image */}
-          <div className="absolute -top-[10%] -left-[5%] h-[120%] w-[110%] will-change-transform" ref={heroImageRef}>
-            <Image 
-              src="/images/ch2.jpeg" // You can change this to your preferred Markets image
-              alt="Global Dry Bulk Markets"
-              fill
-              priority
-              className="object-cover"
-            />
-          </div>
+      <section
+        ref={heroRef}
+        className="relative w-full min-h-[65vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden pt-32 sm:pt-36 lg:pt-44 pb-16 lg:pb-24 px-5 sm:px-10"
+      >
+        {/* Parallax background */}
+        <div
+          ref={heroImageRef}
+          className="absolute -top-[15%] left-0 h-[130%] w-full will-change-transform"
+        >
+          <Image
+            src="/images/ch2.jpeg"
+            alt="Global Dry Bulk Markets"
+            fill
+            sizes="100vw"
+            priority
+            className="object-cover"
+          />
+        </div>
 
-          {/* Dark Overlay for Text Visibility */}
-          <div className="absolute inset-0 bg-brand-dark/50" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(3,24,46,0.3)_0%,rgba(3,24,46,0.8)_100%)]" />
-          
-          {/* Hero Content */}
-          <div className="mx-auto max-w-[1400px] relative z-10 flex flex-col items-center text-center mt-10">
-            <p className="hero-text text-xs sm:text-sm font-bold tracking-[0.3em] text-brand-yellow uppercase mb-6 drop-shadow-md">
-              Global Reach
-            </p>
-            <h1 className={`hero-text ${playfair.className} text-4xl sm:text-6xl lg:text-[80px] leading-tight font-extrabold tracking-tight text-white uppercase mb-8 drop-shadow-xl`}>
-              Our <span className="text-brand-blue">Markets</span>
-            </h1>
-            <p className={`hero-text ${lora.className} max-w-4xl text-lg sm:text-xl text-slate-100 font-medium leading-relaxed drop-shadow-md`}>
-              Connecting Shipowners, Operators, Charterers, Traders and Cargo Interests across key international dry bulk markets.
-            </p>
-          </div>
-        </section>
-      </div>
+        <div className="absolute inset-0 bg-brand-dark/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent" />
+
+        <div className="relative z-10 mx-auto max-w-[1400px] flex flex-col items-center text-center">
+          <p className="hero-eyebrow text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase mb-6 sm:mb-8">
+            Global Reach
+          </p>
+
+          <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
+            <span className="block text-white">
+              <SplitLetters text="Our" letterClass="hero-title-letter" mask />
+            </span>
+            <span className="block text-brand-blue">
+              <SplitLetters text="Markets" letterClass="hero-title-letter" mask />
+            </span>
+          </h1>
+
+          <p className="max-w-4xl text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed">
+            <SplitLetters text={HERO_TEXT} letterClass="hero-text-letter" />
+          </p>
+        </div>
+      </section>
 
       {/* ========================================================
-          PREMIUM INTRO TEXT SECTION (Split Layout & Animated)
+          INTRO (split layout)
       ======================================================== */}
-      <section className="relative w-full bg-gradient-to-b from-brand-gray/40 to-white py-20 lg:py-32 px-4 sm:px-8 overflow-hidden">
-        <div ref={introRef} className="mx-auto max-w-[1300px] relative flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
-          
-          {/* Animated Center Vertical Divider (Desktop Only) */}
-          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-slate-200/50">
-             <div className="intro-line-anim w-full bg-brand-blue origin-top h-full" />
+      <section className="relative w-full bg-brand-dark py-16 sm:py-20 lg:py-32 px-5 sm:px-10 lg:px-16 overflow-hidden">
+        <div
+          ref={introRef}
+          className="relative mx-auto max-w-[1800px] grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start"
+        >
+          {/* Center vertical divider (desktop only) */}
+          <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-white/15">
+            <div className="intro-line-anim h-full w-full origin-top bg-brand-blue" />
           </div>
 
-          {/* Left Column: Bold Statement (Paragraph 1) */}
-          <div className="lg:w-1/2 flex flex-col justify-center lg:pr-12">
-            <h3 className="intro-text-anim text-2xl sm:text-3xl lg:text-[36px] text-brand-dark font-extrabold leading-snug tracking-tight">
-              <span className={`${playfair.className}`}>
-                HAFSHIP covers major trading regions, supporting cargo & tonnage matching, voyage and time chartering, freight negotiations and fixture opportunities.
-              </span>
+          {/* Left: bold statement */}
+          <div className="flex flex-col justify-center">
+            <h3 className="text-2xl sm:text-4xl lg:text-[38px] xl:text-5xl text-white font-bold leading-snug tracking-normal">
+              <SplitLetters text={INTRO_STATEMENT} letterClass="intro-letter" />
             </h3>
           </div>
-          
-          {/* Right Column: Detailed Execution (Paragraph 2) */}
-          <div className="lg:w-1/2 flex flex-col justify-center lg:pl-12 lg:pt-4">
-            <div className="intro-text-anim relative pl-6 sm:pl-8 border-l-[3px] border-brand-yellow">
-              <p className={`${lora.className} text-lg sm:text-xl text-slate-600 font-medium leading-relaxed`}>
-                We connect owners, operators, charterers, traders and cargo interests across established and emerging dry bulk markets. Our market network enables us to identify vessel and cargo opportunities across international trading routes while maintaining a practical understanding of tonnage positioning, cargo requirements, loading/discharging capabilities and market conditions.
+
+          {/* Right: paragraph */}
+          <div className="flex flex-col justify-center lg:pt-3">
+            <div className="intro-fade border-l-[3px] border-brand-blue pl-5 sm:pl-8">
+              <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-white/80 font-medium leading-relaxed">
+                We connect owners, operators, charterers and traders across
+                established and emerging dry bulk markets. Our market network
+                enables us to identify vessel and cargo opportunities across
+                international trading routes while maintaining a practical
+                understanding of tonnage positioning, cargo requirements,
+                loading/discharging capabilities and market conditions.
               </p>
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ========================================================
-          MARKETS GRID SECTION (Premium Dark Container)
+          TRADING REGIONS
       ======================================================== */}
       <section
-        ref={sectionRef}
         id="markets-grid"
-        className="relative z-20 w-full bg-white pb-16 lg:pb-24 px-3 sm:px-6 lg:px-8"
+        className="relative z-20 w-full bg-brand-dark border-t border-white/10 py-16 sm:py-20 lg:py-32 px-5 sm:px-10 lg:px-16"
       >
-        <div className="relative mx-auto max-w-[1600px] rounded-[36px] sm:rounded-[48px] bg-brand-dark px-6 sm:px-10 lg:px-14 pt-16 pb-16 lg:pt-20 lg:pb-24 shadow-[0_30px_60px_rgba(0,0,0,0.4)] overflow-hidden">
-          
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/10 blur-[100px] rounded-full pointer-events-none" />
-
+        <div className="mx-auto max-w-[1800px]">
           {/* HEADER */}
-          <div ref={titleRef} className="relative z-20 mb-12 border-b border-brand-gray/10 pb-6 text-center lg:text-left">
-            <p className={`${raleway.className} text-xs font-bold tracking-[0.25em] text-brand-gray uppercase mb-3`}>
-              Global Routes
-            </p>
+          <div ref={headRef} className="mb-12 sm:mb-16">
+            <div className="list-eyebrow flex items-center gap-4 mb-6">
+              <span className="h-px w-10 sm:w-14 bg-brand-blue" />
+              <span className="text-sm sm:text-lg lg:text-xl font-bold tracking-[0.3em] text-brand-blue uppercase">
+                Global Routes
+              </span>
+            </div>
 
-            <h2
-              className={`${playfair.className} text-3xl sm:text-4xl lg:text-[48px] font-extrabold tracking-tight text-white leading-[1.15] uppercase`}
-            >
-              Trading
-              <br className="hidden lg:block" />
-              <span className="text-brand-blue lg:ml-2">Regions</span>
+            <h2 className="font-black tracking-normal uppercase leading-[1] text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[80px]">
+              <span className="block text-white">
+                <SplitLetters text="Trading" letterClass="list-title-letter" mask />
+              </span>
+              <span className="block text-brand-blue">
+                <SplitLetters text="Regions" letterClass="list-title-letter" mask />
+              </span>
             </h2>
           </div>
 
-          {/* MARKETS GRID */}
-          <div className="relative z-20 w-full">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
-              {MARKETS_DATA.map((market) => (
-                <div
-                  key={market.id}
-                  className="market-card-anim group relative flex flex-col justify-between rounded-[24px] border-2 border-brand-gray/10 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-brand-blue hover:shadow-[0_20px_50px_rgba(14,96,156,0.2)]"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <span className={`${raleway.className} text-xs font-bold tracking-widest text-brand-gray bg-brand-dark/5 px-3 py-1 rounded-full group-hover:text-brand-blue group-hover:bg-brand-blue/10 transition-colors`}>
-                        {market.id}
-                      </span>
-                    </div>
+          {/* REGION ROWS */}
+          <div ref={listRef} className="border-t border-white/15">
+            {MARKETS_DATA.map((market) => (
+              <div
+                key={market.id}
+                className="market-row-anim group relative grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-12 items-start border-b border-white/15 py-8 sm:py-10 lg:py-12 cursor-default"
+              >
+                {/* blue line that grows on hover */}
+                <span className="pointer-events-none absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-brand-blue transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:scale-x-100" />
 
-                    <h3 className={`${playfair.className} text-2xl font-bold tracking-tight text-brand-dark group-hover:text-brand-blue transition-colors uppercase mb-3`}>
-                      {market.region}
-                    </h3>
-
-                    <p className={`${raleway.className} text-xs font-bold text-brand-blue tracking-[0.15em] uppercase mb-4 group-hover:text-brand-yellow transition-colors`}>
-                      {market.routes}
-                    </p>
-
-                    <p className={`${lora.className} text-sm sm:text-base leading-relaxed text-slate-600`}>
-                      {market.desc}
-                    </p>
-                  </div>
+                {/* Number + region */}
+                <div className="lg:col-span-5 flex items-start gap-4 sm:gap-6">
+                  <span className="w-8 sm:w-12 shrink-0 pt-1 sm:pt-2 text-sm sm:text-xl font-bold tracking-widest text-brand-blue">
+                    {market.id}
+                  </span>
+                  <h3 className="text-2xl min-[400px]:text-3xl sm:text-4xl lg:text-[40px] xl:text-5xl font-black uppercase leading-[1.05] tracking-normal text-white transition-colors duration-300 group-hover:text-brand-blue">
+                    {market.region}
+                  </h3>
                 </div>
-              ))}
-            </div>
+
+                {/* Routes + description (aligned under the title on phone/tablet) */}
+                <div className="lg:col-span-7 pl-12 sm:pl-[4.5rem] lg:pl-0">
+                  <p className="text-sm sm:text-base lg:text-lg font-bold tracking-[0.15em] uppercase text-brand-blue mb-3 sm:mb-4">
+                    {market.routes}
+                  </p>
+                  <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-white/80 font-medium leading-relaxed">
+                    {market.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* BOTTOM TAGLINE */}
-          <div className="relative z-20 mt-16 text-center border-t border-brand-gray/10 pt-12">
-            <p className={`${raleway.className} text-xs sm:text-sm font-bold tracking-[0.2em] text-brand-yellow uppercase mb-4`}>
-              Global Markets <span className="text-brand-blue mx-3">•</span> Local Knowledge <span className="text-brand-blue mx-3">•</span> Commercial Connections
+          <div
+            ref={tagRef}
+            className="mt-14 sm:mt-20 text-center"
+          >
+            <p className="tag-fade text-sm sm:text-lg lg:text-2xl font-bold tracking-[0.2em] text-brand-blue uppercase leading-relaxed">
+              Global Markets <span className="text-white/40 mx-2 sm:mx-3">•</span> Local Knowledge{" "}
+              <span className="text-white/40 mx-2 sm:mx-3">•</span> Commercial Connections
             </p>
           </div>
-
         </div>
       </section>
 
       {/* ========================================================
-          CALL TO ACTION (Contact Us)
+          CALL TO ACTION
       ======================================================== */}
-      <section className="w-full bg-brand-blue py-16 lg:py-24 px-4 sm:px-8 border-t border-slate-200">
-        <div ref={ctaRef} className="mx-auto max-w-[1400px] flex flex-col lg:flex-row items-center justify-between gap-10 text-center lg:text-left">
-          
+      <section
+        ref={ctaRef}
+        className="w-full bg-brand-blue py-16 sm:py-20 lg:py-28 px-5 sm:px-10 lg:px-16"
+      >
+        <div className="mx-auto max-w-[1800px] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 lg:gap-16">
           <div className="flex-1">
-            <h2 className={`${playfair.className} text-3xl sm:text-4xl lg:text-5xl font-extrabold text-brand-dark uppercase tracking-tight`}>
-              Looking to cooperate?
+            <h2 className="font-black tracking-normal uppercase leading-[1] text-white text-[11vw] sm:text-6xl lg:text-[64px] xl:text-[80px] mb-6">
+              <SplitLetters text="Looking to cooperate?" letterClass="cta-title-letter" mask />
             </h2>
-            <p className={`${lora.className} mt-4 text-brand-dark/80 font-medium text-lg sm:text-xl max-w-2xl`}>
-              We welcome suitable cargo and tonnage circulation to add value to your fixtures.
+            <p className="cta-fade text-base sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl">
+              We welcome suitable cargo and tonnage circulation to add value to
+              your fixtures.
             </p>
           </div>
-          
-          <div className="shrink-0">
-             <a
-              href="mailto:chartering@hafship.com"
-              className={`${raleway.className} inline-flex items-center justify-center rounded-full bg-brand-dark px-10 py-5 text-sm sm:text-base font-bold tracking-widest text-white shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-white hover:text-brand-dark uppercase`}
-            >
-              CONTACT CHARTERING DESK
-            </a>
-          </div>
 
+          <div className="shrink-0 w-full sm:w-auto">
+            <PremiumButton
+              href="/contact"
+              label="Contact Broking Desk"
+              variant="dark"
+              className="cta-fade"
+            />
+          </div>
         </div>
       </section>
-      
     </main>
   );
 }
