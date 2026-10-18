@@ -229,7 +229,7 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-center pt-10 text-sm">
           <p className="tracking-[0.2em] uppercase text-center font-medium text-white/60">
             © {new Date().getFullYear()}{" "}
-            <span className="text-brand-blue font-bold">HAFSHIP FZ LLC</span>.
+            <span className="text-brand-blue font-bold">HAFSHIP </span>.
             ALL RIGHTS RESERVED.
           </p>
         </div>

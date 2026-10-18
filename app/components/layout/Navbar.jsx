@@ -567,7 +567,7 @@ const HUBS = [
 const MENU_LINKS = [
   { label: "HOME", href: "/" },
   { label: "ABOUT US", href: "/about" },
-  { label: "CHARTERING", href: "/chartering" },
+  { label: "BROKING", href: "/broking" },
   { label: "CARGOS", href: "/cargos" },
   { label: "MARKETS", href: "/markets" },
   { label: "CONTACT", href: "/contact" },

@@ -480,9 +480,172 @@
 // }
 
 
+// "use client";
+
+// import { useRef } from "react";
+// import Image from "next/image";
+// import { americanCaptain, raleway, playfair, lora, monaSans } from "@/app/fonts";
+// import { useHeroAnimation } from "../hooks/useHeroAnimation";
+
+// const vesselSizes = [
+//   "HANDYSIZE",
+//   "HANDYMAX",
+//   "SUPRAMAX",
+//   "ULTRAMAX",
+//   "PANAMAX",
+//   "CAPESIZE"
+// ];
+
+// export default function Hero() {
+//   const containerRef = useRef(null);
+//   const sceneRef = useRef(null);
+//   const imageWrapperRef = useRef(null);
+//   const contentRef = useRef(null);
+//   const cursorBallRef = useRef(null);
+//   const glareRef = useRef(null);
+
+//   // Initialize high-performance GSAP animations from the custom hook
+//   useHeroAnimation({
+//     containerRef,
+//     sceneRef,
+//     imageWrapperRef,
+//     contentRef,
+//     cursorBallRef,
+//     glareRef,
+//   });
+
+//   return (
+//     <section
+//       ref={containerRef}
+//       style={{ perspective: "1200px" }}
+//       className="sticky top-0 z-0 h-screen min-h-[700px] w-full overflow-hidden bg-brand-dark"
+//     >
+//       {/* Cursor Ball: White/glassmorphism */}
+//       <div
+//         ref={cursorBallRef}
+//         className="pointer-events-none absolute left-0 top-0 z-50 hidden md:block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/30 bg-white/10 backdrop-blur-[2px] opacity-0 transition-opacity duration-300 shadow-[0_0_15px] shadow-white/20"
+//       />
+
+//       <div
+//         ref={sceneRef}
+//         style={{ transformStyle: "preserve-3d" }}
+//         className="relative h-full w-full will-change-transform"
+//       >
+//         {/* Background Image Layer */}
+//         <div
+//           ref={imageWrapperRef}
+//           style={{
+//             transform: "translateZ(-40px) scale(1.05)",
+//             transformStyle: "preserve-3d",
+//           }}
+//           className="absolute -top-[5%] -left-[5%] h-[110%] w-[110%] will-change-transform"
+//         >
+//           <Image
+//             src="/images/neeew.png"
+//             alt="Hafship Brokering"
+//             fill
+//             sizes="100vw"
+//             priority
+//             className="object-cover select-none"
+//           />
+//         </div>
+
+//         <div
+//           ref={glareRef}
+//           className="pointer-events-none absolute -left-48 -top-48 hidden md:block h-96 w-96 rounded-full bg-brand-blue/15 blur-3xl opacity-0 transition-opacity duration-300"
+//         />
+
+//         {/* Hero Central Content */}
+//         <div
+//           ref={contentRef}
+//           style={{
+//             transform: "translateZ(70px)",
+//             transformStyle: "preserve-3d",
+//           }}
+//           className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white will-change-transform pb-24"
+//         >
+//           <div className="max-w-[1400px] flex flex-col items-center w-full">
+
+//             {/* Title */}
+//             <h1 className={`${monaSans.className} font-black tracking-normal uppercase`}>
+//               <span className="block text-[16vw] sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[110px] leading-[0.9] text-brand-blue drop-shadow-sm mb-1 sm:mb-2">
+//                 HAFSHIP
+//               </span>
+//               <span className="block text-[8vw] sm:text-2xl md:text-3xl lg:text-[40px] xl:text-[50px] leading-[1] text-brand-gray drop-shadow-md">
+//                 CONNECTING LAND & SEA
+//               </span>
+//             </h1>
+
+//             {/* =========================================================
+//                 RUNNING PILL BUTTONS (Vessel Sizes) - 70% WIDTH, CENTERED
+//             ========================================================= */}
+//             <div
+//               className="mt-10 sm:mt-14 w-[70vw] mx-auto overflow-hidden"
+//               style={{
+//                 WebkitMaskImage:
+//                   "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+//                 maskImage:
+//                   "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+//               }}
+//             >
+//               <style
+//                 dangerouslySetInnerHTML={{
+//                   __html: `
+//                 @keyframes heroMarquee {
+//                   0% { transform: translateX(0); }
+//                   100% { transform: translateX(-50%); }
+//                 }
+//                 .hero-running-track {
+//                   display: flex;
+//                   width: max-content;
+//                   animation: heroMarquee 35s linear infinite;
+//                 }
+//                 .hero-running-track:hover {
+//                   animation-play-state: paused;
+//                 }
+//               `,
+//                 }}
+//               />
+
+//               <div className="hero-running-track items-center">
+//                 {/* Array duplicated so the loop is seamless */}
+//                 {[...vesselSizes, ...vesselSizes, ...vesselSizes, ...vesselSizes].map(
+//                   (vessel, index) => (
+//                     <div key={index} className="shrink-0 pr-3 sm:pr-4">
+//                       <span
+//                         className={`${monaSans.className} inline-flex items-center justify-center rounded-full border border-brand-gray/30 bg-brand-dark px-5 py-2 sm:px-7 sm:py-2.5 text-xs sm:text-sm lg:text-base font-bold tracking-[0.2em] text-brand-gray uppercase transition-colors duration-300 hover:border-brand-gray hover:text-white cursor-default`}
+//                       >
+//                         {vessel}
+//                       </span>
+//                     </div>
+//                   )
+//                 )}
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Mobile Scroll Indicator: White line */}
+//         <div className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 md:hidden">
+//           <div className="flex flex-col items-center gap-2 text-white/70">
+//             <span
+//               className={`${raleway.className} text-[10px] uppercase tracking-[0.3em] font-bold`}
+//             >
+//               Scroll
+//             </span>
+//             <div className="h-8 w-px bg-white/50 animate-pulse" />
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// }
+
+
+
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { americanCaptain, raleway, playfair, lora, monaSans } from "@/app/fonts";
 import { useHeroAnimation } from "../hooks/useHeroAnimation";
@@ -496,6 +659,9 @@ const vesselSizes = [
   "CAPESIZE"
 ];
 
+// Video speed: 1 = normal, 0.6 = slow and calm, 0.4 = very slow
+const VIDEO_SPEED = 0.6;
+
 export default function Hero() {
   const containerRef = useRef(null);
   const sceneRef = useRef(null);
@@ -503,6 +669,8 @@ export default function Hero() {
   const contentRef = useRef(null);
   const cursorBallRef = useRef(null);
   const glareRef = useRef(null);
+  const videoRef = useRef(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   // Initialize high-performance GSAP animations from the custom hook
   useHeroAnimation({
@@ -514,12 +682,64 @@ export default function Hero() {
     glareRef,
   });
 
+  // Start the video slowly (and show it if it was already loaded before hydration)
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.defaultPlaybackRate = VIDEO_SPEED;
+    video.playbackRate = VIDEO_SPEED;
+    if (video.readyState >= 3) setVideoReady(true);
+    const playPromise = video.play();
+    if (playPromise !== undefined) playPromise.catch(() => {});
+  }, []);
+
   return (
     <section
       ref={containerRef}
       style={{ perspective: "1200px" }}
       className="sticky top-0 z-0 h-screen min-h-[700px] w-full overflow-hidden bg-brand-dark"
     >
+      {/* =========================================================
+          BACKGROUND (fixed layer: does NOT move with the mouse)
+      ========================================================= */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Fallback image: shows first, and stays for "reduce motion" users */}
+        {/* <Image
+          src="/images/neeew.png"
+          alt="Hafship Brokering"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover select-none"
+        /> */}
+
+        {/* Hero video: fades in slowly, plays in slow motion */}
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/images/hero-poster.jpg"
+          onLoadedMetadata={(e) => {
+            e.currentTarget.playbackRate = VIDEO_SPEED;
+          }}
+          onLoadedData={() => setVideoReady(true)}
+          aria-hidden="true"
+          className={`absolute inset-0 h-full w-full object-cover select-none pointer-events-none motion-reduce:hidden transition-opacity duration-[2500ms] ease-out ${
+            videoReady ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <source src="/images/hero.mp4" type="video/mp4" />
+        </video>
+
+        {/* Light brand-dark overlay + soft fades (top for navbar, bottom into next section) */}
+        <div className="pointer-events-none absolute inset-0 bg-brand-dark/30" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-brand-dark/50 to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent" />
+      </div>
+
       {/* Cursor Ball: White/glassmorphism */}
       <div
         ref={cursorBallRef}
@@ -531,28 +751,20 @@ export default function Hero() {
         style={{ transformStyle: "preserve-3d" }}
         className="relative h-full w-full will-change-transform"
       >
-        {/* Background Image Layer */}
+        {/* Kept empty so your animation hook still finds it (the video no longer lives here) */}
         <div
           ref={imageWrapperRef}
           style={{
             transform: "translateZ(-40px) scale(1.05)",
             transformStyle: "preserve-3d",
           }}
-          className="absolute -top-[5%] -left-[5%] h-[110%] w-[110%] will-change-transform"
-        >
-          <Image
-            src="/images/neeew.png"
-            alt="Hafship Brokering"
-            fill
-            sizes="100vw"
-            priority
-            className="object-cover select-none"
-          />
-        </div>
+          className="pointer-events-none absolute -top-[5%] -left-[5%] h-[110%] w-[110%] will-change-transform"
+        />
 
+        {/* Mouse glow turned off so nothing moves over the video */}
         <div
           ref={glareRef}
-          className="pointer-events-none absolute -left-48 -top-48 hidden md:block h-96 w-96 rounded-full bg-brand-blue/15 blur-3xl opacity-0 transition-opacity duration-300"
+          className="pointer-events-none hidden absolute -left-48 -top-48 h-96 w-96 rounded-full bg-brand-blue/15 blur-3xl opacity-0"
         />
 
         {/* Hero Central Content */}
@@ -568,10 +780,10 @@ export default function Hero() {
 
             {/* Title */}
             <h1 className={`${monaSans.className} font-black tracking-normal uppercase`}>
-              <span className="block text-[16vw] sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[110px] leading-[0.9] text-brand-blue drop-shadow-sm mb-1 sm:mb-2">
+              <span className="block text-[16vw] sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[110px] leading-[0.9] text-brand-blue drop-shadow-[0_4px_30px_rgba(3,24,46,0.7)] mb-1 sm:mb-2">
                 HAFSHIP
               </span>
-              <span className="block text-[8vw] sm:text-2xl md:text-3xl lg:text-[40px] xl:text-[50px] leading-[1] text-brand-gray drop-shadow-md">
+              <span className="block text-[8vw] sm:text-2xl md:text-3xl lg:text-[40px] xl:text-[50px] leading-[1] text-brand-gray drop-shadow-[0_2px_20px_rgba(3,24,46,0.8)]">
                 CONNECTING LAND & SEA
               </span>
             </h1>

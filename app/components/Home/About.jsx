@@ -15,15 +15,17 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const TITLE_PARTS = [
-  { text: "Shipbroking House", color: "text-brand-gray" },
-  { text: "Connecting Cargo,", color: "text-brand-blue" },
-  { text: "Tonnage & Opportunity", color: "text-brand-gray" },
+  { text: "Global Markets.", color: "text-brand-gray" },
+  { text: "Strategic Connections.", color: "text-brand-blue" },
+  { text: "Reliable Tonnage.", color: "text-brand-gray" },
 ];
 
 const PARA_1 =
-  "HAFSHIP is a dedicated shipbroking house providing commercially focused chartering services across international markets.";
+  "HAFSHIP connects shipowners, operators, charterers, traders and cargo interests across international dry bulk and tanker markets.";
 const PARA_2 =
-  "From Handysize to Capesize, we bridge shipowners, operators, traders, and cargo interests—ensuring the right cargo meets the right tonnage through strategic negotiations and seamless fixture execution.";
+  "We facilitate cargo and tonnage matching, chartering, commercial negotiations and fixture coordination.";
+const SERVICES_LINE = "Dry Bulk | Tankers | Chartering | Cargo & Tonnage Broking";
+const TAGLINE = "From Cargo to Fixture — Connecting the Right Opportunities.";
 
 export default function AboutSection() {
   const containerRef = useRef(null);
@@ -36,7 +38,7 @@ export default function AboutSection() {
     const container = containerRef.current;
     if (!container) return;
 
-    // Desktop (1024px+): ONE line, full width (same as your file).
+    // Desktop (1024px+): ONE line, full width.
     // Below 1024px: title wraps with responsive sizes.
     const fitTitle = () => {
       const box = titleBoxRef.current;
@@ -76,7 +78,7 @@ export default function AboutSection() {
         }
       );
 
-      // 3. PARAGRAPHS then BUTTON
+      // 3. PARAGRAPHS, services line, tagline, then BUTTON
       const tl = gsap.timeline({
         scrollTrigger: { trigger: rightContentRef.current, start: "top 85%" },
       });
@@ -90,6 +92,18 @@ export default function AboutSection() {
           LETTER_FADE.from,
           { ...LETTER_FADE.to, stagger: 0.01 },
           "<0.3"
+        )
+        .fromTo(
+          ".about-tag",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" },
+          "-=0.4"
+        )
+        .fromTo(
+          ".p3-letter",
+          LETTER_FADE.from,
+          { ...LETTER_FADE.to, stagger: 0.012 },
+          "-=0.4"
         )
         .fromTo(
           ".about-btn",
@@ -152,7 +166,7 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* RIGHT: paragraphs + button (desktop = your original) */}
+          {/* RIGHT: paragraphs + services line + tagline + button */}
           <div className="lg:col-span-5">
             <div
               ref={rightContentRef}
@@ -172,7 +186,22 @@ export default function AboutSection() {
                 </p>
               </div>
 
-              <div className="border-t border-white/15 pt-8 sm:pt-10">
+              {/* Services line + closing tagline */}
+              <div className="flex flex-col gap-5 sm:gap-6">
+                <p
+                  className={`about-tag ${monaSans.className} text-sm sm:text-base xl:text-lg font-bold uppercase tracking-[0.2em] text-brand-blue leading-relaxed`}
+                >
+                  {SERVICES_LINE}
+                </p>
+
+                <p
+                  className={`${monaSans.className} text-base sm:text-lg xl:text-2xl text-white/90 leading-relaxed font-medium`}
+                >
+                  <SplitLetters text={TAGLINE} letterClass="p3-letter" />
+                </p>
+              </div>
+
+              <div className="border-t border-white/15 pt-8 sm:pt-10 lg:mt-auto">
                 <PremiumButton
                   href="/about"
                   label="More About Us"
