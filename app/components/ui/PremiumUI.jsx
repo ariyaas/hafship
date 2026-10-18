@@ -75,39 +75,37 @@ export function PremiumButton({
     : "border-brand-dark/40 text-brand-dark group-hover:border-white/20 group-hover:text-white";
 
   return (
-    <div className={`${fullWidth ? "w-full" : "w-full sm:w-auto"} ${className}`}>
+    <div className={`${fullWidth ? "w-full" : "w-fit"} ${className}`}>
       <Link
         href={href}
-        className={`${monaSans.className} group relative flex w-full sm:inline-flex sm:w-auto items-stretch overflow-hidden border transition-colors duration-500 ${border} ${
-          fullWidth ? "sm:w-full" : ""
-        }`}
+        className={`${monaSans.className} group relative ${
+          fullWidth ? "flex w-full" : "inline-flex"
+        } items-stretch overflow-hidden border transition-colors duration-500 ${border}`}
       >
         {/* sliding fill */}
         <span
           className={`absolute inset-0 -translate-x-full ${fill} transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-x-0`}
         />
 
-        {/* label */}
+        {/* label: smaller on phones, same as before from tablet up */}
         <span
-          className={`relative z-10 flex-1 px-6 py-4 sm:px-8 sm:py-5 text-sm sm:text-lg lg:text-xl font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] transition-colors duration-500 ${text}`}
+          className={`relative z-10 flex-1 px-4 py-3 sm:px-8 sm:py-5 text-xs sm:text-lg lg:text-xl font-bold uppercase tracking-[0.15em] sm:tracking-[0.25em] transition-colors duration-500 ${text}`}
         >
           {label}
         </span>
 
         {/* arrow box */}
         <span
-          className={`relative z-10 flex w-12 sm:w-14 shrink-0 items-center justify-center border-l transition-colors duration-500 ${arrowBox}`}
+          className={`relative z-10 flex w-10 sm:w-14 shrink-0 items-center justify-center border-l transition-colors duration-500 ${arrowBox}`}
         >
           <svg
-            width="18"
-            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="transition-transform duration-500 group-hover:translate-x-1"
+            className="h-4 w-4 sm:h-[18px] sm:w-[18px] transition-transform duration-500 group-hover:translate-x-1"
           >
             <path d="M5 12h14" />
             <path d="M13 6l6 6-6 6" />

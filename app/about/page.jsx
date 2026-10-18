@@ -891,14 +891,14 @@ export default function AboutPage() {
             About Us
           </p>
 
-          <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
+          {/* <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
             <span className="block text-white">
               <SplitLetters text="About" letterClass="hero-title-letter" mask />
             </span>
             <span className="block text-brand-blue">
               <SplitLetters text="HAFSHIP" letterClass="hero-title-letter" mask />
             </span>
-          </h1>
+          </h1> */}
 
           <p className="max-w-4xl text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed">
             <SplitLetters text={HERO_TEXT} letterClass="hero-text-letter" />

@@ -642,21 +642,39 @@
 // }
 
 
-
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useLayoutEffect } from "react";
 import Image from "next/image";
+import gsap from "gsap";
 import { americanCaptain, raleway, playfair, lora, monaSans } from "@/app/fonts";
 import { useHeroAnimation } from "../hooks/useHeroAnimation";
+import { SplitLetters, LETTER_RISE } from "@/app/components/ui/PremiumUI";
 
-const vesselSizes = [
+// Headline lines (each on its own line)
+const HEADLINE = [
+  { text: "Global Markets.", color: "text-white" },
+  { text: "Strategic Connections.", color: "text-brand-blue" },
+  { text: "Reliable Tonnage.", color: "text-white" },
+];
+
+const VESSEL_SIZES = [
   "HANDYSIZE",
   "HANDYMAX",
   "SUPRAMAX",
   "ULTRAMAX",
   "PANAMAX",
-  "CAPESIZE"
+  "CAPESIZE",
+];
+
+// Dividers: 3x2 grid on phones, 1 row of 6 from tablet up
+const CELL_BORDERS = [
+  "border-r border-b sm:border-b-0",
+  "border-r border-b sm:border-b-0",
+  "border-b sm:border-b-0 sm:border-r",
+  "border-r",
+  "border-r",
+  "",
 ];
 
 // Video speed: 1 = normal, 0.6 = slow and calm, 0.4 = very slow
@@ -691,6 +709,32 @@ export default function Hero() {
     if (video.readyState >= 3) setVideoReady(true);
     const playPromise = video.play();
     if (playPromise !== undefined) playPromise.catch(() => {});
+  }, []);
+
+  // Intro animation: headline letters rise, bar slides up, top lines draw in
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap
+        .timeline({ delay: 0.5 })
+        .fromTo(".hero-h-letter", LETTER_RISE.from, {
+          ...LETTER_RISE.to,
+          stagger: 0.03,
+        })
+        .fromTo(
+          ".hero-bar",
+          { y: 40, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
+          "-=0.6"
+        )
+        .fromTo(
+          ".hero-size-bar",
+          { scaleX: 0 },
+          { scaleX: 1, duration: 1.2, ease: "power4.out", stagger: 0.12 },
+          "-=0.6"
+        );
+    }, containerRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -767,85 +811,55 @@ export default function Hero() {
           className="pointer-events-none hidden absolute -left-48 -top-48 h-96 w-96 rounded-full bg-brand-blue/15 blur-3xl opacity-0"
         />
 
-        {/* Hero Central Content */}
+        {/* =========================================================
+            HERO CONTENT: headline only
+        ========================================================= */}
         <div
           ref={contentRef}
           style={{
             transform: "translateZ(70px)",
             transformStyle: "preserve-3d",
           }}
-          className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center text-white will-change-transform pb-24"
+          className="relative z-10 flex h-full flex-col items-center justify-center px-5 sm:px-8 pt-20 pb-40 sm:pb-36 lg:pb-32 text-center text-white will-change-transform"
         >
-          <div className="max-w-[1400px] flex flex-col items-center w-full">
-
-            {/* Title */}
-            <h1 className={`${monaSans.className} font-black tracking-normal uppercase`}>
-              <span className="block text-[16vw] sm:text-7xl md:text-8xl lg:text-[100px] xl:text-[110px] leading-[0.9] text-brand-blue drop-shadow-[0_4px_30px_rgba(3,24,46,0.7)] mb-1 sm:mb-2">
-                HAFSHIP
-              </span>
-              <span className="block text-[8vw] sm:text-2xl md:text-3xl lg:text-[40px] xl:text-[50px] leading-[1] text-brand-gray drop-shadow-[0_2px_20px_rgba(3,24,46,0.8)]">
-                CONNECTING LAND & SEA
-              </span>
-            </h1>
-
-            {/* =========================================================
-                RUNNING PILL BUTTONS (Vessel Sizes) - 70% WIDTH, CENTERED
-            ========================================================= */}
-            <div
-              className="mt-10 sm:mt-14 w-[70vw] mx-auto overflow-hidden"
-              style={{
-                WebkitMaskImage:
-                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-                maskImage:
-                  "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
-              }}
+          <div className="max-w-[1500px] flex flex-col items-center w-full">
+            <h1
+              className={`${monaSans.className} font-black tracking-normal uppercase leading-[1.05] text-3xl min-[400px]:text-4xl sm:text-5xl lg:text-6xl xl:text-[64px] drop-shadow-[0_4px_30px_rgba(3,24,46,0.7)]`}
             >
-              <style
-                dangerouslySetInnerHTML={{
-                  __html: `
-                @keyframes heroMarquee {
-                  0% { transform: translateX(0); }
-                  100% { transform: translateX(-50%); }
-                }
-                .hero-running-track {
-                  display: flex;
-                  width: max-content;
-                  animation: heroMarquee 35s linear infinite;
-                }
-                .hero-running-track:hover {
-                  animation-play-state: paused;
-                }
-              `,
-                }}
-              />
-
-              <div className="hero-running-track items-center">
-                {/* Array duplicated so the loop is seamless */}
-                {[...vesselSizes, ...vesselSizes, ...vesselSizes, ...vesselSizes].map(
-                  (vessel, index) => (
-                    <div key={index} className="shrink-0 pr-3 sm:pr-4">
-                      <span
-                        className={`${monaSans.className} inline-flex items-center justify-center rounded-full border border-brand-gray/30 bg-brand-dark px-5 py-2 sm:px-7 sm:py-2.5 text-xs sm:text-sm lg:text-base font-bold tracking-[0.2em] text-brand-gray uppercase transition-colors duration-300 hover:border-brand-gray hover:text-white cursor-default`}
-                      >
-                        {vessel}
-                      </span>
-                    </div>
-                  )
-                )}
-              </div>
-            </div>
+              {HEADLINE.map((line) => (
+                <span key={line.text} className={`block ${line.color}`}>
+                  <SplitLetters text={line.text} letterClass="hero-h-letter" mask />
+                </span>
+              ))}
+            </h1>
           </div>
         </div>
+      </div>
 
-        {/* Mobile Scroll Indicator: White line */}
-        <div className="absolute bottom-10 left-1/2 z-20 -translate-x-1/2 md:hidden">
-          <div className="flex flex-col items-center gap-2 text-white/70">
-            <span
-              className={`${raleway.className} text-[10px] uppercase tracking-[0.3em] font-bold`}
-            >
-              Scroll
-            </span>
-            <div className="h-8 w-px bg-white/50 animate-pulse" />
+      {/* =========================================================
+          VESSEL SIZES BAR (static glass bar, does not tilt with the mouse)
+      ========================================================= */}
+      <div className="hero-bar absolute inset-x-5 bottom-6 sm:inset-x-10 sm:bottom-10 lg:inset-x-16 z-20 mx-auto max-w-[1800px]">
+        <div className="relative overflow-hidden border border-white/15 bg-brand-dark/55 backdrop-blur-md">
+          <div className="grid grid-cols-3 sm:grid-cols-6">
+            {VESSEL_SIZES.map((size, i) => (
+              <div
+                key={size}
+                className={`group relative flex items-center justify-center overflow-hidden border-white/15 px-2 py-4 sm:px-3 sm:py-5 lg:py-6 cursor-default ${CELL_BORDERS[i]}`}
+              >
+                {/* top line: same thickness on every cell */}
+                <span className="hero-size-bar absolute left-0 top-0 h-[2px] w-full origin-left bg-brand-blue" />
+
+                {/* blue fill rising from the bottom on hover */}
+                <span className="absolute inset-0 translate-y-full bg-brand-blue transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-y-0" />
+
+                <span
+                  className={`${monaSans.className} relative z-10 text-center text-[11px] min-[400px]:text-xs md:text-sm lg:text-base font-bold uppercase tracking-[0.12em] sm:tracking-[0.15em] lg:tracking-[0.2em] text-white`}
+                >
+                  {size}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -714,7 +714,7 @@ export default function CargosPage() {
           className="absolute -top-[15%] left-0 h-[130%] w-full will-change-transform"
         >
           <Image
-            src="/images/hafship-vesseln.jpg"
+            src="/images/corgo.jpg"
             alt="Dry Bulk Cargo Operations"
             fill
             sizes="100vw"
@@ -731,14 +731,14 @@ export default function CargosPage() {
             Dry Bulk Cargo Broking
           </p>
 
-          <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
+          {/* <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
             <span className="block text-white">
               <SplitLetters text="Dry Bulk" letterClass="hero-title-letter" mask />
             </span>
             <span className="block text-brand-blue">
               <SplitLetters text="Cargoes" letterClass="hero-title-letter" mask />
             </span>
-          </h1>
+          </h1> */}
 
           <p className="max-w-4xl text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed">
             <SplitLetters text={HERO_TEXT} letterClass="hero-text-letter" />

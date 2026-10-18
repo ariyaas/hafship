@@ -55,32 +55,30 @@ function FloatingInput({ label, placeholder, name, required = false, type = "tex
   );
 }
 
-/* Submit button - same look as PremiumButton (dark variant) but a real <button> */
+/* Submit button - same look as PremiumButton (dark variant), smaller on phones */
 function SubmitButton({ label, disabled = false }) {
   return (
-    <div className="form-fade w-full sm:w-auto">
+    <div className="form-fade w-fit">
       <button
         type="submit"
         disabled={disabled}
-        className="group relative flex w-full sm:inline-flex sm:w-auto items-stretch overflow-hidden border border-white/40 hover:border-white transition-colors duration-500 text-left disabled:opacity-50 disabled:pointer-events-none"
+        className="group relative inline-flex items-stretch overflow-hidden border border-white/40 hover:border-white transition-colors duration-500 text-left disabled:opacity-50 disabled:pointer-events-none"
       >
         <span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-x-0" />
 
-        <span className="relative z-10 flex-1 px-6 py-4 sm:px-8 sm:py-5 text-sm sm:text-lg lg:text-xl font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white group-hover:text-brand-dark transition-colors duration-500">
+        <span className="relative z-10 flex-1 px-4 py-3 sm:px-8 sm:py-5 text-xs sm:text-lg lg:text-xl font-bold uppercase tracking-[0.15em] sm:tracking-[0.25em] text-white group-hover:text-brand-dark transition-colors duration-500">
           {label}
         </span>
 
-        <span className="relative z-10 flex w-12 sm:w-14 shrink-0 items-center justify-center border-l border-white/40 text-white group-hover:border-brand-dark/20 group-hover:text-brand-dark transition-colors duration-500">
+        <span className="relative z-10 flex w-10 sm:w-14 shrink-0 items-center justify-center border-l border-white/40 text-white group-hover:border-brand-dark/20 group-hover:text-brand-dark transition-colors duration-500">
           <svg
-            width="18"
-            height="18"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="transition-transform duration-500 group-hover:translate-x-1"
+            className="h-4 w-4 sm:h-[18px] sm:w-[18px] transition-transform duration-500 group-hover:translate-x-1"
           >
             <path d="M5 12h14" />
             <path d="M13 6l6 6-6 6" />
@@ -102,6 +100,7 @@ export default function ContactPage() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState(false);
 
+  // Netlify form: posts to the static /__forms.html file (NOT "/")
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -109,7 +108,7 @@ export default function ContactPage() {
     setError(false);
     try {
       const body = new URLSearchParams(new FormData(form)).toString();
-      const res = await fetch("/", {
+      const res = await fetch("/__forms.html", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body,
@@ -279,14 +278,14 @@ export default function ContactPage() {
             Get In Touch
           </p>
 
-          <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
+          {/* <h1 className="font-black tracking-normal uppercase leading-[0.95] mb-8 sm:mb-10 text-[14vw] sm:text-7xl lg:text-[100px] xl:text-[120px]">
             <span className="block text-white">
               <SplitLetters text="Contact &" letterClass="hero-title-letter" mask />
             </span>
             <span className="block text-brand-blue">
               <SplitLetters text="Inquiries" letterClass="hero-title-letter" mask />
             </span>
-          </h1>
+          </h1> */}
 
           <p className="max-w-4xl text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed">
             <SplitLetters text={HERO_TEXT} letterClass="hero-text-letter" />
@@ -391,32 +390,41 @@ export default function ContactPage() {
               directly to our desk.
             </p>
 
-            {/* Netlify Form Setup */}
+            {/* Netlify Form */}
             <form
               name="contact"
               method="POST"
               data-netlify="true"
+              netlify-honeypot="bot-field"
               onSubmit={handleSubmit}
               className="flex flex-col gap-10 sm:gap-12"
             >
-              {/* Hidden input required for Netlify forms */}
+              {/* Required by Netlify: must match the form name in public/__forms.html */}
               <input type="hidden" name="form-name" value="contact" />
 
+              {/* Spam trap: real visitors never see or fill this */}
+              <p className="hidden" aria-hidden="true">
+                <label>
+                  Do not fill this out:
+                  <input name="bot-field" tabIndex={-1} autoComplete="off" />
+                </label>
+              </p>
+
               <FloatingInput
-                name="Name"
+                name="name"
                 label="Full Name / Company"
                 placeholder="e.g. John Doe - XYZ Corp"
                 required
               />
               <FloatingInput
-                name="Email"
+                name="email"
                 type="email"
                 label="Email Address"
                 placeholder="e.g. john@example.com"
                 required
               />
               <FloatingInput
-                name="Phone"
+                name="phone"
                 type="tel"
                 label="Phone Number"
                 placeholder="e.g. +1 234 567 8900"
@@ -425,7 +433,7 @@ export default function ContactPage() {
               {/* REQUIREMENT / MESSAGE */}
               <div className="form-fade relative">
                 <textarea
-                  name="Requirement"
+                  name="requirement"
                   placeholder="Please describe your cargo, tonnage, or general requirements here..."
                   rows="4"
                   required
@@ -497,10 +505,10 @@ export default function ContactPage() {
             <button
               type="button"
               onClick={() => setSent(false)}
-              className="group relative flex w-full sm:inline-flex sm:w-auto items-stretch overflow-hidden border border-white/40 hover:border-white transition-colors duration-500 text-left"
+              className="group relative inline-flex items-stretch overflow-hidden border border-white/40 hover:border-white transition-colors duration-500 text-left"
             >
               <span className="absolute inset-0 -translate-x-full bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-x-0" />
-              <span className="relative z-10 flex-1 px-6 py-4 sm:px-8 sm:py-5 text-sm sm:text-lg font-bold uppercase tracking-[0.2em] sm:tracking-[0.25em] text-white group-hover:text-brand-dark transition-colors duration-500">
+              <span className="relative z-10 px-6 py-3 sm:px-8 sm:py-5 text-xs sm:text-lg font-bold uppercase tracking-[0.15em] sm:tracking-[0.25em] text-white group-hover:text-brand-dark transition-colors duration-500">
                 Close
               </span>
             </button>

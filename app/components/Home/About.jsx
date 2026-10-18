@@ -15,9 +15,9 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const TITLE_PARTS = [
-  { text: "Global Markets.", color: "text-brand-gray" },
-  { text: "Strategic Connections.", color: "text-brand-blue" },
-  { text: "Reliable Tonnage.", color: "text-brand-gray" },
+  { text: "Connecting Cargo,", color: "text-brand-gray" },
+  { text: "Tonnage &", color: "text-brand-blue" },
+  { text: "Opportunity", color: "text-brand-gray" },
 ];
 
 const PARA_1 =
